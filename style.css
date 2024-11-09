@@ -68,14 +68,23 @@ nav{
 
 /* Ensure hamburger menu is always visible */
 .navbar-toggler {
-
     position: fixed;
     background: transparent;
     border: none;
+    outline: none;
+    box-shadow: none;
     cursor: pointer;
     padding: 0 px;
     margin:0;
     z-index:2; /*move forward so it can be seen over the menu*/
+}
+
+/* Removes boarder when clicked*/
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    outline: none;
+    border: none;
+    box-shadow: none;
 }
 
 .navigation__links{
