@@ -37,15 +37,15 @@ body{
     height: 70px; /* Fixed height for the header */
 }
 
-.navigation__menu.active{
+.navigation__menu{
     background-color: var(--dark-purple-color);
     height: 100vh;
     max-width: 450px;
     position: fixed;
     top: 0;
     left: 0;
-    /*transform:translateX(-100%);*/
-    transform: translateX(0);
+    transform:translateX(-100%);
+    /*transform: translateX(0);*/
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -62,19 +62,13 @@ nav{
     background-color: transparent;
 }
 
-.navigation__menu{
-    transform: translateX(-100%);
+.navigation__menu.active{
+    transform: translateX(0);
 }
 
 /* Ensure hamburger menu is always visible */
 .navbar-toggler {
-    /*background-color: transparent;*/ /* Transparent background */
-    /*border: none; *//* Remove default border */
-    /*padding: 8px; *//* Adjust padding for proper size */
-    /*display: block !important; *//* Force visibility */
 
-    /*height: 50px;
-    width: 40px;*/
     position: fixed;
     background: transparent;
     border: none;
