@@ -1,3 +1,116 @@
+/* Global colors */
+:root {
+    --primary-color: Red; /* Dark background for header */
+    --background-color: #111;
+    --text-color: white;
+    --mustard-color: #f9a000;
+    --gold-color: #f47c33;
+    --coral-color: #ef5966;
+    --magenta-color: #a53f5b;
+    --purple-color: #592651;
+    --dark-purple-color: #302144;
+}
+
+body{
+    font-family: "Helvetica", "Arial", sans-serif;
+    background-color: var(--magenta-color);
+}
+
+.hidden{
+    display: none;
+}
+
+/* Top bar styles */
+.top-bar {
+    background-color: var(--primary-color); /* Set background color */
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure header stays on top */
+    color: white; /* Make text white */
+    width: 100%; /* Ensure header takes full width */
+    height: 70px; /* Fixed height for the header */
+}
+
+.navigation__menu.active{
+    background-color: var(--dark-purple-color);
+    height: 100vh;
+    max-width: 450px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /*transform:translateX(-100%);*/
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5rem;
+    align-items: flex-end;
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+nav{
+    padding:1rem;
+    display: flex;
+    background-color: transparent;
+}
+
+.navigation__menu{
+    transform: translateX(-100%);
+}
+
+/* Ensure hamburger menu is always visible */
+.navbar-toggler {
+    /*background-color: transparent;*/ /* Transparent background */
+    /*border: none; *//* Remove default border */
+    /*padding: 8px; *//* Adjust padding for proper size */
+    /*display: block !important; *//* Force visibility */
+
+    /*height: 50px;
+    width: 40px;*/
+    position: fixed;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 px;
+    margin:0;
+    z-index:2; /*move forward so it can be seen over the menu*/
+}
+
+.navigation__links{
+    display: flex;
+    gap: 2rem; /*space between menu items*/
+    margin: 2rem;
+    padding: 0;
+    flex-direction: column;
+}
+
+.navigation__links a{
+    color: white;
+    text-decoration: none;
+}
+
+.navigation__item {
+    list-style-type: none;
+}
+
+/* Custom color for hamburger menu icon */
+.custom-toggler-icon {
+    background-color: white; /* Set the hamburger menu icon to white */
+}
+
+/* NASA logo size */
+.nasa-logo {
+    max-height: 40px;
+}
+
 /* Style for the pop-up */
 .popup {
     position: fixed;
@@ -5,7 +118,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.8);
-    color: white;
+    color: var(--text-color);
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -14,4 +127,30 @@
     font-size: 16px;
     z-index: 1000;
     display: none; /* Initially hidden */
+}
+
+/* A-Frame scene styles */
+a-scene {
+    margin-top: 80px; /* Push scene below the fixed header */
+    height: calc(100vh - 80px); /* Full screen height minus the header height */
+    width: 100%;
+}
+
+/* Mobile responsiveness for the NASA logo */
+@media (max-width: 576px) {
+    .nasa-logo {
+        max-width: 50%;
+        height: auto;
+    }
+}
+
+/* Ensure the logo and hamburger are fixed size and layout */
+@media (min-width: 576px) {
+    .top-bar {
+        height: 70px; /* Keep header height fixed at 70px */
+    }
+
+    .nasa-logo {
+        max-height: 40px; /* Keep logo size constant */
+    }
 }
