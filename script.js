@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightOrbit(id);
             transitionToOrbit(id);
             panToPsyche();
-            orbitPopup(id);
+            orbitPopupText(id);
         });
     });
 
@@ -107,10 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     });
 
-    function orbitPopup(orbitID){
+    function orbitPopupText(orbitID){
         const popup = document.getElementById("instructionPopup");
         let filePath;
 
+        //Check which orbit it is
         if (orbitID == "orbit1") {
             filePath = 'resources/orbitA.txt';
         }
@@ -124,8 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
             filePath = 'resources/orbitD.txt';
         }
             
+        //Get the popup text
         fetch(filePath)
+            //Get text
             .then(response => response.text())
+
+            //Put text in popup and display it
             .then(text => {
                 popup.textContent = text;
                 popup.style.display = "block"; // Show the popup
