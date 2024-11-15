@@ -46,6 +46,14 @@
 
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" vr-mode-ui="enabled: false">
+
+
+        <a-assets>
+            <img id="bkgrd" src="img\background.jpg">
+        </a-assets>
+
+        <a-sky src="#bkgrd"></a-sky>
+
         <!-- Psyche Satellite -->
         <a-sphere id="psyche" position="0 -1 -4" radius="0.2" color="#888" material="roughness: 1;" data-raycastable></a-sphere>
 
