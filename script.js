@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightOrbit(id);
             transitionToOrbit(id);
             panToPsyche();
+            orbitPopup(id);
         });
     });
 
@@ -105,6 +106,38 @@ document.addEventListener('DOMContentLoaded', () => {
             popup.style.display = "none";
         }, 5000);
     });
+
+    function orbitPopup(orbitID){
+        const popup = document.getElementById("instructionPopup");
+        let filePath;
+
+        if (orbitID == "orbit1") {
+            filePath = 'resources/orbitA.txt';
+        }
+        if (orbitID == "orbit2") {
+            filePath = 'resources/orbitB.txt';
+        }
+        if (orbitID == "orbit3") {
+            filePath = 'resources/orbitC.txt';
+        }
+        if (orbitID == "orbit4"){
+            filePath = 'resources/orbitD.txt';
+        }
+            
+        fetch(filePath)
+            .then(response => response.text())
+            .then(text => {
+                console.log(text); // This will log the content of orbitA.txt
+                popup.textContent = text;
+                popup.style.display = "block"; // Show the popup
+            })
+        .catch(error => console.error("Error loading text file:", error));            
+
+        // Hide the popup after 5 seconds
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 5000);
+    }
     
     
 });
