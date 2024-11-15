@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(filePath)
             .then(response => response.text())
             .then(text => {
-                console.log(text); // This will log the content of orbitA.txt
                 popup.textContent = text;
                 popup.style.display = "block"; // Show the popup
             })
