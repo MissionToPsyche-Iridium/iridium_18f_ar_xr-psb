@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const orbits = ['orbit1', 'orbit2', 'orbit3', 'orbit4'];
+    const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
     const psyche = document.getElementById('psyche');
@@ -112,16 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let filePath;
 
         //Check which orbit it is
-        if (orbitID == "orbit1") {
+        if (orbitID == "orbitA") {
             filePath = 'resources/orbitA.txt';
         }
-        if (orbitID == "orbit2") {
+        if (orbitID == "orbitB") {
             filePath = 'resources/orbitB.txt';
         }
-        if (orbitID == "orbit3") {
+        if (orbitID == "orbitC") {
             filePath = 'resources/orbitC.txt';
         }
-        if (orbitID == "orbit4"){
+        if (orbitID == "orbitD"){
             filePath = 'resources/orbitD.txt';
         }
             

@@ -22,7 +22,7 @@ body{
 
 /* Top bar styles */
 .top-bar {
-    background-color: var(--primary-color); /* Set background color */
+    background-color: var(--magenta-color); /* Set background color */
     padding: 0px;
     display: flex;
     justify-content: space-between;
