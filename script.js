@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightOrbit(selectedId) {
         orbits.forEach(id => {
             const orbit = document.getElementById(id);
-            orbit.setAttribute('color', id === selectedId ? '#FFD700' : '#ffffff');
+            orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff'); // changed active orbit to be psyche "mustard" color
             orbit.setAttribute('opacity', id === selectedId ? '1' : '0.2');
         });
     }
