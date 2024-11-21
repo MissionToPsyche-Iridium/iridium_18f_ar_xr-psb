@@ -6,16 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentOrbit = null;
     let moveInterval = null;
     const btnToggle = document.querySelector("#btnToggle");
-    const hamburgerIcon = document.querySelector("#hamburgerIcon");
-    const closeIcon = document.querySelector("#closeIcon");
-    const navigationMenu = document.querySelector(".navigation__menu");
 
 
-    btnToggle.addEventListener("click", () => {
-        navigationMenu.classList.toggle("active");
-        hamburgerIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
-    });
 
     // Event listeners for each orbit click
     orbits.forEach(id => {
@@ -34,26 +26,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbit = document.getElementById(orbitId);
         const radius = parseFloat(orbit.getAttribute('radius-outer')) - 0.1;
         let angle = 0;
-
+    
         // Get the y position of the orbit
         const orbitY = orbit.object3D.position.y;
-
-        // Set the object visibility to true and position based on orbit level
+    
+        // Set the object visibility to true and position it based on the orbit level
         movingObject.setAttribute('visible', 'true');
         movingObject.setAttribute('position', `0 ${orbitY} -4`);
-
+    
         // Clear any previous movement if switching orbits
         if (moveInterval) clearInterval(moveInterval);
-
-        // Move object along the orbit
+    
+        // Move object along the orbit, accounting for orbit type
         moveInterval = setInterval(() => {
             angle += 0.01;
             const x = radius * Math.cos(angle);
             const z = radius * Math.sin(angle);
-            movingObject.setAttribute('position', `${x} ${orbitY} ${z - 4}`);
+    
+            // Adjust the object's position based on the orbit
+            if (orbitId === "orbitD") {
+                // Circular motion along the YZ-plane (with x constant)
+                const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
+                const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
+                movingObject.setAttribute('position', `${x} ${y + orbitY} ${z - 4}`);
+            } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
+                // For orbit C, B, and A, rotate around the Y-axis, which means moving along the Y-axis
+                 // Use y for vertical motion for these orbits
+                movingObject.setAttribute('position', `${x} ${orbitY} ${z - 4}`);
+            }
+    
+            // Reset angle after one full orbit
             if (angle > Math.PI * 2) angle = 0;
         }, 16);
     }
+    
+    
+    
 
     // Smooth camera pan and rotate to look at Psyche
     function panToPsyche() {
@@ -84,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightOrbit(selectedId) {
         orbits.forEach(id => {
             const orbit = document.getElementById(id);
-            orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff'); // changed active orbit to be psyche "mustard" color
+            orbit.setAttribute('color', id === selectedId ? '#FFD700' : '#ffffff');
             orbit.setAttribute('opacity', id === selectedId ? '1' : '0.2');
         });
     }
