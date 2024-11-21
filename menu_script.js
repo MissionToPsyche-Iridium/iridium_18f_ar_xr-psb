@@ -23,16 +23,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle orbit selection from the menu
     function handleOrbitSelection(orbitId) {
-        // Trigger functions for orbit behavior (delegated to script.js)
-        if (window.handleOrbitSelection) {
-            window.handleOrbitSelection(orbitId);
+        // Highlight the selected orbit
+        if (window.highlightOrbit) {
+            window.highlightOrbit(orbitId);
         }
-        
+    
+        if (window.moveObjectThroughOrbit) {
+            window.moveObjectThroughOrbit(orbitId);
+        }
+
+        // Trigger any other functions, like transitioning or showing popups
+        if (window.transitionToOrbit) {
+            window.transitionToOrbit(orbitId);
+        }
+    
         // Close the menu after selection
         navigationMenu.classList.remove('active');
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
     }
+    
 
     // Set up event listeners for each menu item
     document.querySelectorAll('.navigation__item a').forEach((link) => {

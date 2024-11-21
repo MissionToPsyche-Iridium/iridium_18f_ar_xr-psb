@@ -150,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
             popup.style.display = "none";
         }, 5000);
     }
-    
-    
+    window.moveObjectThroughOrbit = moveObjectThroughOrbit;
+    window.highlightOrbit = highlightOrbit;
 });
 
 
