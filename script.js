@@ -1,21 +1,26 @@
+import { initNavigationMenu } from './navigationMenu.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    
+    initNavigationMenu();
+    
     const orbits = ['orbit1', 'orbit2', 'orbit3', 'orbit4'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
     const psyche = document.getElementById('psyche');
     let currentOrbit = null;
     let moveInterval = null;
-    const btnToggle = document.querySelector("#btnToggle");
-    const hamburgerIcon = document.querySelector("#hamburgerIcon");
-    const closeIcon = document.querySelector("#closeIcon");
-    const navigationMenu = document.querySelector(".navigation__menu");
+    //const btnToggle = document.querySelector("#btnToggle");
+    //const hamburgerIcon = document.querySelector("#hamburgerIcon");
+    //const closeIcon = document.querySelector("#closeIcon");
+    //const navigationMenu = document.querySelector(".navigation__menu");
 
 
-    btnToggle.addEventListener("click", () => {
+    /*btnToggle.addEventListener("click", () => {
         navigationMenu.classList.toggle("active");
         hamburgerIcon.classList.toggle("hidden");
         closeIcon.classList.toggle("hidden");
-    });
+    });*/
 
     // Event listeners for each orbit click
     orbits.forEach(id => {
