@@ -1,8 +1,8 @@
-import { navigationMenu } from "./menu_script.js";
+import { initNavigationMenu, toggleMenu } from "./menu_script.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    navigationMenu();
+    initNavigationMenu();
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const psyche = document.getElementById('psyche');
     let currentOrbit = null;
     let moveInterval = null;
-    //const btnToggle = document.querySelector("#btnToggle");
+    const orbitLinks = document.querySelectorAll('[data-orbit]');
 
 
 
@@ -23,6 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
             transitionToOrbit(id);
             panToPsyche();
             orbitPopupText(id);
+        });
+    });
+
+    // Event listeners for each navigation menu link
+    orbitLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();  // Prevent default link behavior (page reload)
+            event.stopPropagation();
+            const orbitId = link.getAttribute('data-orbit');
+
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            panToPsyche();
+            toggleMenu();
         });
     });
 
