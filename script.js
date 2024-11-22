@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const psyche = document.getElementById('psyche');
     let currentOrbit = null;
     let moveInterval = null;
-    const btnToggle = document.querySelector("#btnToggle");
+    //const btnToggle = document.querySelector("#btnToggle");
 
 
 
