@@ -1,5 +1,5 @@
 // menu_script.js
-document.addEventListener('DOMContentLoaded', () => {
+export function navigationMenu() {
     const btnToggle = document.getElementById("btnToggle");
     const hamburgerIcon = document.getElementById("hamburgerIcon");
     const closeIcon = document.getElementById("closeIcon");
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnToggle.addEventListener("click", toggleMenu);
 
     // Add event listener to the close button (close the menu when clicked)
-    closeIcon.addEventListener("click", toggleMenu);
+    //closeIcon.addEventListener("click", toggleMenu);
 
     // Function to handle orbit selection from the menu
     function handleOrbitSelection(orbitId) {
@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Close the menu after selection
         navigationMenu.classList.remove('active');
-        hamburgerIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
     }
     
 
@@ -58,4 +58,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
+}

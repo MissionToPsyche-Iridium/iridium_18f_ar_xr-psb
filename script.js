@@ -1,4 +1,9 @@
+import { navigationMenu } from "./menu_script.js";
+
 document.addEventListener('DOMContentLoaded', () => {
+    
+    navigationMenu();
+    
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
