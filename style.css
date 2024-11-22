@@ -62,9 +62,9 @@ nav{
     background-color: transparent;
 }
 
-.navigation__menu.active{
-    transform: translateX(0);
-}
+.navigation__menu.collapse.show {
+    transform: translateX(0); /* Move into view */
+ }
 
 /* Ensure hamburger menu is always visible */
 .navbar-toggler {

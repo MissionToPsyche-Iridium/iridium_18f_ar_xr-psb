@@ -1,26 +1,18 @@
-import { initNavigationMenu } from './navigationMenu.js';
+import { initNavigationMenu, toggleMenu } from './navigationMenu.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
     
-    const orbits = ['orbit1', 'orbit2', 'orbit3', 'orbit4'];
+    
+    const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
     const psyche = document.getElementById('psyche');
     let currentOrbit = null;
     let moveInterval = null;
-    //const btnToggle = document.querySelector("#btnToggle");
-    //const hamburgerIcon = document.querySelector("#hamburgerIcon");
-    //const closeIcon = document.querySelector("#closeIcon");
-    //const navigationMenu = document.querySelector(".navigation__menu");
-
-
-    /*btnToggle.addEventListener("click", () => {
-        navigationMenu.classList.toggle("active");
-        hamburgerIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
-    });*/
+    const orbitLinks = document.querySelectorAll('[data-orbit]');
+    
 
     // Event listeners for each orbit click
     orbits.forEach(id => {
@@ -30,6 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightOrbit(id);
             transitionToOrbit(id);
             panToPsyche();
+        });
+    });
+
+    orbitLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();  // Prevent default link behavior (page reload)
+            event.stopPropagation();
+            const orbitId = link.getAttribute('data-orbit');
+
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            panToPsyche();
+            toggleMenu();
         });
     });
 

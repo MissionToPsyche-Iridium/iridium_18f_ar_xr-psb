@@ -23,11 +23,10 @@
 
             <div class="collapse navigation__menu" id= "navbarNav">
                 <ul class="navigation__links">
-                    <li class="navigation__item"><a href="index.html">Home: All Orbits</a></li>
-                    <li class="navigation__item"><a href="">Orbit A: Characterization</a></li>
-                    <li class="navigation__item"><a href="">Orbit B: Topography</a></li>
-                    <li class="navigation__item"><a href="">Orbit C: Gravity Science</a></li>
-                    <li class="navigation__item"><a href="">Orbit D: Elemental Mapping</a></li>
+                    <li class="navigation__item"><a href="#" data-orbit="orbitA">Orbit A: Characterization</a></li>
+                    <li class="navigation__item"><a href="#" data-orbit="orbitB">Orbit B: Topography</a></li>
+                    <li class="navigation__item"><a href="#" data-orbit="orbitC">Orbit C: Gravity Science</a></li>
+                    <li class="navigation__item"><a href="#" data-orbit="orbitD">Orbit D: Elemental Mapping</a></li>
                     <li class="navigation__item info-icon"><a href="References.html"><img src="/img/info.svg" alt="" width="28" height="27" id="infoIcon"></a></li>
                 </ul>
             </div>
@@ -58,10 +57,10 @@
         <a-sphere id="psyche" position="0 -1 -4" radius="0.2" color="#888" material="roughness: 1;" data-raycastable></a-sphere>
 
         <!-- Orbit Rings -->
-        <a-ring id="orbit1" position="0 -1 -4" radius-inner="1.0" radius-outer="1.1" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbit2" position="0 -1 -4" radius-inner="1.7" radius-outer="1.8" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbit3" position="0 -1 -4" radius-inner="2.4" radius-outer="2.5" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbit4" position="0 -1 -4" radius-inner="2.9" radius-outer="3.0" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
+        <a-ring id="orbitA" position="0 -1 -4" radius-inner="1.0" radius-outer="1.1" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
+        <a-ring id="orbitB" position="0 -1 -4" radius-inner="1.7" radius-outer="1.8" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
+        <a-ring id="orbitC" position="0 -1 -4" radius-inner="2.4" radius-outer="2.5" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
+        <a-ring id="orbitD" position="0 -1 -4" radius-inner="2.9" radius-outer="3.0" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
 
         <!-- Camera and Rig with controls -->
         <a-entity id="cameraRig">
