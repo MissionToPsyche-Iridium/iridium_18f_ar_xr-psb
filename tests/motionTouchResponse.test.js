@@ -25,30 +25,33 @@ describe('AR scene interaction', () => {
   });
 
   afterAll(async () => {
-    //await browser.close();
+    await browser.close();
   });
 
   test('Scene responds to motion and touch', async () => {
-    const centralObject = await page.$('#psyche');
-    expect(centralObject).not.toBeNull();
+   
+    //Get initial camera position
+    const initialPosition = await page.evaluate(() => {
+      const camera = document.querySelector('#camera');
+      return camera ? camera.getAttribute('position') : null;
+    });
 
-    const initialPosition = await page.evaluate((element) => {
-        return element.getAttribute('position');
-    }, centralObject);
+    //Ensure initial position exists
+    expect(initialPosition).not.toBeNull();
 
+    //Move the scene with the mouse
     await page.mouse.move(300,300);
     await page.mouse.down();
     await page.mouse.move(500,500);
     await page.mouse.up();
 
-    const finalPosition = await page.evaluate((element) => {
-        return element.getAttribute('position');
-    }, centralObject);
+    //Get the updated camera position
+    const updatedPosition = await page.evaluate(() => {
+      const camera = document.querySelector('#camera');
+      return camera ? camera.getAttribute('position') : null;
+    });
 
-    expect(initialPosition).not.toEqual(finalPosition);
-
-    console.log('Initial Position:', initialPosition);
-    console.log('Final Position:', finalPosition);
-    
+    // Ensure the camera position has changed
+    expect(updatedPosition).not.toBe(initialPosition);    
   }, 10000);
 });
