@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Function to display an interactive element
+
 function displayInteractiveElement(orbitId) {
     // Remove any existing interactive elements
     const existingElement = document.querySelector('#interactiveElement');
@@ -184,8 +184,8 @@ function displayInteractiveElement(orbitId) {
     // Create a new interactive element
     const interactiveElement = document.createElement('a-entity');
     interactiveElement.setAttribute('id', 'interactiveElement');
-    interactiveElement.setAttribute('data-raycastable', ''); // Ensure raycaster detects it
-    interactiveElement.classList.add('clickable'); // Optional, if needed for other styling or logic
+    interactiveElement.setAttribute('data-raycastable', ''); 
+    interactiveElement.classList.add('clickable'); 
 
     // Customize the interactive element based on the selected orbit
     switch (orbitId) {
@@ -264,7 +264,7 @@ function displayInfoWindow(orbitId) {
 
     // Add a close button to the info window
     const closeButton = document.createElement('button');
-    closeButton.textContent = '×'; // Use '×' for a close icon
+    closeButton.textContent = '×'; 
     closeButton.style.position = 'absolute';
     closeButton.style.top = '10px';
     closeButton.style.right = '10px';
@@ -283,11 +283,3 @@ function displayInfoWindow(orbitId) {
     infoWindow.appendChild(closeButton);
     document.body.appendChild(infoWindow);
 }
-
-// Example usage: Trigger interactive element display
-document.querySelectorAll('.menu-item').forEach((item) => {
-    item.addEventListener('click', (event) => {
-        const orbitId = event.target.getAttribute('data-orbit');
-        displayInteractiveElement(orbitId);
-    });
-});
