@@ -1,7 +1,7 @@
 // TC-004
 //using puppeteer
 const puppeteer = require('puppeteer');
-let url = 'http://127.0.0.1:3000/error.html'
+let url = 'https://127.0.0.1:5500/index.html'// to test main page can open error page
 
 describe('Error page', () => {
   let browser;
@@ -9,38 +9,41 @@ describe('Error page', () => {
 
   // Set up Puppeteer
   beforeAll(async () => {
-
+    console.log('Launching browser...'); // debug
     //Use default browser, Chrome
     //Specify if headless mode
     //Ignore HTTPS certificate and errors since useing self published certificate for AR
     browser = await puppeteer.launch({
-        headless: false,
-        args: ['--ignore-certificate-errors'],
+        headless: true,
+        args: ['--ignore-certificate-errors', '--no-sandbox', '--disable-setuid-sandbox'],
         ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
-      });
-    page = await browser.newPage(); // Create a new page instance
-    //Open the application url
+    });
+    console.timeEnd('Browser Launch Time'); //debug
+
+    page = await browser.newPage();
+    console.time('Navigation Time');//debug
     await page.goto(url);
-  });
+    console.timeEnd('Navigation Time');//debug
+  }, 40000);
 
   // Close the browser after tests
   afterAll(async () => {
     await browser.close();
-  });
+  },10000);
 
   test('Displays error page when assets fail to load', async () => {
     // Intercept and block requests to simulate asset loading failure
     await page.setRequestInterception(true); // Enable request interception
     page.on('request', (request) => {
       if (request.url().endsWith('.js') || request.url().endsWith('.css')) {
-        // Block JavaScript and CSS files
+        // Block JavaScript and CSS files to simulate errors
         request.abort();
       } else {
         request.continue(); // Allow other requests
       }
     });
 
-    // Navigate to app's main page 
+    // Navigate to app's main page, important assests should be blocked
     await page.goto(url);
 
     // Wait for the error page to load and check header
@@ -51,5 +54,5 @@ describe('Error page', () => {
     // check paragraph
     const paragraphText = await page.$eval('p', (el) => el.textContent);
     expect(paragraphText).toBe('Check back later!');
-  });
+  }, 10000);
 });
