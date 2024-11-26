@@ -1,3 +1,4 @@
+// TC-001
 const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5500/index.html'
 
@@ -21,7 +22,7 @@ describe('AR Web App', () => {
     page = await browser.newPage();
 
     //Open the application url
-    await page.goto(url);  // Use your actual HTTPS URL
+    await page.goto(url);
   });
 
   afterAll(async () => {
