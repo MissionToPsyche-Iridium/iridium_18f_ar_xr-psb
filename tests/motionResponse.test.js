@@ -29,7 +29,7 @@ describe('AR scene interaction', () => {
     await browser.close();
   });
 
-  test('Scene responds to motion and touch', async () => {
+  test('Scene responds to motion', async () => {
    
     //Get initial camera position
     const initialPosition = await page.evaluate(() => {
