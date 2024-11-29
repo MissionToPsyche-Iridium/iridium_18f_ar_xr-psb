@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayInteractiveElement(orbitId); // Add this line
     }
 
-    // JavaScript to show the popup when the page loads
+    // Show the popup when the page loads
     window.addEventListener('load', () => {
         const popup = document.getElementById("instructionPopup");
         popup.style.display = "block"; // Show the popup
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const popup = document.getElementById("instructionPopup");
         let filePath;
 
-        //Check which orbit it is
+        // Check which orbit it is
         if (orbitID == "orbitA") {
             filePath = 'resources/orbitA.txt';
         }
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             filePath = 'resources/orbitD.txt';
         }
             
-        //Get the popup text
+        // Get the popup text
         fetch(filePath)
             //Get text
             .then(response => response.text())

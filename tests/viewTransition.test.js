@@ -1,7 +1,7 @@
 // TC-005
 //using puppeteer
 const puppeteer = require('puppeteer');
-let url = 'http://127.0.0.1:3000/index.html';
+let url = 'https://127.0.0.1:5500/index.html'
 
 describe('Orbit view transition', () => {
   let browser;
@@ -14,7 +14,7 @@ describe('Orbit view transition', () => {
     //Specify if headless mode
     //Ignore HTTPS certificate and errors since useing self published certificate for AR
     browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         args: ['--ignore-certificate-errors', 
             '--no-sandbox', 
             '--disable-setuid-sandbox',
@@ -43,8 +43,12 @@ describe('Orbit view transition', () => {
     // iterate through orbits to test them
     orbits.forEach(({ id, expectedPosition }) => {
         test(`Clicking on ${id} updates the view to center on the orbit`, async () => {
+            
             // Click the orbit ring
-            await page.waitForSelector(`#${id}`, {visible: true});
+            await page.waitForSelector(`#${id}`, {visible: true}).then(
+                () => console.log(`${id} is visible`),
+                () => console.error(`${id} is NOT visible`)
+            );
             await page.click(`#${id}`);
 
             // Wait for the camera to transition
@@ -63,6 +67,6 @@ describe('Orbit view transition', () => {
 
             // Validate position
             expect(parsedPosition).toEqual(expectedPosition);
-        }, 40000);
+        }, 5000);
     });  
 });
