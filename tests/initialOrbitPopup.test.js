@@ -31,18 +31,20 @@ describe('AR Web App', () => {
   });
 
   test('Instruction popup appears and disappears after 5 seconds', async () => {
+    //Get popup object
     const popupVisible = await page.$('#instructionPopup');
+
+    //Ensure popup is visible
     const popupDisplay = await page.evaluate(popup => popup.style.display, popupVisible);
-    expect(popupDisplay).toBe('block');  // Ensure it's visible
+    expect(popupDisplay).toBe('block');  
 
-    // Wait for 5 seconds to simulate the timeout in the code
-    await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 5500)));
+    //Wait for 5 seconds for timeout
+    await page.evaluate(() => new Promise(resolve => 
+      setTimeout(resolve, 5500)
+    ));
 
-     // Ensure the popup is hidden after the timeout
-     const popupDisplayAfter5s = await page.evaluate(popup => popup.style.display, popupVisible);
-     expect(popupDisplayAfter5s).toBe('none');  // Ensure it's hidden after 5 seconds
- 
-     // Alternatively, you could wait for the popup to disappear completely
-     await page.waitForSelector('#instructionPopup', { hidden: true });
+    //Ensure the popup is hidden after the timeout
+    const popupDisplayAfter5s = await page.evaluate(popup => popup.style.display, popupVisible);
+    expect(popupDisplayAfter5s).toBe('none');
   }, 10000);
 });

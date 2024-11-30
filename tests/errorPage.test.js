@@ -14,9 +14,9 @@ describe('Error page', () => {
     //Specify if headless mode
     //Ignore HTTPS certificate and errors since useing self published certificate for AR
     browser = await puppeteer.launch({
-        headless: true,
-        args: ['--ignore-certificate-errors', '--no-sandbox', '--disable-setuid-sandbox'],
-        ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
+      headless: false,
+      args: ['--ignore-certificate-errors', '--no-sandbox', '--disable-setuid-sandbox'],
+      ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
     });
     console.timeEnd('Browser Launch Time'); //debug
 

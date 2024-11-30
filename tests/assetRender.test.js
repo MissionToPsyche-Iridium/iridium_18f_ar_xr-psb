@@ -31,7 +31,7 @@ describe('AR Web App', () => {
 
   test('Asteroid object and orbits are rendered on screen', async () => {
     
-    //Check is asteroid entity exists
+    //Check is entites exists
     const asteroidExists = await page.$('#psyche');
     expect(asteroidExists).not.toBeNull();
 
@@ -78,7 +78,7 @@ describe('AR Web App', () => {
     });
     expect(isOrbitDVisible).toBe(true);  // Ensure it's visible
 
-    //Check if orbit D is visible
+    //Check if orbit C is visible
     const isOrbitCVisible = await page.evaluate(() => {
       const orbitC = document.querySelector('#orbitC');
       if(!orbitC) return false;
@@ -88,7 +88,7 @@ describe('AR Web App', () => {
     });
     expect(isOrbitCVisible).toBe(true);  // Ensure it's visible
 
-    //Check if orbit D is visible
+    //Check if orbit B is visible
     const isOrbitBVisible = await page.evaluate(() => {
       const orbitB = document.querySelector('#orbitB');
       if(!orbitB) return false;
@@ -98,7 +98,7 @@ describe('AR Web App', () => {
     });
     expect(isOrbitBVisible).toBe(true);  // Ensure it's visible
 
-    //Check if orbit D is visible
+    //Check if orbit A is visible
     const isOrbitAVisible = await page.evaluate(() => {
       const orbitA = document.querySelector('#orbitA');
       if(!orbitA) return false;

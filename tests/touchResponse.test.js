@@ -31,20 +31,23 @@ describe('AR scene interaction', () => {
 
   test('Scene responds to touch', async () => {
   
+    //Move the cursor to orbitD location
     await page.mouse.move(300,300);
     await page.mouse.down();
     await page.mouse.move(410,500);
     await page.mouse.up();
 
+    //Click the cursor
     await page.mouse.down();
     await page.mouse.up();
 
+    //Get orbit D's color
     const orbitDColor = await page.evaluate(() => {
         const orbitD = document.querySelector('#orbitD');
         return orbitD.getAttribute('color');
-      });
+    });
 
-    // Assertion to check if the color changed as expected
+    //Check if orbit D has been highlighted
     expect(orbitDColor).toBe('#FFD700'); // Replace with the expected color value
   
   }, 10000);
