@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let moveInterval = null;
     const orbitLinks = document.querySelectorAll('[data-orbit]');
 
-
-
     // Event listeners for each orbit click
     orbits.forEach(id => {
         const orbit = document.getElementById(id);
@@ -48,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Get the y position of the orbit
         const orbitY = orbit.object3D.position.y;
+        const orbitX = orbit.object3D.position.x;
+        const orbitZ = orbit.object3D.position.z;
     
         // Set the object visibility to true and position it based on the orbit level
         movingObject.setAttribute('visible', 'true');
@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
                 const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
-                movingObject.setAttribute('position', `${x} ${y + orbitY} ${z - 4}`);
+                movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ + 0.1}`);
+               
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
                 // For orbit C, B, and A, rotate around the Y-axis, which means moving along the Y-axis
                  // Use y for vertical motion for these orbits
@@ -79,9 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 16);
     }
     
-    
-    
-
     // Smooth camera pan and rotate to look at Psyche
     function panToPsyche() {
         const psychePosition = psyche.getAttribute('position');
@@ -174,8 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.highlightOrbit = highlightOrbit;
 });
 
-
-
+// Function to display a clickable element when an orbit is selected
 function displayInteractiveElement(orbitId) {
     // Remove any existing interactive elements
     const existingElement = document.querySelector('#interactiveElement');
