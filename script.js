@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to move the object through the selected orbit
     function moveObjectThroughOrbit(orbitId) {
         const orbit = document.getElementById(orbitId);
-        const radius = parseFloat(orbit.getAttribute('radius-outer')) - 0.1;
+        const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
         let angle = 0;
     
         // Get the y position of the orbit
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
                 const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
-                movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ + 0.1}`);
+                movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ}`);
                
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
                 // For orbit C, B, and A, rotate around the Y-axis, which means moving along the Y-axis
@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightOrbit(selectedId) {
         orbits.forEach(id => {
             const orbit = document.getElementById(id);
-            orbit.setAttribute('color', id === selectedId ? '#FFD700' : '#ffffff');
-            orbit.setAttribute('opacity', id === selectedId ? '1' : '0.2');
+            orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff');
+            orbit.setAttribute('opacity', id === selectedId ? '0.7' : '0.25');
         });
     }
 

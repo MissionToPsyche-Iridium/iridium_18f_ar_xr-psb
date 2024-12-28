@@ -1,6 +1,5 @@
 /* Global colors */
 :root {
-    --primary-color: Red; /* Dark background for header */
     --background-color: #111;
     --text-color: white;
     --mustard-color: #f9a000;
@@ -108,8 +107,8 @@ nav{
     background-color: white; /* Set the hamburger menu icon to white */
 }
 
-/* NASA logo size */
-.nasa-logo {
+/* Psyche logo size */
+.psyche-logo {
     max-height: 40px;
 }
 
@@ -138,9 +137,9 @@ a-scene {
     width: 100%;
 }
 
-/* Mobile responsiveness for the NASA logo */
+/* Mobile responsiveness for the Psyche logo */
 @media (max-width: 576px) {
-    .nasa-logo {
+    .psyche-logo {
         max-width: 50%;
         height: auto;
     }
@@ -152,7 +151,7 @@ a-scene {
         height: 70px; /* Keep header height fixed at 70px */
     }
 
-    .nasa-logo {
+    .psyche-logo {
         max-height: 40px; /* Keep logo size constant */
     }
 }

@@ -30,10 +30,10 @@
                 </ul>
             </div>
 
-            <!-- NASA Logo -->
-           <!-- <div class="text-end">
-                <img src="https://www.nasa.gov/sites/all/themes/nasa/images/nasa-logo.svg" alt="NASA Logo" class="nasa-logo img-fluid">
-            </div>-->
+            <!-- Psyche Mission Logo -->
+           <div class="text-end">
+                <img src="img\psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
+            </div>
         </div>
     </header>
 
@@ -57,17 +57,18 @@
         <a-entity 
             id="psyche" 
             gltf-model="url(models\Psyche.glb)" 
-            position="-0.6 -1 -3.2" 
+            position="-0.5 -1.5 -3.7" 
             scale="0.3 0.3 0.3">
         </a-entity>
 
-        <!-- Orbit Rings -->
-        <a-ring id="orbitD" position="0 -1 -4" radius-inner="1.0" radius-outer="1.1" color="#ffffff" rotation="0 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbitC" position="0 -1 -4" radius-inner="1.7" radius-outer="1.8" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbitB" position="0 -1 -4" radius-inner="2.4" radius-outer="2.5" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
-        <a-ring id="orbitA" position="0 -1 -4" radius-inner="2.9" radius-outer="3.0" color="#ffffff" rotation="-90 0 0" opacity="0.5" data-raycastable></a-ring>
+        <!-- Orbits -->
+        <a-torus id="orbitD" position="0 -1 -4" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="0 0 0" opacity="0.25" data-raycastable></a-torus>
+        <a-torus id="orbitC" position="0 -1 -4" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
+        <a-torus id="orbitB" position="0 -1 -4" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
+        <a-torus id="orbitA" position="0 -1 -4" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
 
-        <!-- Satellite -->
+
+        <!-- Spacecraft -->
         <a-entity 
             id="moving-object" 
             gltf-model="url(models\PsycheSatellite.glb)" 
