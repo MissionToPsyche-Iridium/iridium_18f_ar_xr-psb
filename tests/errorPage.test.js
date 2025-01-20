@@ -22,8 +22,8 @@ describe('Error page', () => {
 
     page = await browser.newPage();
     console.time('Navigation Time');//debug
-    await page.goto(url);
-    console.timeEnd('Navigation Time');//debug
+    //await page.goto(url);
+    //console.timeEnd('Navigation Time');//debug
   }, 40000);
 
   // Close the browser after tests

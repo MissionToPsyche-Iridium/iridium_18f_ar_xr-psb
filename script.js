@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 camera.setAttribute('look-at', '#psyche');
             }
         }, 10);
+        console.log("intial position:", startPosition); // debug
+        console.log("returned position:", camera.getAttribute('position')); // debug
     }
 
     // Highlight selected orbit

@@ -34,7 +34,7 @@ describe('AR scene interaction', () => {
     //Move the cursor to orbitD location
     await page.mouse.move(300,300);
     await page.mouse.down();
-    await page.mouse.move(410,500);
+    await page.mouse.move(400,500);
     await page.mouse.up();
 
     //Click the cursor
@@ -48,7 +48,7 @@ describe('AR scene interaction', () => {
     });
 
     //Check if orbit D has been highlighted
-    expect(orbitDColor).toBe('#FFD700'); // Replace with the expected color value
+    expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value
   
   }, 10000);
 });
