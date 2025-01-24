@@ -1,1 +1,1 @@
-This is orbit C.
+This phase will allow mission scientists to probe Psyche’s interior by studying its gravity field. As the spacecraft orbits at a lower altitude, slight variations in its motion caused by the asteroid’s gravitational pull will be measured precisely. These data will help infer Psyche’s internal structure, including whether it has regions of different densities or a partially solidified core. Understanding its gravity will provide crucial clues about the asteroid’s origin and composition.

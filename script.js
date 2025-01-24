@@ -165,10 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         .catch(error => console.error("Error loading text file:", error));            
 
-        // Hide the popup after 5 seconds
+        // Hide the popup after 20 seconds
         setTimeout(() => {
             popup.style.display = "none";
-        }, 5000);
+        }, 20000);
     }
     window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     window.highlightOrbit = highlightOrbit;

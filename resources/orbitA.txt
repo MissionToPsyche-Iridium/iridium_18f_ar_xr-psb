@@ -1,1 +1,1 @@
-This is orbit A.
+The first phase of the Psyche mission is focused on the initial characterization of the asteroid. During this orbit, the spacecraft will perform its first close-up observations, determining Psyche’s shape, rotation, and surface features. The instruments onboard, including cameras, spectrometers, and magnetometers, will work together to collect foundational data about the asteroid’s composition and structure. This phase will also help refine the spacecraft’s navigation and prepare for lower-altitude investigations.
