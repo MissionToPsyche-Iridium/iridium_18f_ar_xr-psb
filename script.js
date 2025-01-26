@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             highlightOrbit(id);
             transitionToOrbit(id);
+            updateBannerText(id);
             panToPsyche();
             orbitPopupText(id);
         });
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
             panToPsyche();
             toggleMenu();
         });
@@ -169,6 +171,24 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             popup.style.display = "none";
         }, 20000);
+    }
+
+    // Change banner text
+    function updateBannerText(orbitID){
+        const bannerText = document.getElementById("bannerText"); 
+
+        if (orbitID == "orbitA") {
+            bannerText.textContent = "Orbit A";
+        }
+        if (orbitID == "orbitB") {
+            bannerText.textContent = "Orbit B";
+        }
+        if (orbitID == "orbitC") {
+            bannerText.textContent = "Orbit C";
+        }
+        if (orbitID == "orbitD"){
+            bannerText.textContent = "Orbit D";
+        }
     }
     window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     window.highlightOrbit = highlightOrbit;

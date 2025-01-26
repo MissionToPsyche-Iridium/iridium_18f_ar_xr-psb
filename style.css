@@ -36,6 +36,17 @@ body{
     height: 70px; /* Fixed height for the header */
 }
 
+.center-text {
+    position: absolute;
+    text-align: center;
+}
+.center-text p {
+    margin: 0; /* Remove default margin for better alignment */
+    font-size: 1rem; /* Adjust size based on design preference */
+    font-weight: bold; /* Make the text stand out */
+    color: white; /* Ensure the text color matches the header */
+}
+
 .navigation__menu{
     background-color: var(--dark-purple-color);
     height: 100vh;
