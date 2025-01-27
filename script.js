@@ -302,3 +302,7 @@ function displayInfoWindow(orbitId) {
     infoWindow.appendChild(closeButton);
     document.body.appendChild(infoWindow);
 }
+
+function displayErrorPage(){
+    window.location.href = "/error.html";
+}
