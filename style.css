@@ -101,10 +101,10 @@ nav{
     display: flex;
     align-items: flex-start;
     gap: 2rem; /*space between menu items*/
-    margin: 2rem;
+    margin: 1rem;
     padding: 0;
     margin-left: 0; /* Remove extra margin */
-    padding-left: 1rem; /* Remove any default padding */
+    padding-left: .5rem; /* Remove any default padding */
     text-align: left; 
     flex-direction: column;
 }
@@ -153,16 +153,47 @@ a-scene {
     width: 100%;
 }
 
-/* Mobile responsiveness for the Psyche logo */
-@media (max-width: 576px) {
+/* Tablet style settings */
+
+@media (max-width: 768px){
+
+}
+
+/* Phone style settings */
+
+@media (max-width: 600px){
+    .navigation__menu{
+        max-width: 250px;
+    }
+
+    .navigation__links{
+        font-size: 1rem;
+    }
+
+    .navigation__item{
+        font-size: 1rem;
+    }
+
+    #hamburgerIcon{
+        width: 30px;
+        height: 30px;
+    }
+
+    #closeIcon{
+        width: 30px;
+        height: 30px;
+    }
+
+    .info-icon img{
+        width: 20px;
+        height: 20px;
+    }
+
     .psyche-logo {
         max-width: 50%;
         height: auto;
     }
-}
 
-/* Ensure the logo and hamburger are fixed size and layout */
-@media (min-width: 576px) {
     .top-bar {
         height: 70px; /* Keep header height fixed at 70px */
     }
@@ -171,3 +202,5 @@ a-scene {
         max-height: 40px; /* Keep logo size constant */
     }
 }
+
+

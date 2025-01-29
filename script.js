@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const orbitLinks = document.querySelectorAll('[data-orbit]');
 
     // Event listeners for each orbit click
-    orbits.forEach(id => {
-        const orbit = document.getElementById(id);
+    orbits.forEach(orbitId => {
+        const orbit = document.getElementById(orbitId);
         orbit.addEventListener('click', (event) => {
             event.stopPropagation();
-            highlightOrbit(id);
-            transitionToOrbit(id);
-            updateBannerText(id);
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
             panToPsyche();
-            orbitPopupText(id);
+            orbitPopupText(orbitId);
         });
     });
 
@@ -32,11 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             const orbitId = link.getAttribute('data-orbit');
 
+            toggleMenu();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
             panToPsyche();
-            toggleMenu();
+            orbitPopupText(orbitId);
         });
     });
 
