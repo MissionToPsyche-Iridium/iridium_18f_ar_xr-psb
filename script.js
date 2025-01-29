@@ -12,25 +12,49 @@ document.addEventListener('DOMContentLoaded', () => {
     let moveInterval = null;
     const orbitLinks = document.querySelectorAll('[data-orbit]');
 
-    // Event listeners for each orbit click
-    orbits.forEach(orbitId => {
-        const orbit = document.getElementById(orbitId);
-        orbit.addEventListener('click', (event) => {
-            event.stopPropagation();
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            panToPsyche();
-            orbitPopupText(orbitId);
+    // Check if there's a stored orbit from reference page and apply the functions
+    const storedOrbit = sessionStorage.getItem("selectedOrbit");
+    if (storedOrbit) {
+        highlightOrbit(storedOrbit);
+        transitionToOrbit(storedOrbit);
+        updateBannerText(storedOrbit);
+        panToPsyche();
+        orbitPopupText(storedOrbit);
+
+        // Clear stored value after applying the functions
+        sessionStorage.removeItem("selectedOrbit");
+    }
+
+    if(window.location.pathname.includes("index.html")){    
+        // Event listeners for each orbit click
+        orbits.forEach(orbitId => {
+            const orbit = document.getElementById(orbitId);
+            orbit.addEventListener('click', (event) => {
+                event.stopPropagation();
+                highlightOrbit(orbitId);
+                transitionToOrbit(orbitId);
+                updateBannerText(orbitId);
+                panToPsyche();
+                orbitPopupText(orbitId);
+            });
         });
-    });
+    }
+    
 
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
         link.addEventListener('click', (event) => {
+
             event.preventDefault();  // Prevent default link behavior (page reload)
             event.stopPropagation();
             const orbitId = link.getAttribute('data-orbit');
+
+            sessionStorage.setItem("selectedOrbit", orbitId);
+
+            if(window.location.pathname.includes("References.html")){
+                window.location.href = "index.html"
+                return;
+            }
 
             toggleMenu();
             highlightOrbit(orbitId);
@@ -127,16 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
         displayInteractiveElement(orbitId); // Add this line
     }
 
-    // Show the popup when the page loads
-    window.addEventListener('load', () => {
-        const popup = document.getElementById("instructionPopup");
-        popup.style.display = "block"; // Show the popup
-    
-        // Hide the popup after 5 seconds
-        setTimeout(() => {
-            popup.style.display = "none";
-        }, 5000);
-    });
+    if(window.location.pathname.includes("index.html")){
+        // Show the popup when the page loads
+        window.addEventListener('load', () => {
+            const popup = document.getElementById("instructionPopup");
+            popup.style.display = "block"; // Show the popup
+        
+            // Hide the popup after 5 seconds
+            setTimeout(() => {
+                popup.style.display = "none";
+            }, 5000);
+        });
+    }
 
     function orbitPopupText(orbitID){
         const popup = document.getElementById("instructionPopup");
