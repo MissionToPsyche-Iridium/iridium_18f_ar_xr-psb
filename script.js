@@ -143,16 +143,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Check which orbit it is
         if (orbitID == "orbitA") {
-            filePath = 'resources/orbitA/orbitADescription.txt';
+            filePath = 'resources/orbitA/orbitAInstructions.txt';
         }
         if (orbitID == "orbitB") {
-            filePath = 'resources/orbitB/orbitBDescription.txt';
+            filePath = 'resources/orbitB/orbitBInstructions.txt';
         }
         if (orbitID == "orbitC") {
-            filePath = 'resources/orbitC/orbitCDescription.txt';
+            filePath = 'resources/orbitC/orbitCInstructions.txt';
         }
         if (orbitID == "orbitD"){
-            filePath = 'resources/orbitD/orbitDDescription.txt';
+            filePath = 'resources/orbitD/orbitDInstructions.txt';
         }
             
         // Get the popup text
