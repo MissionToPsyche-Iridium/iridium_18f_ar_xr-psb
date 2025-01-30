@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css"> <!-- External CSS -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project References</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+  
 </head>
 <body>
-  <div class="container my-3">
-    <div class="navigation align-items-left" style="margin-top: 25px;">
-      <button id= "btnToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
-          <!--<span class="navbar-toggler-icon custom-toggler-icon"></span> --><!-- Custom class for white icon -->
-          <img src="/img/hamburger_blk.svg" alt="" width="40" height="24" id="hamburgerIcon">
-          <img src="/img/close.svg" alt="" width="28" height="27" id="closeIcon" class="hidden">
-      </button>
-    </div>
-
-    <div class="collapse navigation__menu" id= "navbarNav">
-        <ul class="navigation__links">
+  <header class="top-bar container-fluid">
+    <div class="row w-100 align-items-center">
+      <!-- Hamburger Menu -->
+      <div class="navigation align-items-center">
+        <button id="btnToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <img src="/img/hamburger.svg" alt="" width="40" height="24" id="hamburgerIcon">
+            <img src="/img/close.svg" alt="" width="28" height="27" id="closeIcon" class="hidden">
+        </button>
+      </div>
+      <!-- Navigation Menu -->
+      <div class="collapse navigation__menu" id= "navbarNav">
+          <ul class="navigation__links">
             <li class="navigation__item"><a href="index.html">Home: All Orbits</a></li>
             <li class="navigation__item"><a href="#" data-orbit="orbitA">Orbit A: Characterization</a></li>
-            <li class="navigation__item"><a href="">Orbit B: Topography</a></li>
-            <li class="navigation__item"><a href="">Orbit C: Gravity Science</a></li>
-            <li class="navigation__item"><a href="">Orbit D: Elemental Mapping</a></li>
-            <li class="navigation__item info-icon"><a href="References.html"><img src="/img/info.svg" alt="" width="28" height="27" id="infoIcon"></a></li>
-        </ul>
+            <li class="navigation__item"><a href="#" data-orbit="orbitB">Orbit B: Topography</a></li>
+            <li class="navigation__item"><a href="#" data-orbit="orbitC">Orbit C: Gravity Science</a></li>
+            <li class="navigation__item"><a href="#" data-orbit="orbitD">Orbit D: Elemental Mapping</a></li>
+          </ul>
+      </div>
+
+      <div class="center-text">
+          <p id="bannerText" class="m-0">References</p>
+      </div>
+
+      <!-- Psyche Mission Logo -->
+      <div class="text-end">
+          <img src="img\psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
+      </div>
+
     </div>
+  </header>
 
     <h1 class="text-center mb-4">Project References</h1>
 
@@ -81,7 +94,7 @@
     </small>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
