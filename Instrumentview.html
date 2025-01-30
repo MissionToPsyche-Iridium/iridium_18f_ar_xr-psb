@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Instrument View</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+    <header class="top-bar container-fluid bg-dark text-light py-2">
+        <div class="row w-100 align-items-center">
+            <div class="navigation align-items-center">
+                <button id="btnToggleInstrument" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavInstrument" aria-controls="navbarNavInstrument" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="/img/hamburger.svg" alt="" width="40" height="24" id="hamburgerIconInstrument">
+                    <img src="/img/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
+                </button>
+            </div>
+            <div class="collapse navigation__menu" id="navbarNavInstrument">
+                <ul class="navigation__links">
+                    <li class="navigation__item"><a href="#" data-instrument="gamma">Gamma Ray Spectrometer</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="magnetometer">Magnetometer</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="multispectral">Multispectral Imager</a></li>
+                    <li class="navigation__item info-icon"><a href="References.html"><img src="/img/info.svg" alt="Info" width="28" height="27"></a></li>
+                </ul>
+            </div>
+
+            <div class="center-text">
+                <p id="bannerText" class="m-0">Psyche Instruments</p>
+            </div>
+            <div class="text-end">
+                <img src="img\psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
+            </div>
+        </div>
+    </header>
+
+    <!-- Instrument Information Text Box -->
+<div class="Sample Data text-light bg-dark p-3 rounded position-absolute" 
+style="top: 100px; left: 20px; width: 300px; opacity: 0.45; z-index: 1000;">
+<h5 id="Sample Data">Sample Data</h5>
+<p id="infoDescription">This is where the description of the selected instrument will appear.</p>
+</div>
+
+<div class="instrument-details text-light bg-dark p-3 rounded position-absolute" 
+style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
+<h5 id="instrument-details">Instrument details</h5>
+<p id="infoDescription">This is where the description of the selected instrument will appear.</p>
+</div>
+    <!-- A-Frame Scene -->
+    <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
+        <a-assets>
+            <img id="bkgrd" src="img\background.jpg">
+        </a-assets>
+        <a-sky src="#bkgrd"></a-sky>
+
+        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03" rotation="90 0 0"></a-entity>
+        <!--we can use this to change visbility of html page to allow for only one page to be needed -->
+        <a-entity id="gamma-spectrometer" gltf-model="placeholder" position="-1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="magnetometer" gltf-model="placeholder" position="1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="multispectral-imager" gltf-model="placeholder" position="0 -1.2 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+
+        <a-entity id="cameraRig">
+            <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
+                <a-cursor raycaster="objects: [data-instrument]"></a-cursor>
+            </a-entity>
+        </a-entity>
+    </a-scene>
+    <script type = "module" src="Instrumentview.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
