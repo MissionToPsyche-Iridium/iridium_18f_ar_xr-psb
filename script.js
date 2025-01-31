@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var targetPosition;
 
         if (orbitId === "orbitA") {
-            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2.5, z: parseFloat(psychePosition.z) + 4 };
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2, z: parseFloat(psychePosition.z) + 4 };
         } else if (orbitId === "orbitB") {
             targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.75, z: parseFloat(psychePosition.z) + 3.5 };
         } else if (orbitId === "orbitC") {
