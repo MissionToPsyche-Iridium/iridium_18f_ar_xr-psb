@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentOrbit = null;
     let moveInterval = null;
     const orbitLinks = document.querySelectorAll('[data-orbit]');
+    const orbitText = document.getElementById("orbit-text");
+    const orbitTitle = document.getElementById("orbit-title");
+    const seeMoreBtn = document.getElementById("see-more-btn");
+    const orbitBox = document.querySelector(".orbit-description");
+    const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
 
     // Check if there's a stored orbit from reference page and apply the functions
     const storedOrbit = sessionStorage.getItem("selectedOrbit");
@@ -200,6 +205,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 20000);
     }
 
+    // Function to load orbit details
+    function loadOrbitDetails(orbitId) {
+        const descriptionFile = `resources/${orbitId}/${orbitId}Description.txt`;
+
+        fetch(descriptionFile)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
+            .then(data => {
+                orbitTitle.innerText = orbitId.replace("orbit", "Orbit ");
+                orbitText.innerText = data;
+
+                // Reset description box to default state
+                orbitBox.classList.remove("expanded");
+                orbitText.style.maxHeight = "120px";
+                orbitText.style.overflow = "hidden";
+
+                // Ensure "See More" button remains visible
+                seeMoreBtn.style.display = "block";
+                seeMoreBtn.innerText = "See More";
+            })
+            .catch(error => {
+                orbitText.innerText = "Orbit information unavailable.";
+                console.error("Error loading orbit file:", error);
+            });
+    }
+    
+    // Ensure pop-up remains functional
+    function showPopupMessage(message) {
+        popupBox.innerText = message;
+        popupBox.style.display = "block"; // Ensure it's visible
+        setTimeout(() => {
+            popupBox.style.display = "none";
+        }, 5000); // Hide after 5 seconds
+    }
+
+    // Expand/Collapse functionality
+    seeMoreBtn.addEventListener("click", function () {
+        if (orbitBox.classList.contains("expanded")) {
+            orbitBox.classList.remove("expanded");
+            seeMoreBtn.innerText = "See More";
+            orbitText.style.maxHeight = "120px";
+            orbitText.style.overflow = "hidden";
+        } else {
+            orbitBox.classList.add("expanded");
+            seeMoreBtn.innerText = "See Less";
+            orbitText.style.maxHeight = "none"; // Fully expand
+            orbitText.style.overflow = "visible";
+        }
+    });
+
+    // Update description when clicking orbit rings in UI
+    orbits.forEach(orbitId => {
+        const orbit = document.getElementById(orbitId);
+        orbit.addEventListener('click', (event) => {
+            event.stopPropagation();
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            panToPsyche();
+            loadOrbitDetails(orbitId); // Ensures description box updates
+        });
+    });
+
+    // Update description when clicking orbit links in the navigation menu
+    orbitLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const orbitId = link.getAttribute("data-orbit");
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            loadOrbitDetails(orbitId); // Ensures description box updates
+        });
+    });
+
+    // Load stored orbit if coming from another page
+    storedOrbit = sessionStorage.getItem("selectedOrbit");
+    if (storedOrbit) {
+        highlightOrbit(storedOrbit);
+        transitionToOrbit(storedOrbit);
+        updateBannerText(storedOrbit);
+        panToPsyche();
+        loadOrbitDetails(storedOrbit);
+        sessionStorage.removeItem("selectedOrbit");
+    }
+    
     // Change banner text
     function updateBannerText(orbitID){
         const bannerText = document.getElementById("bannerText"); 
