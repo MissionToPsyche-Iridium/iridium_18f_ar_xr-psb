@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 highlightOrbit(orbitId);
                 transitionToOrbit(orbitId);
                 updateBannerText(orbitId);
-                panToPsyche();
+                panToPsyche(orbitId);
                 orbitPopupText(orbitId);
             });
         });
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
-            panToPsyche();
+            panToPsyche(orbitId);
             orbitPopupText(orbitId);
         });
     });
@@ -108,9 +108,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Smooth camera pan and rotate to look at Psyche
-    function panToPsyche() {
+    function panToPsyche(orbitId) {
         const psychePosition = psyche.getAttribute('position');
-        const targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 2 };
+        const cameraRig = document.getElementById('cameraRig');
+        var targetPosition;
+
+        if (orbitId === "orbitA") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2.5, z: parseFloat(psychePosition.z) + 4 };
+        } else if (orbitId === "orbitB") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.75, z: parseFloat(psychePosition.z) + 3.5 };
+        } else if (orbitId === "orbitC") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 3 };
+        } else if (orbitId === "orbitD") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 2 };
+        } else {
+            console.error("Invalid orbitId:", orbitId);
+            return;
+        }
+
         const startPosition = camera.getAttribute('position');
         const steps = 90;
         let step = 0;
@@ -129,9 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Set the camera to look at the Psyche object after panning
                 camera.setAttribute('look-at', '#psyche');
             }
+            
+            
         }, 10);
-        console.log("intial position:", startPosition); // debug
-        console.log("returned position:", camera.getAttribute('position')); // debug
+        
     }
 
     // Highlight selected orbit
