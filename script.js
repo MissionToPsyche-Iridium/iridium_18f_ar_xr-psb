@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
         updateBannerText(storedOrbit);
-        panToPsyche();
+        panToPsyche(storedOrbit);
         orbitPopupText(storedOrbit);
 
         // Clear stored value after applying the functions
