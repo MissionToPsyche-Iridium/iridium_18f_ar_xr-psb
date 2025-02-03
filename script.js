@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
 
     // Check if there's a stored orbit from reference page and apply the functions
-    const storedOrbit = sessionStorage.getItem("selectedOrbit");
+    let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
@@ -30,22 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
     }
-
-    if(window.location.pathname.includes("index.html")){    
-        // Event listeners for each orbit click
-        orbits.forEach(orbitId => {
-            const orbit = document.getElementById(orbitId);
-            orbit.addEventListener('click', (event) => {
-                event.stopPropagation();
-                highlightOrbit(orbitId);
-                transitionToOrbit(orbitId);
-                updateBannerText(orbitId);
-                panToPsyche(orbitId);
-                orbitPopupText(orbitId);
-            });
+ 
+    // Event listeners for each orbit click
+    orbits.forEach(orbitId => {
+        const orbit = document.getElementById(orbitId);
+        orbit.addEventListener('click', (event) => {
+            event.stopPropagation();
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            panToPsyche(orbitId);
+            orbitPopupText(orbitId);
         });
-    }
-    
+    });
 
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
@@ -54,13 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();  // Prevent default link behavior (page reload)
             event.stopPropagation();
             const orbitId = link.getAttribute('data-orbit');
-
-            sessionStorage.setItem("selectedOrbit", orbitId);
-
-            if(window.location.pathname.includes("References.html")){
-                window.location.href = "index.html"
-                return;
-            }
+            console.log(orbitId);
 
             toggleMenu();
             highlightOrbit(orbitId);
@@ -74,12 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to move the object through the selected orbit
     function moveObjectThroughOrbit(orbitId) {
         const orbit = document.getElementById(orbitId);
-        const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
+        //const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
+        const radius = parseFloat(orbit.getAttribute('radius'));
         let angle = 0;
     
         // Get the y position of the orbit
         const orbitY = orbit.object3D.position.y;
-        const orbitX = orbit.object3D.position.x;
+        //const orbitX = orbit.object3D.position.x;
         const orbitZ = orbit.object3D.position.z;
     
         // Set the object visibility to true and position it based on the orbit level
@@ -99,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (orbitId === "orbitD") {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
-                const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
+                //const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
                 movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ}`);
                
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
@@ -116,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Smooth camera pan and rotate to look at Psyche
     function panToPsyche(orbitId) {
         const psychePosition = psyche.getAttribute('position');
-        const cameraRig = document.getElementById('cameraRig');
         var targetPosition;
 
         if (orbitId === "orbitA") {
@@ -150,10 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Set the camera to look at the Psyche object after panning
                 camera.setAttribute('look-at', '#psyche');
             }
-            
-            
         }, 10);
-        
     }
 
     // Highlight selected orbit
@@ -172,18 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
         moveObjectThroughOrbit(orbitId);
     }
 
-    if(window.location.pathname.includes("index.html")){
-        // Show the popup when the page loads
-        window.addEventListener('load', () => {
-            const popup = document.getElementById("instructionPopup");
-            popup.style.display = "block"; // Show the popup
-        
-            // Hide the popup after 5 seconds
-            setTimeout(() => {
-                popup.style.display = "none";
-            }, 5000);
-        });
-    }
+    // Show the popup when the page loads
+    window.addEventListener('load', () => {
+        const popup = document.getElementById("instructionPopup");
+        popup.style.display = "block"; // Show the popup
+    
+        // Hide the popup after 5 seconds
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 5000);
+    });
 
     function orbitPopupText(orbitID){
         const popup = document.getElementById("instructionPopup");
@@ -250,13 +236,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Ensure pop-up remains functional
-    function showPopupMessage(message) {
+    /*function showPopupMessage(message) {
         popupBox.innerText = message;
         popupBox.style.display = "block"; // Ensure it's visible
         setTimeout(() => {
             popupBox.style.display = "none";
         }, 5000); // Hide after 5 seconds
-    }
+    }*/
 
     // Expand/Collapse functionality
     seeMoreBtn.addEventListener("click", function () {
@@ -332,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function textSizeToggle(){
     document.getElementById("textSizeBtn").addEventListener("click", () => {
-        let textElement = document.getElementById("bannerText");
+        let textElement = document.getElementById("orbit-text");
 
         if(textElement.style.fontSize === "16px" || textElement.style.fontSize === ""){
             textElement.style.fontSize = "24px";

@@ -192,6 +192,7 @@ nav{
     max-height: 120px; /* Default max height */
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
+    font-size: 16px;
 }
 
 #see-more-btn {
