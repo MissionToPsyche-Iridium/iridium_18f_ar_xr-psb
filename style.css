@@ -146,6 +146,91 @@ nav{
     display: none; /* Initially hidden */
 }
 
+.textSixeButton{
+    position: absolute;
+    top: 95%;
+    z-index: 10; 
+    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 10px; /* Rounded button */
+}
+
+.countdown-timer-box{
+    position: absolute;
+    top: 10%;
+    right:0%;
+    z-index: 10; 
+    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 10px; /* Rounded button */
+    --text-color: white;
+    color: var(--text-color);
+}
+
+#countdown-timer {
+    margin: 0; /* Remove extra space from <p> */
+    text-align: center;
+    font-size: 18px; /* Adjust size if needed */
+}
+
+.orbit-description {
+    position: absolute;
+    top: 25%;
+    right: 10%; /* Keep it consistently placed */
+    width: 350px; /* Fixed width */
+    max-height: 200px; /* Default height */
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1000;
+    transition: max-height 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Expanded state */
+.orbit-description.expanded {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Ensures positioning remains the same in both portrait & landscape */
+@media (max-width: 768px) { /* Mobile screens */
+    .orbit-description {
+        left: 10px; /* Adjust slightly for smaller screens */
+        width: 90%; /* Maintain readability on small screens */
+    }
+}
+
+#orbit-text {
+    flex-grow: 1; /* Make text area expandable */
+    max-height: 120px; /* Default max height */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    font-size: 16px;
+}
+
+#see-more-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #f47c33;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#see-more-btn:hover {
+    background-color: #ef5966;
+}
+
 /* A-Frame scene styles */
 a-scene {
     margin-top: 80px; /* Push scene below the fixed header */

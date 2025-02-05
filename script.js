@@ -1,8 +1,10 @@
 import { initNavigationMenu, toggleMenu } from "./menu_script.js";
+var countDownDate = new Date("Jul 20, 2029 0:0:0"); //Arrives in late July
 
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
+    textSizeToggle()
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -11,35 +13,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentOrbit = null;
     let moveInterval = null;
     const orbitLinks = document.querySelectorAll('[data-orbit]');
-
+    const orbitText = document.getElementById("orbit-text");
+    const orbitTitle = document.getElementById("orbit-title");
+    const seeMoreBtn = document.getElementById("see-more-btn");
+    const orbitBox = document.querySelector(".orbit-description");
+    const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
+    
     // Check if there's a stored orbit from reference page and apply the functions
-    const storedOrbit = sessionStorage.getItem("selectedOrbit");
+    let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
         updateBannerText(storedOrbit);
-        panToPsyche();
+        panToPsyche(storedOrbit);
         orbitPopupText(storedOrbit);
 
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
     }
-
-    if(window.location.pathname.includes("index.html")){    
-        // Event listeners for each orbit click
-        orbits.forEach(orbitId => {
-            const orbit = document.getElementById(orbitId);
-            orbit.addEventListener('click', (event) => {
-                event.stopPropagation();
-                highlightOrbit(orbitId);
-                transitionToOrbit(orbitId);
-                updateBannerText(orbitId);
-                panToPsyche();
-                orbitPopupText(orbitId);
-            });
+ 
+    // Event listeners for each orbit click
+    orbits.forEach(orbitId => {
+        const orbit = document.getElementById(orbitId);
+        orbit.addEventListener('click', (event) => {
+            event.stopPropagation();
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            panToPsyche(orbitId);
+            orbitPopupText(orbitId);
         });
-    }
-    
+    });
 
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
@@ -48,19 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();  // Prevent default link behavior (page reload)
             event.stopPropagation();
             const orbitId = link.getAttribute('data-orbit');
-
-            sessionStorage.setItem("selectedOrbit", orbitId);
-
-            if(window.location.pathname.includes("References.html")){
-                window.location.href = "index.html"
-                return;
-            }
+            console.log(orbitId);
 
             toggleMenu();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
-            panToPsyche();
+            panToPsyche(orbitId);
             orbitPopupText(orbitId);
         });
     });
@@ -68,12 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to move the object through the selected orbit
     function moveObjectThroughOrbit(orbitId) {
         const orbit = document.getElementById(orbitId);
-        const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
+        //const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
+        const radius = parseFloat(orbit.getAttribute('radius'));
         let angle = 0;
     
         // Get the y position of the orbit
         const orbitY = orbit.object3D.position.y;
-        const orbitX = orbit.object3D.position.x;
+        //const orbitX = orbit.object3D.position.x;
         const orbitZ = orbit.object3D.position.z;
     
         // Set the object visibility to true and position it based on the orbit level
@@ -93,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (orbitId === "orbitD") {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
-                const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
+                //const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
                 movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ}`);
                
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
@@ -108,9 +107,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Smooth camera pan and rotate to look at Psyche
-    function panToPsyche() {
+    function panToPsyche(orbitId) {
         const psychePosition = psyche.getAttribute('position');
-        const targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 2 };
+        var targetPosition;
+
+        if (orbitId === "orbitA") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2, z: parseFloat(psychePosition.z) + 4 };
+        } else if (orbitId === "orbitB") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.75, z: parseFloat(psychePosition.z) + 3.5 };
+        } else if (orbitId === "orbitC") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 3 };
+        } else if (orbitId === "orbitD") {
+            targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 1.5, z: parseFloat(psychePosition.z) + 2 };
+        } else {
+            console.error("Invalid orbitId:", orbitId);
+            return;
+        }
+
         const startPosition = camera.getAttribute('position');
         const steps = 90;
         let step = 0;
@@ -130,8 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 camera.setAttribute('look-at', '#psyche');
             }
         }, 10);
-        console.log("intial position:", startPosition); // debug
-        console.log("returned position:", camera.getAttribute('position')); // debug
     }
 
     // Highlight selected orbit
@@ -148,21 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentOrbit === orbitId) return;
         currentOrbit = orbitId;
         moveObjectThroughOrbit(orbitId);
-        displayInteractiveElement(orbitId); // Add this line
     }
 
-    if(window.location.pathname.includes("index.html")){
-        // Show the popup when the page loads
-        window.addEventListener('load', () => {
-            const popup = document.getElementById("instructionPopup");
-            popup.style.display = "block"; // Show the popup
-        
-            // Hide the popup after 5 seconds
-            setTimeout(() => {
-                popup.style.display = "none";
-            }, 5000);
-        });
-    }
+    // Show the popup when the page loads
+    window.addEventListener('load', () => {
+        const popup = document.getElementById("instructionPopup");
+        popup.style.display = "block"; // Show the popup
+    
+        // Hide the popup after 5 seconds
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 5000);
+    });
 
     function orbitPopupText(orbitID){
         const popup = document.getElementById("instructionPopup");
@@ -200,6 +208,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 20000);
     }
 
+    // Function to load orbit details
+    function loadOrbitDetails(orbitId) {
+        const descriptionFile = `resources/${orbitId}/${orbitId}Description.txt`;
+
+        fetch(descriptionFile)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
+            .then(data => {
+                orbitTitle.innerText = orbitId.replace("orbit", "Orbit ");
+                orbitText.innerText = data;
+
+                // Reset description box to default state
+                orbitBox.classList.remove("expanded");
+                orbitText.style.maxHeight = "120px";
+                orbitText.style.overflow = "hidden";
+
+                // Ensure "See More" button remains visible
+                seeMoreBtn.style.display = "block";
+                seeMoreBtn.innerText = "See More";
+            })
+            .catch(error => {
+                orbitText.innerText = "Orbit information unavailable.";
+                console.error("Error loading orbit file:", error);
+            });
+    }
+    
+    // Ensure pop-up remains functional
+    /*function showPopupMessage(message) {
+        popupBox.innerText = message;
+        popupBox.style.display = "block"; // Ensure it's visible
+        setTimeout(() => {
+            popupBox.style.display = "none";
+        }, 5000); // Hide after 5 seconds
+    }*/
+
+    // Expand/Collapse functionality
+    seeMoreBtn.addEventListener("click", function () {
+        if (orbitBox.classList.contains("expanded")) {
+            orbitBox.classList.remove("expanded");
+            seeMoreBtn.innerText = "See More";
+            orbitText.style.maxHeight = "120px";
+            orbitText.style.overflow = "hidden";
+        } else {
+            orbitBox.classList.add("expanded");
+            seeMoreBtn.innerText = "See Less";
+            orbitText.style.maxHeight = "none"; // Fully expand
+            orbitText.style.overflow = "visible";
+        }
+    });
+
+    // Update description when clicking orbit rings in UI
+    orbits.forEach(orbitId => {
+        const orbit = document.getElementById(orbitId);
+        orbit.addEventListener('click', (event) => {
+            event.stopPropagation();
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            panToPsyche();
+            loadOrbitDetails(orbitId); // Ensures description box updates
+        });
+    });
+
+    // Update description when clicking orbit links in the navigation menu
+    orbitLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const orbitId = link.getAttribute("data-orbit");
+            highlightOrbit(orbitId);
+            transitionToOrbit(orbitId);
+            updateBannerText(orbitId);
+            loadOrbitDetails(orbitId); // Ensures description box updates
+        });
+    });
+
+    // Load stored orbit if coming from another page
+    storedOrbit = sessionStorage.getItem("selectedOrbit");
+    if (storedOrbit) {
+        highlightOrbit(storedOrbit);
+        transitionToOrbit(storedOrbit);
+        updateBannerText(storedOrbit);
+        panToPsyche();
+        loadOrbitDetails(storedOrbit);
+        sessionStorage.removeItem("selectedOrbit");
+    }
+    
     // Change banner text
     function updateBannerText(orbitID){
         const bannerText = document.getElementById("bannerText"); 
@@ -221,114 +317,62 @@ document.addEventListener('DOMContentLoaded', () => {
     window.highlightOrbit = highlightOrbit;
 });
 
-// Function to display a clickable element when an orbit is selected
-function displayInteractiveElement(orbitId) {
-    // Remove any existing interactive elements
-    const existingElement = document.querySelector('#interactiveElement');
-    if (existingElement) existingElement.parentNode.removeChild(existingElement);
+function textSizeToggle(){
+    document.getElementById("textSizeBtn").addEventListener("click", () => {
+        let textElement = document.getElementById("orbit-text");
 
-    // Create a new interactive element
-    const interactiveElement = document.createElement('a-entity');
-    interactiveElement.setAttribute('id', 'interactiveElement');
-    interactiveElement.setAttribute('data-raycastable', ''); 
-    interactiveElement.classList.add('clickable'); 
-
-    // Customize the interactive element based on the selected orbit
-    switch (orbitId) {
-        case 'orbitA':
-            interactiveElement.setAttribute('geometry', 'primitive: sphere; radius: 0.3');
-            interactiveElement.setAttribute('material', 'color: green; opacity: 0.8');
-            interactiveElement.setAttribute('position', '0 1 -3');
-            break;
-        case 'orbitB':
-            interactiveElement.setAttribute('geometry', 'primitive: sphere; radius: 0.4');
-            interactiveElement.setAttribute('material', 'color: blue; opacity: 0.8');
-            interactiveElement.setAttribute('position', '1 1.5 -3.5');
-            break;
-        case 'orbitC':
-            interactiveElement.setAttribute('geometry', 'primitive: sphere; radius: 0.35');
-            interactiveElement.setAttribute('material', 'color: red; opacity: 0.8');
-            interactiveElement.setAttribute('position', '-1 0.8 -2.5');
-            break;
-        case 'orbitD':
-            interactiveElement.setAttribute('geometry', 'primitive: sphere; radius: 0.5');
-            interactiveElement.setAttribute('material', 'color: yellow; opacity: 0.8');
-            interactiveElement.setAttribute('position', '0.5 1.2 -3');
-            break;
-        default:
-            console.error('Unknown orbit ID:', orbitId);
-    }
-
-    // Add click behavior for the element
-    interactiveElement.addEventListener('click', () => {
-        displayInfoWindow(orbitId);
+        if(textElement.style.fontSize === "16px" || textElement.style.fontSize === ""){
+            textElement.style.fontSize = "24px";
+        }
+        else{
+            textElement.style.fontSize = "16px";
+        }
     });
-
-    // Add the element to the scene
-    const scene = document.querySelector('a-scene');
-    scene.appendChild(interactiveElement);
 }
 
-// Function to display the information window
-function displayInfoWindow(orbitId) {
-    // Remove any existing info windows
-    const existingWindow = document.querySelector('#infoWindow');
-    if (existingWindow) document.body.removeChild(existingWindow);
+var x = setInterval(function() {
+    var currentDate = new Date();
+    var years = countDownDate.getFullYear() - currentDate.getFullYear();
+    var months = countDownDate.getMonth() - currentDate.getMonth();
+    var days = countDownDate.getDate() - currentDate.getDate();
+    var hours = countDownDate.getHours() - currentDate.getHours();
+    var minutes = countDownDate.getMinutes() - currentDate.getMinutes();
+    var seconds = countDownDate.getSeconds() - currentDate.getSeconds();
 
-    // Create a new info window
-    const infoWindow = document.createElement('div');
-    infoWindow.setAttribute('id', 'infoWindow');
-    infoWindow.style.position = 'fixed';
-    infoWindow.style.top = '50%';
-    infoWindow.style.left = '50%';
-    infoWindow.style.transform = 'translate(-50%, -50%)';
-    infoWindow.style.width = '300px';
-    infoWindow.style.padding = '20px';
-    infoWindow.style.backgroundColor = '#333';
-    infoWindow.style.color = '#fff';
-    infoWindow.style.borderRadius = '8px';
-    infoWindow.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-    infoWindow.style.zIndex = '1000';
-
-    // Set the information based on the orbit ID
-    switch (orbitId) {
-        case 'orbitA':
-            infoWindow.textContent = 'Orbit A: ';
-            break;
-        case 'orbitB':
-            infoWindow.textContent = 'Orbit B: ';
-            break;
-        case 'orbitC':
-            infoWindow.textContent = 'Orbit C: ';
-            break;
-        case 'orbitD':
-            infoWindow.textContent = 'Orbit D: ';
-            break;
-        default:
-            infoWindow.textContent = 'Unknown Orbit';
+    // Adjust for negative values
+    if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+    }
+    if (minutes < 0) {
+        minutes += 60;
+        hours--;
+    }
+    if (hours < 0) {
+        hours += 24;
+        days--;
+    }
+    if (days < 0) {
+        let prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        days += prevMonth.getDate(); // Get last month's days
+        months--;
+    }
+    if (months < 0) {
+        months += 12;
+        years--;
     }
 
-    // Add a close button to the info window
-    const closeButton = document.createElement('button');
-    closeButton.textContent = '×'; 
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '10px';
-    closeButton.style.right = '10px';
-    closeButton.style.padding = '5px 10px';
-    closeButton.style.border = 'none';
-    closeButton.style.backgroundColor = 'transparent';
-    closeButton.style.color = '#fff';
-    closeButton.style.fontSize = '16px';
-    closeButton.style.cursor = 'pointer';
-    closeButton.style.fontWeight = 'bold';
-    
-    closeButton.addEventListener('click', () => {
-        document.body.removeChild(infoWindow);
-    });
+    // Display the result in the element with id="demo"
+  document.getElementById("countdown-timer").innerHTML = years + "y " + months + "m " + days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
 
-    infoWindow.appendChild(closeButton);
-    document.body.appendChild(infoWindow);
-}
+  // If the count down is finished, write some text
+  if (timeDifference < 0) {
+    clearInterval(x);
+    document.getElementById("countdown-timer").innerHTML = "Arrived at Psyche!";
+  
+    }
+}, 1000)
 
 function displayErrorPage(){
     window.location.href = "/error.html";

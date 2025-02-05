@@ -46,6 +46,23 @@
         <p>Welcome to the AR Experience! Use the menu to explore the Psyche mission's orbits and instruments.</p>
     </div>
 
+    <!-- Text size toggle button -->
+    <button id="textSizeBtn" class="textSixeButton" type="" >
+        <img src="img\icons8-font-size-30.png" alt="" width="30" height="30" id="textSizeIcon">
+    </button>
+    
+    <!-- Orbit Description Box -->
+    <div class="orbit-description text-light bg-dark p-3 rounded">
+        <h5 id="orbit-title">Current Orbit</h5>
+        <p id="orbit-text">Select an orbit to view details.</p>
+        <button id="see-more-btn" class="btn btn-secondary btn-sm">See More</button>
+    </div>
+
+    <!-- Countdown timer -->
+    <div class = "countdown-timer-box">
+        <p id="countdown-timer"></p>
+    </div>
+
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" vr-mode-ui="enabled: false">
 
