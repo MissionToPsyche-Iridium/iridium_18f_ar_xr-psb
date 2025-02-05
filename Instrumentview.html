@@ -19,6 +19,7 @@
             </div>
             <div class="collapse navigation__menu" id="navbarNavInstrument">
                 <ul class="navigation__links">
+                    <li class="navigation__item"><a href="#" id="toggle-satellite">Toggle Satellite</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="gamma">Gamma Ray Spectrometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="magnetometer">Magnetometer</a></li>
@@ -55,12 +56,12 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
 
-        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03" rotation="90 0 0"></a-entity>
+        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 0 0"></a-entity>
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
         <a-entity id="gamma-spectrometer" gltf-model="placeholder" position="-1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="magnetometer" gltf-model="placeholder" position="1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="multispectral-imager" gltf-model="placeholder" position="0 -1.2 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="magnetometer" gltf-model="url(models\magnetometer.glb)" position="1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="multispectral-imager" gltf-model="url(models\imager.glb)" position="0 -1.2 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
 
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
