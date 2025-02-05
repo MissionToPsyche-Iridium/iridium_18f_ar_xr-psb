@@ -156,6 +156,25 @@ nav{
     border-radius: 10px; /* Rounded button */
 }
 
+.countdown-timer-box{
+    position: absolute;
+    top: 10%;
+    right:0%;
+    z-index: 10; 
+    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 10px; /* Rounded button */
+    --text-color: white;
+    color: var(--text-color);
+}
+
+#countdown-timer {
+    margin: 0; /* Remove extra space from <p> */
+    text-align: center;
+    font-size: 18px; /* Adjust size if needed */
+}
+
 .orbit-description {
     position: absolute;
     top: 25%;

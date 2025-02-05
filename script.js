@@ -1,4 +1,5 @@
 import { initNavigationMenu, toggleMenu } from "./menu_script.js";
+var countDownDate = new Date("Jul 20, 2029 0:0:0"); //Arrives in late July
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const seeMoreBtn = document.getElementById("see-more-btn");
     const orbitBox = document.querySelector(".orbit-description");
     const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
-
+    
     // Check if there's a stored orbit from reference page and apply the functions
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
@@ -328,6 +329,50 @@ function textSizeToggle(){
         }
     });
 }
+
+var x = setInterval(function() {
+    var currentDate = new Date();
+    var years = countDownDate.getFullYear() - currentDate.getFullYear();
+    var months = countDownDate.getMonth() - currentDate.getMonth();
+    var days = countDownDate.getDate() - currentDate.getDate();
+    var hours = countDownDate.getHours() - currentDate.getHours();
+    var minutes = countDownDate.getMinutes() - currentDate.getMinutes();
+    var seconds = countDownDate.getSeconds() - currentDate.getSeconds();
+
+    // Adjust for negative values
+    if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+    }
+    if (minutes < 0) {
+        minutes += 60;
+        hours--;
+    }
+    if (hours < 0) {
+        hours += 24;
+        days--;
+    }
+    if (days < 0) {
+        let prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        days += prevMonth.getDate(); // Get last month's days
+        months--;
+    }
+    if (months < 0) {
+        months += 12;
+        years--;
+    }
+
+    // Display the result in the element with id="demo"
+  document.getElementById("countdown-timer").innerHTML = years + "y " + months + "m " + days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (timeDifference < 0) {
+    clearInterval(x);
+    document.getElementById("countdown-timer").innerHTML = "Arrived at Psyche!";
+  
+    }
+}, 1000)
 
 function displayErrorPage(){
     window.location.href = "/error.html";
