@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const seeMoreBtn = document.getElementById("see-more-btn");
     const orbitBox = document.querySelector(".orbit-description");
     const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
+    const instrumentButton = document.getElementById("instrumentButton");
     
     // Check if there's a stored orbit from reference page and apply the functions
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
@@ -206,6 +207,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             popup.style.display = "none";
         }, 20000);
+    }
+
+    //logic for instrument button
+    if (instrumentButton) {
+        console.log("Instrument Button Found!"); // Debugging log
+        instrumentButton.addEventListener("click", function() {
+            window.location.href = "Instrumentview.html";
+        });
+    } else {
+        console.log("Instrument Button NOT Found! Check your HTML.");
     }
 
     // Function to load orbit details

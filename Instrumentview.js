@@ -12,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuButton = document.querySelector("#btnToggleInstrument");
     const closeIconInstrument = document.querySelector("#closeIconInstrument");
     const hamburgerIconInstrument = document.querySelector("#hamburgerIconInstrument");
+    
+    //logic for Orbit view button
+    if (instrumentButton) {
+      console.log("Orbit View Button Found!"); // Debugging log
+      instrumentButton.addEventListener("click", function() {
+          window.location.href = "index.html";
+      });
+  } else {
+      console.log("Orbit View Button NOT Found! Check your HTML.");
+  }
   
     // Instrument data array
     const instrumentsData = [

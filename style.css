@@ -146,6 +146,28 @@ nav{
     display: none; /* Initially hidden */
 }
 
+#instrumentButton {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    position: fixed;
+    width: auto;
+    bottom: 10px;
+    left: 45%;
+    padding: 10px;
+    background-color: var(--gold-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    /* transition: background 0.3s ease-in-out; */
+}
+
+#instrumentButton:hover {
+    background-color: var(--coral-color);
+}
+
 .textSixeButton{
     position: absolute;
     top: 95%;
@@ -177,9 +199,9 @@ nav{
 
 .orbit-description {
     position: absolute;
-    top: 25%;
-    right: 10%; /* Keep it consistently placed */
-    width: 350px; /* Fixed width */
+    bottom: 5px;
+    right: 10px; /* Keep it consistently placed */
+    width: 300px; /* Fixed width */
     max-height: 200px; /* Default height */
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.8);
@@ -287,5 +309,3 @@ a-scene {
         max-height: 40px; /* Keep logo size constant */
     }
 }
-
-
