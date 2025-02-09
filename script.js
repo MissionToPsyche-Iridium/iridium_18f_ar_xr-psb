@@ -374,11 +374,11 @@ var x = setInterval(function() {
     }
 
     // Display the result in the element with id="demo"
-  document.getElementById("countdown-timer").innerHTML = years + "y " + months + "m " + days + "d " + hours + "h "
+  document.getElementById("countdown-timer").innerHTML = "T- " + years + "y " + months + "m " + days + "d " + hours + "h "
   + minutes + "m " + seconds + "s ";
 
   // If the count down is finished, write some text
-  if (timeDifference < 0) {
+  if (years === 0 & months === 0 & days === 0 & hours === 0 & minutes === 0 & seconds === 0) {
     clearInterval(x);
     document.getElementById("countdown-timer").innerHTML = "Arrived at Psyche!";
   
