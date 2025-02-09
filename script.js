@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if there's a stored orbit from reference page and apply the functions
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
+
+        camera.setAttribute('position', {
+            x: 0,
+            y: 1.1,
+            z: -1
+        });
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
         updateBannerText(storedOrbit);
@@ -71,10 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const radius = parseFloat(orbit.getAttribute('radius'));
         let angle = 0;
     
-        // Get the y position of the orbit
-        const orbitY = orbit.object3D.position.y;
-        //const orbitX = orbit.object3D.position.x;
-        const orbitZ = orbit.object3D.position.z;
+        // Get the y position of the orbit (hardcoded due for switching from reference)
+        const orbitY = -1;
+        const orbitZ = -4;
     
         // Set the object visibility to true and position it based on the orbit level
         movingObject.setAttribute('visible', 'true');
@@ -109,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Smooth camera pan and rotate to look at Psyche
     function panToPsyche(orbitId) {
-        const psychePosition = psyche.getAttribute('position');
+        const psychePosition = {x:0,y:-1.2,z:-4}
         var targetPosition;
 
         if (orbitId === "orbitA") {

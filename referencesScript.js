@@ -13,5 +13,5 @@ orbitLinks.forEach(link => {
         sessionStorage.setItem("selectedOrbit", orbitId);
 
         window.location.href = "index.html"
-    }
+    });
 });
