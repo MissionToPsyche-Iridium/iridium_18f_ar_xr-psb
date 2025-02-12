@@ -12,16 +12,6 @@ orbitLinks.forEach(link => {
 
         sessionStorage.setItem("selectedOrbit", orbitId);
 
-        if(window.location.pathname.includes("References.html")){
-            window.location.href = "index.html"
-            return;
-        }
-
-        toggleMenu();
-        highlightOrbit(orbitId);
-        transitionToOrbit(orbitId);
-        updateBannerText(orbitId);
-        panToPsyche(orbitId);
-        orbitPopupText(orbitId);
+        window.location.href = "index.html"
     });
 });
