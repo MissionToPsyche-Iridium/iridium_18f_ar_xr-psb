@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
     textSizeToggle()
+    speechtoggle()
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -387,4 +388,29 @@ var x = setInterval(function() {
 
 function displayErrorPage(){
     window.location.href = "/error.html";
+}
+
+
+function speechtoggle() {
+    document.getElementById("speakButton").addEventListener("click", () => {
+        let textElement = document.getElementById("orbit-text"); // This is the element with the text to be read aloud
+        
+        // Get the text content of the element
+        let textToSpeak = textElement.textContent || textElement.innerText;
+        
+        // Check if SpeechSynthesis is supported
+        if ('speechSynthesis' in window) {
+            let speech = new SpeechSynthesisUtterance(textToSpeak);
+            
+            // Optional: Adjust the properties like rate, pitch, volume, etc.
+            speech.rate = 1; // Speed of speech (1 is normal)
+            speech.pitch = 1; // Pitch of voice (1 is normal)
+            speech.volume = 1; // Volume of voice (1 is normal)
+
+            // Speak the text
+            window.speechSynthesis.speak(speech);
+        } else {
+            alert("Speech synthesis is not supported in this browser.");
+        }
+    });
 }

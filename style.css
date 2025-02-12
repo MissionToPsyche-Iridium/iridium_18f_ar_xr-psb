@@ -178,6 +178,18 @@ nav{
     border-radius: 10px; /* Rounded button */
 }
 
+.speakButton {
+    position: absolute;
+    top: 95%;
+    left: 60px; 
+    z-index: 1001; 
+    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 10px; /* Rounded button */
+}
+
+
 .countdown-timer-box{
     position: absolute;
     top: 10%;
