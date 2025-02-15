@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psyche Satellite Orbit Visualization</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
 </head>
 <body>
     <!-- Fixed Header with specified height -->
@@ -66,9 +67,9 @@
     <div class = "countdown-timer-box">
         <p id="countdown-timer"></p>
     </div>
-
+    
     <!-- A-Frame Scene -->
-    <a-scene background="color: #111" vr-mode-ui="enabled: false">
+    <a-scene draco-decoder-path="draco/" background="color: #111" vr-mode-ui="enabled: false">
 
 
         <a-assets>
@@ -79,14 +80,13 @@
 
 
         <!-- Central Asteroid -->
-        <a-entity s
+        <a-entity 
             id="psyche" 
-            gltf-model="url(models\Psyche-color.glb)" 
+            gltf-model="url(models\asteroid-lowpoly.glb)" 
             position="0 -1.2 -4" 
             scale="0.3 0.3 0.3"
             rotation="90 0 0"
             color="#ffffff"
-           
             >
         </a-entity>
 
