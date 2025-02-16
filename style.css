@@ -192,6 +192,9 @@ nav{
 
 .countdown-timer-box{
     position: absolute;
+    text-align: center;
+    margin-top: 5vh;    /*Makes sure timer isn't covered by nav bar*/
+    padding: 10px 10px 10px 10px;
     top: 10%;
     right:0%;
     z-index: 10; 
@@ -201,6 +204,10 @@ nav{
     border-radius: 10px; /* Rounded button */
     --text-color: white;
     color: var(--text-color);
+}
+#countdown-title{
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 #countdown-timer {

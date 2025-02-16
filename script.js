@@ -334,6 +334,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.highlightOrbit = highlightOrbit;
 });
 
+
+// Allows users to switch to larger text size for greater readability
 function textSizeToggle(){
     document.getElementById("textSizeBtn").addEventListener("click", () => {
         let textElement = document.getElementById("orbit-text");
