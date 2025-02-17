@@ -56,17 +56,21 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
 </div>
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
+
+        <a-light type="ambient" intensity="0.5"></a-light>
+        <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light>
+
         <a-assets>
             <img id="bkgrd" src="img\background.jpg">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
 
-        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 0 0"></a-entity>
+        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
         <a-entity id="gamma-spectrometer" gltf-model="placeholder" position="-1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="magnetometer" gltf-model="url(models\magnetometer.glb)" position="1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="multispectral-imager" gltf-model="url(models\imager.glb)" position="0 -1.2 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="magnetometer" gltf-model="url(models\magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="multispectral-imager" gltf-model="url(models\imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
 
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
