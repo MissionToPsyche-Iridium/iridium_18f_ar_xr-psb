@@ -158,6 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const orbit = document.getElementById(id);
             orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff');
             orbit.setAttribute('opacity', id === selectedId ? '0.7' : '0.25');
+        
+            orbitBox.classList.add("show"); // toggle visibility so orbit info box can be seen
+            //loadOrbitDetails(selectedId);
         });
     }
 

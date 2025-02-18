@@ -217,6 +217,7 @@ nav{
 }
 
 .orbit-description {
+    visibility: hidden; /*don't show it until an orbit has been clicked*/
     position: absolute;
     bottom: 5px;
     right: 10px; /* Keep it consistently placed */
@@ -231,6 +232,10 @@ nav{
     transition: max-height 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
+}
+
+.orbit-description.show{
+    visibility: visible; /*orbit box now visible*/
 }
 
 /* Expanded state */
