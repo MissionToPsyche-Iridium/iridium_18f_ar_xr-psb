@@ -13,8 +13,8 @@
         <div class="row w-100 align-items-center">
             <div class="navigation align-items-center">
                 <button id="btnToggleInstrument" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavInstrument" aria-controls="navbarNavInstrument" aria-expanded="false" aria-label="Toggle navigation">
-                    <img src="/img/hamburger.svg" alt="" width="40" height="24" id="hamburgerIconInstrument">
-                    <img src="/img/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
+                    <img src="/images/hamburger.svg" alt="" width="40" height="24" id="hamburgerIconInstrument">
+                    <img src="/images/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
                 </button>
             </div>
             <div class="collapse navigation__menu" id="navbarNavInstrument">
@@ -24,7 +24,7 @@
                     <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="magnetometer">Magnetometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="multispectral">Multispectral Imager</a></li>
-                    <li class="navigation__item info-icon"><a href="References.html"><img src="/img/info.svg" alt="Info" width="28" height="27"></a></li>
+                    <li class="navigation__item info-icon"><a href="references.html"><img src="/images/info.svg" alt="Info" width="28" height="27"></a></li>
                 </ul>
             </div>
 
@@ -32,7 +32,7 @@
                 <p id="bannerText" class="m-0">Psyche Instruments</p>
             </div>
             <div class="text-end">
-                <img src="img\psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
+                <img src="images\psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
             </div>
         </div>
 
@@ -61,7 +61,7 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
         <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light>
 
         <a-assets>
-            <img id="bkgrd" src="img\background.jpg">
+            <img id="bkgrd" src="images\background.jpg">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
 
@@ -78,7 +78,7 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
             </a-entity>
         </a-entity>
     </a-scene>
-    <script type = "module" src="Instrumentview.js"></script>
+    <script type = "module" src="instrumentViewScript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>

@@ -189,16 +189,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Check which orbit it is
         if (orbitID == "orbitA") {
-            filePath = 'resources/orbitA/orbitAInstructions.txt';
+            filePath = 'texts/orbitA/orbitAInstructions.txt';
         }
         if (orbitID == "orbitB") {
-            filePath = 'resources/orbitB/orbitBInstructions.txt';
+            filePath = 'texts/orbitB/orbitBInstructions.txt';
         }
         if (orbitID == "orbitC") {
-            filePath = 'resources/orbitC/orbitCInstructions.txt';
+            filePath = 'texts/orbitC/orbitCInstructions.txt';
         }
         if (orbitID == "orbitD"){
-            filePath = 'resources/orbitD/orbitDInstructions.txt';
+            filePath = 'texts/orbitD/orbitDInstructions.txt';
         }
             
         // Get the popup text
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load orbit details
     function loadOrbitDetails(orbitId) {
-        const descriptionFile = `resources/${orbitId}/${orbitId}Description.txt`;
+        const descriptionFile = `texts/${orbitId}/${orbitId}Description.txt`;
 
         fetch(descriptionFile)
             .then(response => {
