@@ -131,7 +131,7 @@ nav{
 /* Style for the pop-up */
 .popup {
     position: fixed;
-    top: 20%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.8);
@@ -168,10 +168,11 @@ nav{
     background-color: var(--coral-color);
 }
 
-.textSixeButton{
+.textSizeButton{
     position: absolute;
-    top: 95%;
-    z-index: 10; 
+    top: 90%;
+    margin-left: 10px;
+    z-index: 1001; 
     background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px); /* Glass effect */
@@ -180,8 +181,8 @@ nav{
 
 .speakButton {
     position: absolute;
-    top: 95%;
-    left: 60px; 
+    top: 90%;
+    left: 70px; 
     z-index: 1001; 
     background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -194,6 +195,7 @@ nav{
     position: absolute;
     text-align: center;
     margin-top: 5vh;    /*Makes sure timer isn't covered by nav bar*/
+    margin-right: 10px;
     padding: 10px 10px 10px 10px;
     top: 10%;
     right:0%;
