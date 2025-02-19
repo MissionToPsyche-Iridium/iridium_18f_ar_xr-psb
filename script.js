@@ -1,5 +1,5 @@
-import { initNavigationMenu, toggleMenu } from "./menu_script.js";
-var countDownDate = new Date("Jul 20, 2029 0:0:0"); //Arrives in late July
+import { initNavigationMenu, toggleMenu } from "./menuScript.js";
+var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitPopupText(orbitId);
         });
     });
+    
 
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
@@ -188,16 +189,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Check which orbit it is
         if (orbitID == "orbitA") {
-            filePath = 'resources/orbitA/orbitAInstructions.txt';
+            filePath = 'texts/orbitA/orbitAInstructions.txt';
         }
         if (orbitID == "orbitB") {
-            filePath = 'resources/orbitB/orbitBInstructions.txt';
+            filePath = 'texts/orbitB/orbitBInstructions.txt';
         }
         if (orbitID == "orbitC") {
-            filePath = 'resources/orbitC/orbitCInstructions.txt';
+            filePath = 'texts/orbitC/orbitCInstructions.txt';
         }
         if (orbitID == "orbitD"){
-            filePath = 'resources/orbitD/orbitDInstructions.txt';
+            filePath = 'texts/orbitD/orbitDInstructions.txt';
         }
             
         // Get the popup text
@@ -230,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load orbit details
     function loadOrbitDetails(orbitId) {
-        const descriptionFile = `resources/${orbitId}/${orbitId}Description.txt`;
+        const descriptionFile = `texts/${orbitId}/${orbitId}Description.txt`;
 
         fetch(descriptionFile)
             .then(response => {
@@ -395,6 +396,74 @@ var x = setInterval(function() {
   
     }
 }, 1000)
+
+
+//Touch respose *still needs work*
+/*document.addEventListener("touchstart", (event) => {
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+
+    console.log(`Touch at: X=${touchX}, Y=${touchY}`);
+
+    const scene = document.querySelector("a-scene");
+    const cameraEl = document.getElementById('camera'); // Get the camera entity
+    
+    if (!cameraEl) {
+        alert(`No camera found in scene!`);
+        return;
+    }
+    // Access the camera component
+    const cameraComponent = cameraEl.components.camera;
+
+    if (!cameraComponent) {
+        alert("No camera component found!");
+        return;
+    }
+
+    const camera = cameraComponent.camera;
+
+    if (!camera) {
+        alert("Camera object is missing!");
+        return;
+    }
+    
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const rect = scene.getBoundingClientRect();
+    mouse.x = ((touchX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((touchY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    if (scene.object3D.children.length === 0) {
+        console.log("No objects in the scene for raycasting!");
+        return;
+    }
+
+    const intersects = raycaster.intersectObjects(scene.object3D.children, true);
+
+    if (intersects.length > 0) {
+        const selectedObject = intersects[0].object.el;
+        // Check if the geometry is TorusGeometry
+        //if (selectedObject.geometry && selectedObject.geometry.type === "TorusGeometry") {
+            console.log(`Selected TorusGeometry object:`, selectedObject.id);
+
+            const htmlElement = document.getElementById(selectedObject.id);
+
+            if (htmlElement) {
+                console.log("Matching HTML element:", htmlElement);
+            }
+
+            // Change color or do something with the selected torus object
+            //selectedObject.material.color.set("red"); // Change the color to red
+        //} else {
+        //    console.log("Selected object is not a TorusGeometry.");
+       // }
+    } else {
+        console.log("No objects detected by raycaster.");
+    }
+});*/
 
 function displayErrorPage(){
     window.location.href = "/error.html";
