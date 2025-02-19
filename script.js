@@ -1,4 +1,4 @@
-import { initNavigationMenu, toggleMenu } from "./menu_script.js";
+import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 
 document.addEventListener('DOMContentLoaded', () => {
