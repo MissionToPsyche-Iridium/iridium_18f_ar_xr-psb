@@ -301,18 +301,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const bannerText = document.getElementById("bannerText"); 
         const bannerTextFile = `texts/${orbitId}/banner.txt`;
             
-        // Get the popup text
+        // Get the banner text file
         fetch(bannerTextFile)
-            //Get text
+            // Get text
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
                 return response.text();
             })
 
-            //Put text in popup and display it
+            // Put text in banner
             .then(text => {
                 bannerText.textContent = text;
-                //popupBox.style.display = "block"; // Show the popup
             })
         .catch(error => console.error("Error loading text file:", error));
     }
