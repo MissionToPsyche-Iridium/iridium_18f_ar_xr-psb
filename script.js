@@ -4,7 +4,8 @@ var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
-    textSizeToggle()
+    textSizeToggle();
+    textToSpeak();
     
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
@@ -256,15 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error loading orbit file:", error);
             });
     }
-    
-    // Ensure pop-up remains functional
-    /*function showPopupMessage(message) {
-        popupBox.innerText = message;
-        popupBox.style.display = "block"; // Ensure it's visible
-        setTimeout(() => {
-            popupBox.style.display = "none";
-        }, 5000); // Hide after 5 seconds
-    }*/
 
     // Expand/Collapse functionality
     seeMoreBtn.addEventListener("click", function () {
@@ -336,22 +328,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     window.highlightOrbit = highlightOrbit;
+
+    // Allows users to switch to larger text size for greater readability
+    function textSizeToggle(){
+        document.getElementById("textSizeBtn").addEventListener("click", () => {
+
+            if(orbitText.style.fontSize === "16px" || orbitText.style.fontSize === ""){
+                orbitText.style.fontSize = "20px";
+            }
+            else{
+                orbitText.style.fontSize = "16px";
+            }
+        });
+    }
+
+    function textToSpeak(){
+        document.getElementById("speakButton").addEventListener("click", () => {
+            
+            // Get the text content of the element
+            let textToSpeak = orbitText.textContent || orbitText.innerText;
+            
+            // Check if SpeechSynthesis is supported
+            if ('speechSynthesis' in window) {
+                let speech = new SpeechSynthesisUtterance(textToSpeak);
+                
+                // Optional: Adjust the properties like rate, pitch, volume, etc.
+                speech.rate = 1; // Speed of speech (1 is normal)
+                speech.pitch = 1; // Pitch of voice (1 is normal)
+                speech.volume = 1; // Volume of voice (1 is normal)
+        
+                // Speak the text
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert("Speech synthesis is not supported in this browser.");
+            }
+        });
+    }
 });
 
 
-// Allows users to switch to larger text size for greater readability
-function textSizeToggle(){
-    document.getElementById("textSizeBtn").addEventListener("click", () => {
-        let textElement = document.getElementById("orbit-text");
-
-        if(textElement.style.fontSize === "16px" || textElement.style.fontSize === ""){
-            textElement.style.fontSize = "24px";
-        }
-        else{
-            textElement.style.fontSize = "16px";
-        }
-    });
-}
 
 var x = setInterval(function() {
     var currentDate = new Date();
@@ -468,25 +483,3 @@ var x = setInterval(function() {
 function displayErrorPage(){
     window.location.href = "/error.html";
 }
-
-document.getElementById("speakButton").addEventListener("click", () => {
-    let textElement = document.getElementById("orbit-text"); // This is the element with the text to be read aloud
-    
-    // Get the text content of the element
-    let textToSpeak = textElement.textContent || textElement.innerText;
-    
-    // Check if SpeechSynthesis is supported
-    if ('speechSynthesis' in window) {
-        let speech = new SpeechSynthesisUtterance(textToSpeak);
-        
-        // Optional: Adjust the properties like rate, pitch, volume, etc.
-        speech.rate = 1; // Speed of speech (1 is normal)
-        speech.pitch = 1; // Pitch of voice (1 is normal)
-        speech.volume = 1; // Volume of voice (1 is normal)
-
-        // Speak the text
-        window.speechSynthesis.speak(speech);
-    } else {
-        alert("Speech synthesis is not supported in this browser.");
-    }
-});

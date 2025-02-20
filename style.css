@@ -190,7 +190,6 @@ nav{
     border-radius: 10px; /* Rounded button */
 }
 
-
 .countdown-timer-box{
     position: absolute;
     text-align: center;
@@ -223,7 +222,7 @@ nav{
     position: absolute;
     bottom: 5px;
     right: 10px; /* Keep it consistently placed */
-    width: 300px; /* Fixed width */
+    width: 30%; /* Fixed width */
     max-height: 200px; /* Default height */
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.8);
@@ -249,8 +248,8 @@ nav{
 /* Ensures positioning remains the same in both portrait & landscape */
 @media (max-width: 768px) { /* Mobile screens */
     .orbit-description {
-        left: 10px; /* Adjust slightly for smaller screens */
-        width: 90%; /* Maintain readability on small screens */
+        /*left: 10px;*/ /* Adjust slightly for smaller screens */
+        /*width: 90%;*/ /* Maintain readability on small screens */
     }
 }
 
@@ -333,5 +332,31 @@ a-scene {
 
     .psyche-logo {
         max-height: 40px; /* Keep logo size constant */
+    }
+    .orbit-description {
+        right: 10px; /* Adjust slightly for smaller screens */
+        width: 30%; /* Maintain readability on small screens */
+    }
+
+    .textSizeButton{
+        position: absolute;
+        top: 94%;
+        margin-left: 6px;
+        z-index: 1001; 
+        background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px); /* Glass effect */
+        border-radius: 10px; /* Rounded button */
+    }
+    
+    .speakButton {
+        position: absolute;
+        top: 94%;
+        left: 60px; 
+        z-index: 1001; 
+        background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px); /* Glass effect */
+        border-radius: 10px; /* Rounded button */
     }
 }
