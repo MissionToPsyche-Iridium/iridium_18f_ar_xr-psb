@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
     textSizeToggle()
-    speechtoggle()
+    
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
