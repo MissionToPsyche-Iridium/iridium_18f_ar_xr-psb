@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     textSizeToggle();
     textToSpeak();
     
-    
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
