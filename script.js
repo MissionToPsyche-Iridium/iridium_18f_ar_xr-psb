@@ -183,27 +183,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     });
 
-    function orbitPopupText(orbitID){
-        let filePath;
-
-        // Check which orbit it is
-        if (orbitID == "orbitA") {
-            filePath = 'texts/orbitA/orbitAInstructions.txt';
-        }
-        if (orbitID == "orbitB") {
-            filePath = 'texts/orbitB/orbitBInstructions.txt';
-        }
-        if (orbitID == "orbitC") {
-            filePath = 'texts/orbitC/orbitCInstructions.txt';
-        }
-        if (orbitID == "orbitD"){
-            filePath = 'texts/orbitD/orbitDInstructions.txt';
-        }
+    function orbitPopupText(orbitId){
+        const instructionFile = `texts/${orbitId}/${orbitId}Instructions.txt`;
             
         // Get the popup text
-        fetch(filePath)
+        fetch(instructionFile)
             //Get text
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
 
             //Put text in popup and display it
             .then(text => {
