@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide the popup after 20 seconds
         setTimeout(() => {
             popupBox.style.display = "none";
-        }, 20000);
+        }, 10000);
     }
 
     //logic for instrument button
@@ -297,21 +297,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Change banner text
-    function updateBannerText(orbitID){
+    function updateBannerText(orbitId){
         const bannerText = document.getElementById("bannerText"); 
+        const bannerTextFile = `texts/${orbitId}/banner.txt`;
+            
+        // Get the popup text
+        fetch(bannerTextFile)
+            //Get text
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
 
-        if (orbitID == "orbitA") {
-            bannerText.textContent = "Orbit A";
-        }
-        if (orbitID == "orbitB") {
-            bannerText.textContent = "Orbit B";
-        }
-        if (orbitID == "orbitC") {
-            bannerText.textContent = "Orbit C";
-        }
-        if (orbitID == "orbitD"){
-            bannerText.textContent = "Orbit D";
-        }
+            //Put text in popup and display it
+            .then(text => {
+                bannerText.textContent = text;
+                //popupBox.style.display = "block"; // Show the popup
+            })
+        .catch(error => console.error("Error loading text file:", error));
     }
     window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     window.highlightOrbit = highlightOrbit;
