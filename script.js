@@ -175,17 +175,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the popup when the page loads
     window.addEventListener('load', () => {
-        const popup = document.getElementById("instructionPopup");
-        popup.style.display = "block"; // Show the popup
+        popupBox.style.display = "block"; // Show the popup
     
         // Hide the popup after 5 seconds
         setTimeout(() => {
-            popup.style.display = "none";
+            popupBox.style.display = "none";
         }, 5000);
     });
 
     function orbitPopupText(orbitID){
-        const popup = document.getElementById("instructionPopup");
         let filePath;
 
         // Check which orbit it is
@@ -209,14 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //Put text in popup and display it
             .then(text => {
-                popup.textContent = text;
-                popup.style.display = "block"; // Show the popup
+                popupBox.textContent = text;
+                popupBox.style.display = "block"; // Show the popup
             })
         .catch(error => console.error("Error loading text file:", error));            
 
         // Hide the popup after 20 seconds
         setTimeout(() => {
-            popup.style.display = "none";
+            popupBox.style.display = "none";
         }, 20000);
     }
 
