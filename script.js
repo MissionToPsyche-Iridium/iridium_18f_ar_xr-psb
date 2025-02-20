@@ -4,6 +4,8 @@ var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
+
+    //Attach event listeners
     textSizeToggle();
     textToSpeak();
     
@@ -26,16 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
 
+        //Set inital camera position
         camera.setAttribute('position', {
             x: 0,
             y: 1.1,
             z: -1
         });
+
+        //Perform view change
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
         updateBannerText(storedOrbit);
         panToPsyche(storedOrbit);
         orbitPopupText(storedOrbit);
+        loadOrbitDetails(storedOrbit);
 
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
@@ -45,31 +51,35 @@ document.addEventListener('DOMContentLoaded', () => {
     orbits.forEach(orbitId => {
         const orbit = document.getElementById(orbitId);
         orbit.addEventListener('click', (event) => {
+
+            //Perform view change
             event.stopPropagation();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
             panToPsyche(orbitId);
             orbitPopupText(orbitId);
+            loadOrbitDetails(orbitId);
         });
     });
     
-
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-
             event.preventDefault();  // Prevent default link behavior (page reload)
             event.stopPropagation();
-            const orbitId = link.getAttribute('data-orbit');
-            console.log(orbitId);
 
+            //Get orbit Id
+            const orbitId = link.getAttribute('data-orbit');
+
+            //Perform view change
             toggleMenu();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
             panToPsyche(orbitId);
             orbitPopupText(orbitId);
+            loadOrbitDetails(orbitId);
         });
     });
 
@@ -120,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const psychePosition = {x:0,y:-1.2,z:-4}
         var targetPosition;
 
+        //Move the camera based on selected orbit
         if (orbitId === "orbitA") {
             targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2, z: parseFloat(psychePosition.z) + 4 };
         } else if (orbitId === "orbitB") {
@@ -137,8 +148,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = 90;
         let step = 0;
 
+        //Smooth out camera movement
         const interval = setInterval(() => {
+
+            //Check if camera is in final position
             if (step < steps) {
+
+                //Move camera to next position
                 const t = step / steps;
                 camera.setAttribute('position', {
                     x: startPosition.x + (targetPosition.x - startPosition.x) * t,
@@ -146,8 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     z: startPosition.z + (targetPosition.z - startPosition.z) * t
                 });
                 step++;
+
             } else {
+
+                //Final position reached
                 clearInterval(interval);
+
                 // Set the camera to look at the Psyche object after panning
                 camera.setAttribute('look-at', '#psyche');
             }
@@ -158,9 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightOrbit(selectedId) {
         orbits.forEach(id => {
             const orbit = document.getElementById(id);
+
+            //Change the color
             orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff');
             orbit.setAttribute('opacity', id === selectedId ? '0.7' : '0.25');
         
+            //Show orbit description box
             orbitBox.classList.add("show"); // toggle visibility so orbit info box can be seen
         });
     }
@@ -174,7 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the popup when the page loads
     window.addEventListener('load', () => {
-        popupBox.style.display = "block"; // Show the popup
+        
+        // Show the popup
+        popupBox.style.display = "block"; 
     
         // Hide the popup after 5 seconds
         setTimeout(() => {
@@ -185,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function orbitPopupText(orbitId){
         const instructionFile = `texts/${orbitId}/${orbitId}Instructions.txt`;
             
-        // Get the popup text
+        // Get the popup text file
         fetch(instructionFile)
             //Get text
             .then(response => {
@@ -200,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         .catch(error => console.error("Error loading text file:", error));            
 
-        // Hide the popup after 20 seconds
+        // Hide the popup after 10 seconds
         setTimeout(() => {
             popupBox.style.display = "none";
         }, 10000);
@@ -208,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //logic for instrument button
     if (instrumentButton) {
-        console.log("Instrument Button Found!"); // Debugging log
         instrumentButton.addEventListener("click", function() {
             window.location.href = "Instrumentview.html";
         });
@@ -220,12 +244,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadOrbitDetails(orbitId) {
         const descriptionFile = `texts/${orbitId}/${orbitId}Description.txt`;
 
+        //Get description text file
         fetch(descriptionFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
                 return response.text();
             })
+
+            //Get text
             .then(data => {
+
+                //Change the title to match orbit and add text
                 orbitTitle.innerText = orbitId.replace("orbit", "Orbit ");
                 orbitText.innerText = data;
 
@@ -258,42 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitText.style.overflow = "visible";
         }
     });
-
-    // Update description when clicking orbit rings in UI
-    orbits.forEach(orbitId => {
-        const orbit = document.getElementById(orbitId);
-        orbit.addEventListener('click', (event) => {
-            event.stopPropagation();
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            panToPsyche();
-            loadOrbitDetails(orbitId); // Ensures description box updates
-        });
-    });
-
-    // Update description when clicking orbit links in the navigation menu
-    orbitLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const orbitId = link.getAttribute("data-orbit");
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            loadOrbitDetails(orbitId); // Ensures description box updates
-        });
-    });
-
-    // Load stored orbit if coming from another page
-    storedOrbit = sessionStorage.getItem("selectedOrbit");
-    if (storedOrbit) {
-        highlightOrbit(storedOrbit);
-        transitionToOrbit(storedOrbit);
-        updateBannerText(storedOrbit);
-        panToPsyche();
-        loadOrbitDetails(storedOrbit);
-        sessionStorage.removeItem("selectedOrbit");
-    }
     
     // Change banner text
     function updateBannerText(orbitId){
@@ -321,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function textSizeToggle(){
         document.getElementById("textSizeBtn").addEventListener("click", () => {
 
+            //Check text size and toggle
             if(orbitText.style.fontSize === "16px" || orbitText.style.fontSize === ""){
                 orbitText.style.fontSize = "20px";
             }
@@ -353,8 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
 
 var x = setInterval(function() {
     var currentDate = new Date();
