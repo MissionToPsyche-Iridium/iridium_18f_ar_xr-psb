@@ -15,8 +15,8 @@
             <!-- Hamburger Menu -->
             <div class="navigation align-items-center">
                 <button id="btnToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <img src="images\hamburger.svg" alt="" width="40" height="24" id="hamburgerIcon">
-                    <img src="images\close.svg" alt="" width="28" height="27" id="closeIcon" class="hidden">
+                    <img src="images/hamburger.svg" alt="" width="40" height="24" id="hamburgerIcon">
+                    <img src="images/close.svg" alt="" width="28" height="27" id="closeIcon" class="hidden">
                 </button>
             </div>
             
@@ -40,7 +40,7 @@
 
             <!-- Psyche Mission Logo -->
             <div class="text-end">
-                <img src="images\psycheMissionIco.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
+                <img src="images/psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo img-fluid">
             </div>
         </div>
     </header>
@@ -52,7 +52,7 @@
 
     <!-- Text size toggle button -->
     <button id="textSizeBtn" class="textSizeButton" type="" >
-        <img src="images\icons8-font-size-30.png" alt="" width="30" height="30" id="textSizeIcon">
+        <img src="images/icons8-font-size-30.png" alt="" width="30" height="30" id="textSizeIcon">
     </button>
     
     <!-- Text-to-Speech Button -->
@@ -77,7 +77,7 @@
     <a-scene background="color: #111" vr-mode-ui="enabled: false">
 
         <a-assets>
-            <img id="bkgrd" src="images\background.jpg">
+            <img id="bkgrd" src="images/background.jpg">
         </a-assets>
 
         <a-sky src="#bkgrd"></a-sky>
@@ -86,7 +86,7 @@
         <!-- Central Asteroid -->
         <a-entity s
             id="psyche" 
-            gltf-model="url(models\Psyche-color.glb)" 
+            gltf-model="url(models/Psyche-color.glb)" 
             position="0 -1.2 -4" 
             scale="0.3 0.3 0.3"
             rotation="90 0 0"
@@ -105,7 +105,7 @@
         <!-- Spacecraft -->
         <a-entity 
             id="moving-object" 
-            gltf-model="url(models\PsycheSatellite.glb)" 
+            gltf-model="url(models/PsycheSatellite.glb)" 
             position="1 -1 -4" 
             scale="0.002 0.002 0.002"
             visible="false"
