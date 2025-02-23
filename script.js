@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //logic for instrument button
     if (instrumentButton) {
         instrumentButton.addEventListener("click", function() {
-            window.location.href = "/instrumentView.html";
+            window.location.href = "instrumentView.html";
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
