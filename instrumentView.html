@@ -13,8 +13,8 @@
         <div class="row w-100 align-items-center">
             <div class="navigation align-items-center">
                 <button id="btnToggleInstrument" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavInstrument" aria-controls="navbarNavInstrument" aria-expanded="false" aria-label="Toggle navigation">
-                    <img src="/images/hamburger.svg" alt="" width="40" height="24" id="hamburgerIconInstrument">
-                    <img src="/images/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
+                    <img src="images/hamburger.svg" alt="" width="40" height="24" id="hamburgerIconInstrument">
+                    <img src="images/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
                 </button>
             </div>
             <div class="collapse navigation__menu" id="navbarNavInstrument">
@@ -24,7 +24,7 @@
                     <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="magnetometer">Magnetometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="multispectral">Multispectral Imager</a></li>
-                    <li class="navigation__item info-icon"><a href="references.html"><img src="/images/info.svg" alt="Info" width="28" height="27"></a></li>
+                    <li class="navigation__item info-icon"><a href="references.html"><img src="images/info.svg" alt="Info" width="28" height="27"></a></li>
                 </ul>
             </div>
 
@@ -61,16 +61,16 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
         <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light>
 
         <a-assets>
-            <img id="bkgrd" src="images\background.jpg">
+            <img id="bkgrd" src="images/background.jpg">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
 
-        <a-entity id="spacecraft" gltf-model="url(models\PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>
+        <a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
         <a-entity id="gamma-spectrometer" gltf-model="placeholder" position="-1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="magnetometer" gltf-model="url(models\magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="multispectral-imager" gltf-model="url(models\imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
 
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
@@ -82,4 +82,4 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
-</html>
+</>
