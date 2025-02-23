@@ -247,10 +247,10 @@ nav{
 
 /* Ensures positioning remains the same in both portrait & landscape */
 @media (max-width: 768px) { /* Mobile screens */
-    .orbit-description {
+    /*.orbit-description {
         /*left: 10px;*/ /* Adjust slightly for smaller screens */
         /*width: 90%;*/ /* Maintain readability on small screens */
-    }
+    /*}*/
 }
 
 #orbit-text {
