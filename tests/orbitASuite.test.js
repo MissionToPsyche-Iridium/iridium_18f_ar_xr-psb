@@ -1,6 +1,6 @@
 // TC-002
 const puppeteer = require('puppeteer');
-let url = 'https://127.0.0.1:5500/index.html'
+let url = 'https://127.0.0.1:5501/index.html'
 
 describe('Orbit A scene interaction', () => {
   let browser;
@@ -30,7 +30,6 @@ describe('Orbit A scene interaction', () => {
   });
 
   describe("Orbit A popup test", () => {
-
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
       //Move the cursor to orbitA location
@@ -62,8 +61,7 @@ describe('Orbit A scene interaction', () => {
   });
 
   describe("Orbit A highlight test", ()=>{
-
-    test('Orbit A scene responds to touch', async() => {
+    test('Orbit A is highlighted and spacecraft object is visible when selected', async() => {
   
       //Move the cursor to orbitA location
       await page.mouse.move(300,300);
@@ -84,11 +82,19 @@ describe('Orbit A scene interaction', () => {
       //Check if orbit A has been highlighted
       expect(orbitAColor).toBe('#f9a000'); // Replace with the expected color value*/
     
+      //Check if spacecraft is visible
+      const isSpacecraftVisible = await page.evaluate(() => {
+        const spacecraft = document.querySelector('#moving-object');
+        if(!spacecraft) return false;
+
+        const isVisible = spacecraft.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isSpacecraftVisible).toBe(true);  // Ensure it's visible
     }, 10000);
   });
 
   describe("Orbit A motion test", () => {
-
     test('Scene responds to motion', async () => {
 
       //Move the cursor to orbitA location
@@ -126,5 +132,4 @@ describe('Orbit A scene interaction', () => {
       expect(updatedPosition).not.toBe(initialPosition);    
     }, 10000);
   });
-
 });

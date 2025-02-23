@@ -1,6 +1,6 @@
 // TC-001
 const puppeteer = require('puppeteer');
-let url = 'https://127.0.0.1:5500/index.html'
+let url = 'https://127.0.0.1:5501/index.html'
 
 describe('AR Web App', () => {
   let browser;
@@ -38,16 +38,16 @@ describe('AR Web App', () => {
       expect(asteroidExists).not.toBeNull();
 
       const orbitDExists = await page.$('#orbitD');
-      expect(asteroidExists).not.toBeNull();
+      expect(orbitDExists).not.toBeNull();
 
       const orbitCExists = await page.$('#orbitC');
-      expect(asteroidExists).not.toBeNull();
+      expect(orbitCExists).not.toBeNull();
 
       const orbitBExists = await page.$('#orbitB');
-      expect(asteroidExists).not.toBeNull();
+      expect(orbitBExists).not.toBeNull();
 
       const orbitAExists = await page.$('#orbitA');
-      expect(asteroidExists).not.toBeNull();
+      expect(orbitAExists).not.toBeNull();
 
       //Ensure the model has been loaded using the `model-loaded` event
       const asteroidLoaded = await page.evaluate(() => {
@@ -113,27 +113,6 @@ describe('AR Web App', () => {
     }, 10000);
   });
 
-  describe("Main view popup test", () => {
-
-    test('Instruction popup appears and disappears after 5 seconds', async () => {
-      //Get popup object
-      const popupVisible = await page.$('#instructionPopup');
-  
-      //Ensure popup is visible
-      const popupDisplay = await page.evaluate(popup => popup.style.display, popupVisible);
-      expect(popupDisplay).toBe('block');  
-  
-      //Wait for 5 seconds for timeout
-      await page.evaluate(() => new Promise(resolve => 
-        setTimeout(resolve, 5500)
-      ));
-  
-      //Ensure the popup is hidden after the timeout
-      const popupDisplayAfter5s = await page.evaluate(popup => popup.style.display, popupVisible);
-      expect(popupDisplayAfter5s).toBe('none');
-    }, 10000);
-  });
-
   describe("Main view touch response test", () => {
 
     test('Scene responds to touch', async () => {
@@ -192,4 +171,24 @@ describe('AR Web App', () => {
 
   });
 
+  describe("Main view popup test", () => {
+
+    test('Instruction popup appears and disappears after 5 seconds', async () => {
+      //Get popup object
+      const popupVisible = await page.$('#instructionPopup');
+  
+      //Ensure popup is visible
+      const popupDisplay = await page.evaluate(popup => popup.style.display, popupVisible);
+      expect(popupDisplay).toBe('block');  
+  
+      //Wait for 5 seconds for timeout
+      await page.evaluate(() => new Promise(resolve => 
+        setTimeout(resolve, 5500)
+      ));
+  
+      //Ensure the popup is hidden after the timeout
+      const popupDisplayAfter5s = await page.evaluate(popup => popup.style.display, popupVisible);
+      expect(popupDisplayAfter5s).toBe('none');
+    }, 10000);
+  });
 });
