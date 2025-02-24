@@ -33,13 +33,13 @@ describe('Orbit D scene interaction', () => {
 
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
-      //Move the cursor to orbitA location
+      //Move the cursor to orbitD location
       await page.mouse.move(300,300);
       await page.mouse.down();
       await page.mouse.move(400,500);
       await page.mouse.up();
   
-      //Highlight orbitA
+      //Highlight orbitD
       await page.mouse.down();
       await page.mouse.up();
       
@@ -65,7 +65,7 @@ describe('Orbit D scene interaction', () => {
 
     test('Orbit D scene responds to touch', async() => {
   
-      //Move the cursor to orbitA location
+      //Move the cursor to orbitD location
       await page.mouse.move(300,300);
       await page.mouse.down();
       await page.mouse.move(400,500);
@@ -76,13 +76,13 @@ describe('Orbit D scene interaction', () => {
       await page.mouse.up();
   
       //Get orbit D's color
-      const orbitAColor = await page.evaluate(() => {
-          const orbitA = document.querySelector('#orbitD');
-          return orbitA.getAttribute('color');
+      const orbitDColor = await page.evaluate(() => {
+          const orbitD = document.querySelector('#orbitD');
+          return orbitD.getAttribute('color');
       });
   
       //Check if orbit D has been highlighted
-      expect(orbitAColor).toBe('#f9a000'); // Replace with the expected color value*/
+      expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value*/
     
     }, 10000);
   });
@@ -91,13 +91,13 @@ describe('Orbit D scene interaction', () => {
 
     test('Scene responds to motion', async () => {
 
-      //Move the cursor to orbitA location
+      //Move the cursor to orbitD location
       await page.mouse.move(300,300);
       await page.mouse.down();
       await page.mouse.move(500,500);
       await page.mouse.up();
   
-      //Highlight orbitA
+      //Highlight orbitD
       await page.mouse.down();
       await page.mouse.up();
      

@@ -17,13 +17,16 @@
                     <img src="images/close.svg" alt="" width="28" height="27" id="closeIconInstrument" class="hidden">
                 </button>
             </div>
+
+            <!-- Items in list are in order of associated orbits A - D-->
             <div class="collapse navigation__menu" id="navbarNavInstrument">
                 <ul class="navigation__links">
-                    <li class="navigation__item"><a href="#" id="toggle-satellite">Toggle Satellite</a></li>
-                    <li class="navigation__item"><a href="#" data-instrument="gamma">Gamma Ray Spectrometer</a></li>
-                    <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
+                    <li class="navigation__item"><a href="#" id="toggle-satellite">Psyche Spacecraft</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="magnetometer">Magnetometer</a></li>
                     <li class="navigation__item"><a href="#" data-instrument="multispectral">Multispectral Imager</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="xband-radio">X-band Radio</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="gamma">Gamma Ray Spectrometer</a></li>
+                    <li class="navigation__item"><a href="#" data-instrument="neutron">Neutron Spectrometer</a></li>
                     <li class="navigation__item info-icon"><a href="references.html"><img src="images/info.svg" alt="Info" width="28" height="27"></a></li>
                 </ul>
             </div>
@@ -37,23 +40,24 @@
         </div>
 
         <!-- Orbit View button -->
-        <button id="instrumentButton" class="btn btn-primary">Go to Orbit View</button>
+        <button id="instrumentButton" class="btn btn-primary">Return to Orbit View</button>
 
     </header>
 
     
     <!-- Instrument Information Text Box -->
-<div class="Sample Data text-light bg-dark p-3 rounded position-absolute" 
-style="top: 100px; left: 20px; width: 300px; opacity: 0.45; z-index: 1000;">
-<h5 id="Sample Data">Sample Data</h5>
-<p id="infoDescription">This is where the description of the selected instrument will appear.</p>
-</div>
+    <div class="Sample Data text-light bg-dark p-3 rounded position-absolute" 
+    style="top: 100px; left: 20px; width: 300px; opacity: 0.45; z-index: 1000;">
+    <h5 id="Sample Data">Sample Data</h5>
+    <p id="infoDescription">This is where the description of the selected instrument will appear.</p>
+    </div>
 
-<div class="instrument-details text-light bg-dark p-3 rounded position-absolute" 
-style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
-<h5 id="instrument-details">Instrument details</h5>
-<p id="infoDescription">This is where the description of the selected instrument will appear.</p>
-</div>
+    <div class="instrument-details text-light bg-dark p-3 rounded position-absolute" 
+    style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
+    <h5 id="instrument-details">Instrument details</h5>
+    <p id="infoDescription">This is where the description of the selected instrument will appear.</p>
+    </div>
+
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
 
@@ -71,7 +75,9 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
         <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="xband-radio" gltf-model="url(models/xbandradio.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
 
+        
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
                 <a-cursor raycaster="objects: [data-instrument]"></a-cursor>
@@ -82,4 +88,3 @@ style="top: 100px; left: 600px; width: 300px; opacity: 0.45; z-index: 1000;">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
-</>

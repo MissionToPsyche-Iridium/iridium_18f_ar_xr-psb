@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
       neutron: document.querySelector("#neutron-spectrometer"),
       magnetometer: document.querySelector("#magnetometer"),
       multispectral: document.querySelector("#multispectral-imager"),
+      xband: document.querySelector("#xband-radio")
     };
   
     const dataBox = document.querySelector(".Sample.Data");
@@ -48,6 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
         name: "Multispectral Imager",
         modelId: "multispectral-imager",
         description: "The Multispectral Imager captures high-resolution images in different wavelengths to analyze Psyche's surface composition and features."
+      },
+      {
+        id: "xband",
+        name: "X-band Radio",
+        modelId: "xband-radio",
+        description: "The X-band Radio Telecommunications System measures Psyche's gravity field to high precision."
       }
     ];
   
