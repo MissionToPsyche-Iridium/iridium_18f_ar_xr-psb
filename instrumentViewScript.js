@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Attach event listeners to menu items to toggle visibility of instruments
   document.querySelectorAll(".navigation__links a").forEach(link => {
     link.addEventListener("click", event => {
-      event.preventDefault();
       const instrumentKey = event.target.dataset.instrument;
 
       toggleMenu();
@@ -108,6 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Handle the instrument visibility based on selection
       handleInstrumentToggle(instrumentKey);
+      
+      // Show the data box and instrument details after closing the menu on for instruments
+      if(instrumentKey){
+        dataBox.style.display = "block";
+        instrumentDetailsBox.style.display = "block";
+      }
     });
   });
   
@@ -128,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Toggle the visibility of the menu and data box when clicking the menu button
   menuButton.addEventListener("click", () => {
-    collapse.toggle(); 
+    //collapse.toggle(); 
     const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
     if (isExpanded) {
       // Close the menu
@@ -150,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Close the menu and show the data box and instrument details when clicking the close icon
   closeIconInstrument.addEventListener("click", () => {
-    toggleMenu();
+    
     // Close the menu and toggle icons
     hamburgerIconInstrument.classList.toggle("hidden");
     closeIconInstrument.classList.toggle("hidden");
@@ -158,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show the data box and instrument details after closing the menu
     dataBox.style.display = "block";
     instrumentDetailsBox.style.display = "block";
+    toggleMenu();
   });
 });
   
