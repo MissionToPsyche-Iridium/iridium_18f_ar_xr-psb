@@ -4,8 +4,10 @@ var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
-    textSizeToggle()
-    
+
+    //Attach event listeners
+    textSizeToggle();
+    textToSpeak();
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -25,16 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
 
+        //Set inital camera position
         camera.setAttribute('position', {
             x: 0,
             y: 1.1,
             z: -1
         });
+
+        //Perform view change
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
         updateBannerText(storedOrbit);
         panToPsyche(storedOrbit);
         orbitPopupText(storedOrbit);
+        loadOrbitDetails(storedOrbit);
 
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
@@ -44,31 +50,35 @@ document.addEventListener('DOMContentLoaded', () => {
     orbits.forEach(orbitId => {
         const orbit = document.getElementById(orbitId);
         orbit.addEventListener('click', (event) => {
+
+            //Perform view change
             event.stopPropagation();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
             panToPsyche(orbitId);
             orbitPopupText(orbitId);
+            loadOrbitDetails(orbitId);
         });
     });
     
-
     // Event listeners for each navigation menu link
     orbitLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-
             event.preventDefault();  // Prevent default link behavior (page reload)
             event.stopPropagation();
-            const orbitId = link.getAttribute('data-orbit');
-            console.log(orbitId);
 
+            //Get orbit Id
+            const orbitId = link.getAttribute('data-orbit');
+
+            //Perform view change
             toggleMenu();
             highlightOrbit(orbitId);
             transitionToOrbit(orbitId);
             updateBannerText(orbitId);
             panToPsyche(orbitId);
             orbitPopupText(orbitId);
+            loadOrbitDetails(orbitId);
         });
     });
 
@@ -119,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const psychePosition = {x:0,y:-1.2,z:-4}
         var targetPosition;
 
+        //Move the camera based on selected orbit
         if (orbitId === "orbitA") {
             targetPosition = { x: parseFloat(psychePosition.x), y: parseFloat(psychePosition.y) + 2, z: parseFloat(psychePosition.z) + 4 };
         } else if (orbitId === "orbitB") {
@@ -136,8 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = 90;
         let step = 0;
 
+        //Smooth out camera movement
         const interval = setInterval(() => {
+
+            //Check if camera is in final position
             if (step < steps) {
+
+                //Move camera to next position
                 const t = step / steps;
                 camera.setAttribute('position', {
                     x: startPosition.x + (targetPosition.x - startPosition.x) * t,
@@ -145,8 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     z: startPosition.z + (targetPosition.z - startPosition.z) * t
                 });
                 step++;
+
             } else {
+
+                //Final position reached
                 clearInterval(interval);
+
                 // Set the camera to look at the Psyche object after panning
                 camera.setAttribute('look-at', '#psyche');
             }
@@ -157,11 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function highlightOrbit(selectedId) {
         orbits.forEach(id => {
             const orbit = document.getElementById(id);
+
+            //Change the color
             orbit.setAttribute('color', id === selectedId ? '#f9a000' : '#ffffff');
             orbit.setAttribute('opacity', id === selectedId ? '0.7' : '0.25');
         
+            //Show orbit description box
             orbitBox.classList.add("show"); // toggle visibility so orbit info box can be seen
-            //loadOrbitDetails(selectedId);
         });
     }
 
@@ -174,56 +196,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the popup when the page loads
     window.addEventListener('load', () => {
-        const popup = document.getElementById("instructionPopup");
-        popup.style.display = "block"; // Show the popup
+        
+        // Show the popup
+        popupBox.style.display = "block"; 
     
         // Hide the popup after 5 seconds
         setTimeout(() => {
-            popup.style.display = "none";
+            popupBox.style.display = "none";
         }, 5000);
     });
 
-    function orbitPopupText(orbitID){
-        const popup = document.getElementById("instructionPopup");
-        let filePath;
-
-        // Check which orbit it is
-        if (orbitID == "orbitA") {
-            filePath = 'texts/orbitA/orbitAInstructions.txt';
-        }
-        if (orbitID == "orbitB") {
-            filePath = 'texts/orbitB/orbitBInstructions.txt';
-        }
-        if (orbitID == "orbitC") {
-            filePath = 'texts/orbitC/orbitCInstructions.txt';
-        }
-        if (orbitID == "orbitD"){
-            filePath = 'texts/orbitD/orbitDInstructions.txt';
-        }
+    function orbitPopupText(orbitId){
+        const instructionFile = `texts/${orbitId}/${orbitId}Instructions.txt`;
             
-        // Get the popup text
-        fetch(filePath)
+        // Get the popup text file
+        fetch(instructionFile)
             //Get text
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
 
             //Put text in popup and display it
             .then(text => {
-                popup.textContent = text;
-                popup.style.display = "block"; // Show the popup
+                popupBox.textContent = text;
+                popupBox.style.display = "block"; // Show the popup
             })
         .catch(error => console.error("Error loading text file:", error));            
 
-        // Hide the popup after 20 seconds
+        // Hide the popup after 10 seconds
         setTimeout(() => {
-            popup.style.display = "none";
-        }, 20000);
+            popupBox.style.display = "none";
+        }, 10000);
     }
 
     //logic for instrument button
     if (instrumentButton) {
-        console.log("Instrument Button Found!"); // Debugging log
         instrumentButton.addEventListener("click", function() {
-            window.location.href = "Instrumentview.html";
+            window.location.href = "instrumentView.html";
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
@@ -233,12 +243,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadOrbitDetails(orbitId) {
         const descriptionFile = `texts/${orbitId}/${orbitId}Description.txt`;
 
+        //Get description text file
         fetch(descriptionFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
                 return response.text();
             })
+
+            //Get text
             .then(data => {
+
+                //Change the title to match orbit and add text
                 orbitTitle.innerText = orbitId.replace("orbit", "Orbit ");
                 orbitText.innerText = data;
 
@@ -256,15 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error loading orbit file:", error);
             });
     }
-    
-    // Ensure pop-up remains functional
-    /*function showPopupMessage(message) {
-        popupBox.innerText = message;
-        popupBox.style.display = "block"; // Ensure it's visible
-        setTimeout(() => {
-            popupBox.style.display = "none";
-        }, 5000); // Hide after 5 seconds
-    }*/
 
     // Expand/Collapse functionality
     seeMoreBtn.addEventListener("click", function () {
@@ -280,78 +286,66 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitText.style.overflow = "visible";
         }
     });
-
-    // Update description when clicking orbit rings in UI
-    orbits.forEach(orbitId => {
-        const orbit = document.getElementById(orbitId);
-        orbit.addEventListener('click', (event) => {
-            event.stopPropagation();
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            panToPsyche();
-            loadOrbitDetails(orbitId); // Ensures description box updates
-        });
-    });
-
-    // Update description when clicking orbit links in the navigation menu
-    orbitLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const orbitId = link.getAttribute("data-orbit");
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            loadOrbitDetails(orbitId); // Ensures description box updates
-        });
-    });
-
-    // Load stored orbit if coming from another page
-    storedOrbit = sessionStorage.getItem("selectedOrbit");
-    if (storedOrbit) {
-        highlightOrbit(storedOrbit);
-        transitionToOrbit(storedOrbit);
-        updateBannerText(storedOrbit);
-        panToPsyche();
-        loadOrbitDetails(storedOrbit);
-        sessionStorage.removeItem("selectedOrbit");
-    }
     
     // Change banner text
-    function updateBannerText(orbitID){
+    function updateBannerText(orbitId){
         const bannerText = document.getElementById("bannerText"); 
+        const bannerTextFile = `texts/${orbitId}/banner.txt`;
+            
+        // Get the banner text file
+        fetch(bannerTextFile)
+            // Get text
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
 
-        if (orbitID == "orbitA") {
-            bannerText.textContent = "Orbit A";
-        }
-        if (orbitID == "orbitB") {
-            bannerText.textContent = "Orbit B";
-        }
-        if (orbitID == "orbitC") {
-            bannerText.textContent = "Orbit C";
-        }
-        if (orbitID == "orbitD"){
-            bannerText.textContent = "Orbit D";
-        }
+            // Put text in banner
+            .then(text => {
+                bannerText.textContent = text;
+            })
+        .catch(error => console.error("Error loading text file:", error));
     }
     window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     window.highlightOrbit = highlightOrbit;
+
+    // Allows users to switch to larger text size for greater readability
+    function textSizeToggle(){
+        document.getElementById("textSizeBtn").addEventListener("click", () => {
+
+            //Check text size and toggle
+            if(orbitText.style.fontSize === "16px" || orbitText.style.fontSize === ""){
+                orbitText.style.fontSize = "20px";
+            }
+            else{
+                orbitText.style.fontSize = "16px";
+            }
+        });
+    }
+
+    function textToSpeak(){
+        document.getElementById("speakButton").addEventListener("click", () => {
+            
+            // Get the text content of the element
+            let textToSpeak = orbitText.textContent || orbitText.innerText;
+            
+            // Check if SpeechSynthesis is supported
+            if ('speechSynthesis' in window) {
+                let speech = new SpeechSynthesisUtterance(textToSpeak);
+                
+                // Optional: Adjust the properties like rate, pitch, volume, etc.
+                speech.rate = 1; // Speed of speech (1 is normal)
+                speech.pitch = 1; // Pitch of voice (1 is normal)
+                speech.volume = 1; // Volume of voice (1 is normal)
+        
+                // Speak the text
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert("Speech synthesis is not supported in this browser.");
+            }
+        });
+    }
 });
-
-
-// Allows users to switch to larger text size for greater readability
-function textSizeToggle(){
-    document.getElementById("textSizeBtn").addEventListener("click", () => {
-        let textElement = document.getElementById("orbit-text");
-
-        if(textElement.style.fontSize === "16px" || textElement.style.fontSize === ""){
-            textElement.style.fontSize = "24px";
-        }
-        else{
-            textElement.style.fontSize = "16px";
-        }
-    });
-}
 
 var x = setInterval(function() {
     var currentDate = new Date();
@@ -468,6 +462,9 @@ var x = setInterval(function() {
 function displayErrorPage(){
     window.location.href = "/error.html";
 }
+
+let isSpeakingEnabled = 0; // 0 means off, 1 means on
+let speech = null; // Store the speech instance
 
 let isSpeakingEnabled = 0; // 0 means off, 1 means on
 let speech = null; // Store the speech instance
