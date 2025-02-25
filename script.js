@@ -469,24 +469,37 @@ function displayErrorPage(){
     window.location.href = "/error.html";
 }
 
-document.getElementById("speakButton").addEventListener("click", () => {
-    let textElement = document.getElementById("orbit-text"); // This is the element with the text to be read aloud
-    
-    // Get the text content of the element
-    let textToSpeak = textElement.textContent || textElement.innerText;
-    
-    // Check if SpeechSynthesis is supported
-    if ('speechSynthesis' in window) {
-        let speech = new SpeechSynthesisUtterance(textToSpeak);
-        
-        // Optional: Adjust the properties like rate, pitch, volume, etc.
-        speech.rate = 1; // Speed of speech (1 is normal)
-        speech.pitch = 1; // Pitch of voice (1 is normal)
-        speech.volume = 1; // Volume of voice (1 is normal)
+let isSpeakingEnabled = 0; // 0 means off, 1 means on
+let speech = null; // Store the speech instance
 
-        // Speak the text
-        window.speechSynthesis.speak(speech);
+document.getElementById("speakButton").addEventListener("click", () => {     
+    if (isSpeakingEnabled === 0) {
+        isSpeakingEnabled = 1; // Enable speaking
+        
+        let textElement = document.getElementById("orbit-text"); // Get the text element
+        let textToSpeak = textElement.textContent || textElement.innerText; // Extract text
+        
+        if ('speechSynthesis' in window) {
+            speech = new SpeechSynthesisUtterance(textToSpeak);
+            
+            // Optional: Adjust properties like rate, pitch, volume
+            speech.rate = 1;
+            speech.pitch = 1;
+            speech.volume = 1;
+
+            // Speak the text
+            window.speechSynthesis.speak(speech);
+
+            // When speech ends, reset the toggle
+            speech.onend = () => {
+                isSpeakingEnabled = 0;
+            };
+        } else {
+            alert("Speech synthesis is not supported in this browser.");
+        }
     } else {
-        alert("Speech synthesis is not supported in this browser.");
+        // If already speaking, stop speech and reset toggle
+        isSpeakingEnabled = 0;
+        window.speechSynthesis.cancel(); // Stops any ongoing speech
     }
 });
