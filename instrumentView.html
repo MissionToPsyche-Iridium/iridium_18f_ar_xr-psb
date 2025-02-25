@@ -68,14 +68,31 @@
             <img id="bkgrd" src="images/background.jpg">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
+        
+        <!--<a-light type="point" position="0 2 -3" intensity="1.5" color="whites"></a-light>-->
+        <a-light type="point" position="-3 -5 7" intensity="1.5" color="whites"></a-light>
 
-        <a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>
+        <!--old position-->
+        <!--<a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>-->
+        <!--new position-->
+        <a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="1 -1.2 -8" scale="0.03 0.03 0.03"visible="true" rotation="90 -50 0"></a-entity>
+        
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
         <a-entity id="gamma-spectrometer" gltf-model="placeholder" position="-1 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
         <a-entity id="neutron-spectrometer" gltf-model="placeholder" position="0 -1.2 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>
-        <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        
+        <!--old position-->
+        <!--<a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>-->
+        <!--new position-->
+        <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+
+        <!--old position-->
+        <!--<a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>-->
+        <!--new position-->
+        <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="-0.3 .7 -5" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0"></a-entity>
+
         <a-entity id="xband-radio" gltf-model="url(models/xbandradio.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>
+
 
         
         <a-entity id="cameraRig">

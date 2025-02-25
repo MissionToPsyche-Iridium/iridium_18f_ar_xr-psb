@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide the popup after 10 seconds
         setTimeout(() => {
             popupBox.style.display = "none";
-        }, 10000);
+        }, 5000);
     }
 
     //logic for instrument button
