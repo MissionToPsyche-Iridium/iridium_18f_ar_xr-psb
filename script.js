@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Attach event listeners
     textSizeToggle();
-    textToSpeak();
+  
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -463,40 +463,47 @@ function displayErrorPage(){
     window.location.href = "/error.html";
 }
 
-let isSpeakingEnabled = 0; // 0 means off, 1 means on
-let speech = null; // Store the speech instance
-
-let isSpeakingEnabled = 0; // 0 means off, 1 means on
-let speech = null; // Store the speech instance
+let isSpeaking = false;
+let speech = null;
 
 document.getElementById("speakButton").addEventListener("click", () => {     
-    if (isSpeakingEnabled === 0) {
-        isSpeakingEnabled = 1; // Enable speaking
-        
-        let textElement = document.getElementById("orbit-text"); // Get the text element
-        let textToSpeak = textElement.textContent || textElement.innerText; // Extract text
-        
-        if ('speechSynthesis' in window) {
-            speech = new SpeechSynthesisUtterance(textToSpeak);
-            
-            // Optional: Adjust properties like rate, pitch, volume
-            speech.rate = 1;
-            speech.pitch = 1;
-            speech.volume = 1;
+    if (isSpeaking) {
+        // Interrupt ongoing speech
+        window.speechSynthesis.cancel();
+        isSpeaking = false; 
+        return;
+    }
 
-            // Speak the text
-            window.speechSynthesis.speak(speech);
+    let textElement = document.getElementById("orbit-text");
+    let textToSpeak = textElement.textContent || textElement.innerText;
 
-            // When speech ends, reset the toggle
-            speech.onend = () => {
-                isSpeakingEnabled = 0;
-            };
-        } else {
-            alert("Speech synthesis is not supported in this browser.");
-        }
+    if ('speechSynthesis' in window) {
+        // Ensure any ongoing speech is stopped before starting new speech
+        window.speechSynthesis.cancel();
+
+        speech = new SpeechSynthesisUtterance(textToSpeak);
+        speech.rate = 1;
+        speech.pitch = 1;
+        speech.volume = 1;
+
+        isSpeaking = true; // Set flag to track speech state
+
+        window.speechSynthesis.speak(speech);
+
+        // Ensure the flag resets when speech is done
+        speech.onend = () => {
+            isSpeaking = false;
+        };
+
+        // Handle interruptions properly
+        speech.onpause = () => {
+            isSpeaking = false;
+        };
+
+        speech.oncancel = () => {
+            isSpeaking = false;
+        };
     } else {
-        // If already speaking, stop speech and reset toggle
-        isSpeakingEnabled = 0;
-        window.speechSynthesis.cancel(); // Stops any ongoing speech
+        alert("Speech synthesis is not supported in this browser.");
     }
 });
