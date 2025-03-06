@@ -393,89 +393,57 @@ var x = setInterval(function() {
 
 
 //Touch respose *still needs work*
-document.addEventListener("DOMContentLoaded", () => {
-    const scene = document.querySelector("a-scene");
-    const cameraRig = document.querySelector("#cameraRig");
-    const camera = document.querySelector("#camera");
-    const movingObject = document.querySelector("#moving-object");
+AFRAME.registerComponent("orbit-controls", {
+    init: function () {
+        let cameraRig = document.querySelector("#cameraRig");
+        let sceneEl = this.el;
 
-    let initialDistance = 0;
-    let initialScale = 1;
-    let isDragging = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    // Handle Touch Events
-    scene.addEventListener("touchstart", (event) => {
-        if (event.touches.length === 1) {
-            isDragging = true;
-            lastX = event.touches[0].clientX;
-            lastY = event.touches[0].clientY;
-        } else if (event.touches.length === 2) {
-            isDragging = false;
-            initialDistance = getTouchDistance(event.touches);
-            initialScale = cameraRig.object3D.scale.x; // Get current zoom scale
-        }
-    });
-
-    scene.addEventListener("touchmove", (event) => {
-        if (isDragging && event.touches.length === 1) {
-            let deltaX = event.touches[0].clientX - lastX;
-            let deltaY = event.touches[0].clientY - lastY;
-            lastX = event.touches[0].clientX;
-            lastY = event.touches[0].clientY;
-
-            cameraRig.object3D.rotation.y -= deltaX * 0.002; // Rotate horizontally
-            cameraRig.object3D.rotation.x -= deltaY * 0.002; // Rotate vertically
-        } else if (event.touches.length === 2) {
-            let newDistance = getTouchDistance(event.touches);
-            let scaleFactor = newDistance / initialDistance;
-            let newScale = initialScale * scaleFactor;
-
-            // Limit zoom range
-            newScale = Math.max(0.5, Math.min(newScale, 2));
-            cameraRig.object3D.scale.set(newScale, newScale, newScale);
-        }
-    });
-
-    scene.addEventListener("touchend", () => {
-        isDragging = false;
-    });
-
-    // Function to calculate pinch distance
-    function getTouchDistance(touches) {
-        let dx = touches[0].clientX - touches[1].clientX;
-        let dy = touches[0].clientY - touches[1].clientY;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    // Tap to highlight orbits
-    document.querySelectorAll("[data-raycastable]").forEach(orbit => {
-        orbit.addEventListener("click", () => {
-            let orbitTitle = document.getElementById("orbit-title");
-            let orbitText = document.getElementById("orbit-text");
-
-            switch (orbit.id) {
-                case "orbitA":
-                    orbitTitle.innerText = "Orbit A: Characterization";
-                    orbitText.innerText = "This orbit is used for characterizing the asteroid’s surface.";
-                    break;
-                case "orbitB":
-                    orbitTitle.innerText = "Orbit B: Topography";
-                    orbitText.innerText = "This orbit maps the asteroid's surface and shape.";
-                    break;
-                case "orbitC":
-                    orbitTitle.innerText = "Orbit C: Gravity Science";
-                    orbitText.innerText = "This orbit helps measure the asteroid’s gravitational field.";
-                    break;
-                case "orbitD":
-                    orbitTitle.innerText = "Orbit D: Elemental Mapping";
-                    orbitText.innerText = "This orbit identifies the chemical composition of the asteroid.";
-                    break;
-            }
+        sceneEl.addEventListener("onefingermove", (event) => {
+            let dX = event.detail.positionChange.x;
+            let dY = event.detail.positionChange.y;
+            cameraRig.object3D.rotation.y -= dX * 0.005;
+            cameraRig.object3D.rotation.x -= dY * 0.005;
         });
-    });
+
+        sceneEl.addEventListener("twofingermove", (event) => {
+            let scaleChange = event.detail.spreadChange * 0.01;
+            let newScale = cameraRig.object3D.scale.x + scaleChange;
+            newScale = Math.max(0.5, Math.min(newScale, 2)); // Zoom limits
+            cameraRig.object3D.scale.set(newScale, newScale, newScale);
+        });
+
+        sceneEl.addEventListener("touchend", () => {
+            console.log("Touch end detected.");
+        });
+
+        document.querySelectorAll("[data-raycastable]").forEach((orbit) => {
+            orbit.addEventListener("click", () => {
+                let orbitTitle = document.getElementById("orbit-title");
+                let orbitText = document.getElementById("orbit-text");
+
+                switch (orbit.id) {
+                    case "orbitA":
+                        orbitTitle.innerText = "Orbit A: Characterization";
+                        orbitText.innerText = "This orbit is used for characterizing the asteroid’s surface.";
+                        break;
+                    case "orbitB":
+                        orbitTitle.innerText = "Orbit B: Topography";
+                        orbitText.innerText = "This orbit maps the asteroid's surface and shape.";
+                        break;
+                    case "orbitC":
+                        orbitTitle.innerText = "Orbit C: Gravity Science";
+                        orbitText.innerText = "This orbit helps measure the asteroid’s gravitational field.";
+                        break;
+                    case "orbitD":
+                        orbitTitle.innerText = "Orbit D: Elemental Mapping";
+                        orbitText.innerText = "This orbit identifies the chemical composition of the asteroid.";
+                        break;
+                }
+            });
+        });
+    },
 });
+
 
 
 function displayErrorPage(){
