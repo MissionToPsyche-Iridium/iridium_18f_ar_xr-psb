@@ -47,7 +47,7 @@
 
     <!-- Pop-up menu -->
     <div class="popup" id="instructionPopup">
-        <p>Welcome to the AR Experience! Use the menu to explore the Psyche mission's orbits and instruments.</p>
+        <p>Welcome to the AR Experience! Use the menu or hover over an orbit to explore the Psyche mission.</p>
     </div>
 
     <!-- Text size toggle button -->
@@ -115,7 +115,7 @@
         <!-- Camera and Rig -->
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
-                <a-cursor raycaster="objects: [data-raycastable]"></a-cursor>-
+                <a-cursor material="color: #ef5966" raycaster="objects: [data-raycastable]"></a-cursor>-
             </a-entity>
         </a-entity>
     </a-scene>
