@@ -393,55 +393,41 @@ var x = setInterval(function() {
 
 
 //Touch respose *still needs work*
-AFRAME.registerComponent("orbit-controls", {
+AFRAME.registerComponent('touch-controls', {
     init: function () {
-        let cameraRig = document.querySelector("#cameraRig");
-        let sceneEl = this.el;
-
-        sceneEl.addEventListener("onefingermove", (event) => {
-            let dX = event.detail.positionChange.x;
-            let dY = event.detail.positionChange.y;
-            cameraRig.object3D.rotation.y -= dX * 0.005;
-            cameraRig.object3D.rotation.x -= dY * 0.005;
-        });
-
-        sceneEl.addEventListener("twofingermove", (event) => {
-            let scaleChange = event.detail.spreadChange * 0.01;
-            let newScale = cameraRig.object3D.scale.x + scaleChange;
-            newScale = Math.max(0.5, Math.min(newScale, 2)); // Zoom limits
-            cameraRig.object3D.scale.set(newScale, newScale, newScale);
-        });
-
-        sceneEl.addEventListener("touchend", () => {
-            console.log("Touch end detected.");
-        });
-
-        document.querySelectorAll("[data-raycastable]").forEach((orbit) => {
-            orbit.addEventListener("click", () => {
-                let orbitTitle = document.getElementById("orbit-title");
-                let orbitText = document.getElementById("orbit-text");
-
-                switch (orbit.id) {
-                    case "orbitA":
-                        orbitTitle.innerText = "Orbit A: Characterization";
-                        orbitText.innerText = "This orbit is used for characterizing the asteroid’s surface.";
-                        break;
-                    case "orbitB":
-                        orbitTitle.innerText = "Orbit B: Topography";
-                        orbitText.innerText = "This orbit maps the asteroid's surface and shape.";
-                        break;
-                    case "orbitC":
-                        orbitTitle.innerText = "Orbit C: Gravity Science";
-                        orbitText.innerText = "This orbit helps measure the asteroid’s gravitational field.";
-                        break;
-                    case "orbitD":
-                        orbitTitle.innerText = "Orbit D: Elemental Mapping";
-                        orbitText.innerText = "This orbit identifies the chemical composition of the asteroid.";
-                        break;
-                }
-            });
-        });
+        this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
+        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
+        this.el.addEventListener('touchend', this.onTouchEnd.bind(this));
+        this.initialTouch = { x: 0, y: 0 };
     },
+
+    onTouchStart: function (event) {
+        if (event.touches.length === 1) {
+            this.initialTouch.x = event.touches[0].clientX;
+            this.initialTouch.y = event.touches[0].clientY;
+        }
+    },
+
+    onTouchMove: function (event) {
+        if (event.touches.length === 1) {
+            let deltaX = event.touches[0].clientX - this.initialTouch.x;
+            let deltaY = event.touches[0].clientY - this.initialTouch.y;
+
+            // Rotate the camera rig horizontally (Y-axis)
+            this.el.object3D.rotation.y -= deltaX * 0.005;
+
+            // Move the camera up/down (Y-axis)
+            this.el.object3D.position.y -= deltaY * 0.01;
+
+            // Update initial touch positions
+            this.initialTouch.x = event.touches[0].clientX;
+            this.initialTouch.y = event.touches[0].clientY;
+        }
+    },
+
+    onTouchEnd: function () {
+        // You can add functionality here if needed when the user lifts their finger
+    }
 });
 
 
