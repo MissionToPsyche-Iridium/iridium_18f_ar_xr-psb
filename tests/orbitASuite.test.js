@@ -80,7 +80,7 @@ describe('Orbit A scene interaction', () => {
       });
   
       //Check if orbit A has been highlighted
-      expect(orbitAColor).toBe('#f9a000'); // Replace with the expected color value*/
+      expect(orbitAColor).toBe('#f9a000'); 
     
       //Check if spacecraft is visible
       const isSpacecraftVisible = await page.evaluate(() => {
@@ -132,4 +132,76 @@ describe('Orbit A scene interaction', () => {
       expect(updatedPosition).not.toBe(initialPosition);    
     }, 10000);
   });
+
+
+  describe("Orbit A information display", () => {
+    test('Information specific to orbit A is displayed', async () => {
+      //Get description box object
+      const descriptionBoxVisible = await page.$('.orbit-description');
+    
+      expect(descriptionBoxVisible).not.toBeNull();
+
+      //Ensure description Box is visible
+      const isVisible = await page.evaluate(description => {
+        if (!description) return false;
+        const style = window.getComputedStyle(description);
+        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+      }, descriptionBoxVisible);
+      expect(isVisible).toBe(true);
+
+      //Get button element
+      const seeMoreButton = await page.$('#see-more-btn');
+
+      //Ensure the button exists and is visible
+      expect(seeMoreButton).not.toBeNull();
+
+      const isButtonVisible = await page.evaluate(button => {
+        if (!button) return false;
+        const style = window.getComputedStyle(button);
+        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+      }, seeMoreButton);
+  
+      expect(isButtonVisible).toBe(true);
+
+      //Click the button
+      await seeMoreButton.click();
+
+      //Wait for the text box to expand (assuming it gets a new class or changes height)
+      await page.evaluate(() => new Promise(resolve => 
+        setTimeout(resolve, 500)
+      ));
+
+      //Verify if the text box has expanded (adjust the condition based on actual behavior)
+      const expanded = await page.evaluate(description => {
+        if (!description) return false;
+        return description.scrollHeight > description.clientHeight; // Checks if content overflowed
+      }, await page.$('.orbit-description'));
+
+      expect(expanded).toBe(true);
+    }, 10000);
+  });
+
+  describe("Orbit A instrument button", () => {
+    test('Instrument view button for orbit A is displayed', async () => {
+      //Get button element
+      const instrumentButton = await page.$('#instrumentButton');
+
+      //Ensure the button exists and is visible
+      expect(instrumentButton).not.toBeNull();
+
+      const isButtonVisible = await page.evaluate(button => {
+        if (!button) return false;
+        const style = window.getComputedStyle(button);
+        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+      }, instrumentButton);
+
+    }, 10000);
+  });
+
+  describe("Orbit A error page", () => {
+    test('Error page is displayed when orbit A is not loaded correctly', async () => {
+    
+    }, 10000);
+  });
+
 });

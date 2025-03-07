@@ -393,71 +393,44 @@ var x = setInterval(function() {
 
 
 //Touch respose *still needs work*
-/*document.addEventListener("touchstart", (event) => {
-    const touchX = event.touches[0].clientX;
-    const touchY = event.touches[0].clientY;
+AFRAME.registerComponent('touch-controls', {
+    init: function () {
+        this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
+        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
+        this.el.addEventListener('touchend', this.onTouchEnd.bind(this));
+        this.initialTouch = { x: 0, y: 0 };
+    },
 
-    console.log(`Touch at: X=${touchX}, Y=${touchY}`);
+    onTouchStart: function (event) {
+        if (event.touches.length === 1) {
+            this.initialTouch.x = event.touches[0].clientX;
+            this.initialTouch.y = event.touches[0].clientY;
+        }
+    },
 
-    const scene = document.querySelector("a-scene");
-    const cameraEl = document.getElementById('camera'); // Get the camera entity
-    
-    if (!cameraEl) {
-        alert(`No camera found in scene!`);
-        return;
+    onTouchMove: function (event) {
+        if (event.touches.length === 1) {
+            let deltaX = event.touches[0].clientX - this.initialTouch.x;
+            let deltaY = event.touches[0].clientY - this.initialTouch.y;
+
+            // Rotate the camera rig horizontally (Y-axis)
+            this.el.object3D.rotation.y -= deltaX * 0.005;
+
+            // Move the camera up/down (Y-axis)
+            this.el.object3D.position.y -= deltaY * 0.01;
+
+            // Update initial touch positions
+            this.initialTouch.x = event.touches[0].clientX;
+            this.initialTouch.y = event.touches[0].clientY;
+        }
+    },
+
+    onTouchEnd: function () {
+        // You can add functionality here if needed when the user lifts their finger
     }
-    // Access the camera component
-    const cameraComponent = cameraEl.components.camera;
+});
 
-    if (!cameraComponent) {
-        alert("No camera component found!");
-        return;
-    }
 
-    const camera = cameraComponent.camera;
-
-    if (!camera) {
-        alert("Camera object is missing!");
-        return;
-    }
-    
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-
-    const rect = scene.getBoundingClientRect();
-    mouse.x = ((touchX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((touchY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-
-    if (scene.object3D.children.length === 0) {
-        console.log("No objects in the scene for raycasting!");
-        return;
-    }
-
-    const intersects = raycaster.intersectObjects(scene.object3D.children, true);
-
-    if (intersects.length > 0) {
-        const selectedObject = intersects[0].object.el;
-        // Check if the geometry is TorusGeometry
-        //if (selectedObject.geometry && selectedObject.geometry.type === "TorusGeometry") {
-            console.log(`Selected TorusGeometry object:`, selectedObject.id);
-
-            const htmlElement = document.getElementById(selectedObject.id);
-
-            if (htmlElement) {
-                console.log("Matching HTML element:", htmlElement);
-            }
-
-            // Change color or do something with the selected torus object
-            //selectedObject.material.color.set("red"); // Change the color to red
-        //} else {
-        //    console.log("Selected object is not a TorusGeometry.");
-       // }
-    } else {
-        console.log("No objects detected by raycaster.");
-    }
-});*/
 
 function displayErrorPage(){
     window.location.href = "/error.html";
