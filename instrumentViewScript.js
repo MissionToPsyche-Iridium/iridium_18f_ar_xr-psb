@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const satellite = document.querySelector("#spacecraft");
   const dataBox = document.querySelector(".Sample.Data");
-  const instrumentDetailsBox = document.querySelector(".instrument-details");
   const menuButton = document.querySelector("#btnToggleInstrument");
   const closeIconInstrument = document.querySelector("#closeIconInstrument");
   const hamburgerIconInstrument = document.querySelector("#hamburgerIconInstrument");
   const toggleSatelliteButton = document.querySelector("#toggle-satellite");
+  const  seemorebtn1 = document.getElementById("see-more-btn1");
+  const instrumentDetailsBox = document.querySelector(".instrument-details");
+  const instrumentDetailsText = document.getElementById("instrumentdetails");
 
   const instruments = {
     gamma: document.querySelector("#gamma-spectrometer"),
@@ -166,4 +168,85 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleMenu();
   });
 });
+  
+function loadOrbitDetails(instrumentKey) {
+  const descriptionFile = `texts/${instrumentKey}/${instrumentKey}Description.txt`;
+
+  // Get references to the elements for the first box (Sample Data)
+  const orbitBox = document.querySelector(".Sample Data");
+  const orbitText = document.getElementById("orbitText");
+  const seeMoreBtn1 = document.getElementById("see-more-btn-1");
+
+  // Get references to the elements for the second box (Instrument Details)
+  const instrumentDetailsBox = document.querySelector(".instrument-details");
+  const instrumentDetailsText = document.getElementById("instrumentdetails");
+  const seeMoreBtn2 = document.getElementById("see-more-btn-2");
+
+  // Fetch description data
+  fetch(descriptionFile)
+    .then(response => {
+      if (!response.ok) throw new Error("File not found");
+      return response.text();
+    })
+    .then(data => {
+      orbitText.innerText = data;
+      instrumentDetailsText.innerText = data;  // Assuming both boxes use the same data
+    })
+    .catch(error => {
+      orbitText.innerText = "Orbit information unavailable.";
+      instrumentDetailsText.innerText = "Instrument information unavailable.";
+      console.error("Error loading orbit file:", error);
+    })
+    .finally(() => {
+      // Ensure both boxes and buttons are displayed
+      orbitBox.style.display = "block";
+      seeMoreBtn1.style.display = "block";
+      instrumentDetailsBox.style.display = "block";
+      seeMoreBtn2.style.display = "block";
+      
+      // Set initial collapsed state for both boxes
+      orbitBox.classList.remove("expanded");
+      instrumentDetailsBox.classList.remove("expanded");
+      orbitText.style.maxHeight = "120px";
+      orbitText.style.overflow = "hidden";
+      instrumentDetailsText.style.maxHeight = "120px";
+      instrumentDetailsText.style.overflow = "hidden";
+      
+      seeMoreBtn1.innerText = "See More";
+      seeMoreBtn2.innerText = "See More";
+    });
+  }
+
+  // Toggle See More button functionality for the first box (Sample Data)
+  see-more-btn.addEventListener("click", () => {
+    if (orbitBox.classList.contains("expanded")) {
+      orbitBox.classList.remove("expanded");
+      seeMoreBtn1.innerText = "See More";
+      orbitText.style.maxHeight = "120px";
+      orbitText.style.overflow = "hidden";
+    } else {
+      orbitBox.classList.add("expanded");
+      seeMoreBtn1.innerText = "See Less";
+      orbitText.style.maxHeight = "none";
+      orbitText.style.overflow = "visible";
+    }
+  });
+
+
+  
+  seemorebtn1.addEventListener("click", () => {
+    console.log("Button clicked!"); // Debug line to check if the event fires
+  
+    if (instrumentDetailsBox.classList.contains("expanded")) {
+      instrumentDetailsBox.classList.remove("expanded");
+      seemorebtn1.innerText = "See More";
+      instrumentDetailsText.style.maxHeight = "120px";
+      instrumentDetailsText.style.overflow = "hidden";
+    } else {
+      instrumentDetailsBox.classList.add("expanded");
+      seemorebtn1.innerText = "See Less";
+      instrumentDetailsText.style.maxHeight = "none";
+      instrumentDetailsText.style.overflow = "visible";
+    }
+  });
   
