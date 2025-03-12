@@ -1,5 +1,12 @@
+let satellite;
+
 document.addEventListener("DOMContentLoaded", () => {
-  const satellite = document.querySelector("#spacecraft");
+  console.log("DOM Content Loaded");  // Check if this logs to the console
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  const orbit = urlParams.get("orbit");
+
+  satellite = document.querySelector("#spacecraft");
   const dataBox = document.querySelector(".Sample.Data");
   const menuButton = document.querySelector("#btnToggleInstrument");
   const closeIconInstrument = document.querySelector("#closeIconInstrument");
@@ -9,12 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const instrumentDetailsBox = document.querySelector(".instrument-details");
   const instrumentDetailsText = document.getElementById("instrumentdetails");
 
+
   const instruments = {
     gamma: document.querySelector("#gamma-spectrometer"),
     neutron: document.querySelector("#neutron-spectrometer"),
     magnetometer: document.querySelector("#magnetometer"),
     multispectral: document.querySelector("#multispectral-imager"),
     xband: document.querySelector("#xband-radio")
+
+
+    
   };
 
   // Instrument data array
@@ -167,6 +178,15 @@ document.addEventListener("DOMContentLoaded", () => {
     instrumentDetailsBox.style.display = "block";
     toggleMenu();
   });
+
+
+  console.log("Orbit parameter:", orbit);
+  if (orbit) {
+      showInstrument(orbit);
+  } else {
+      console.log("No orbit parameter found in URL.");
+  }
+
 });
   
 function loadOrbitDetails(instrumentKey) {
@@ -212,13 +232,13 @@ function loadOrbitDetails(instrumentKey) {
       instrumentDetailsText.style.maxHeight = "120px";
       instrumentDetailsText.style.overflow = "hidden";
       
-      seeMoreBtn1.innerText = "See More";
+      seemorebtn1.innerText = "See More";
       seeMoreBtn2.innerText = "See More";
     });
   }
 
   // Toggle See More button functionality for the first box (Sample Data)
-  see-more-btn.addEventListener("click", () => {
+  seemorebtn1.addEventListener("click", () => {
     if (orbitBox.classList.contains("expanded")) {
       orbitBox.classList.remove("expanded");
       seeMoreBtn1.innerText = "See More";
@@ -250,3 +270,51 @@ function loadOrbitDetails(instrumentKey) {
     }
   });
   
+
+
+
+
+
+// Function to toggle instrument visibility based on orbit
+function showInstrument(orbit) {
+    // Hide all instruments first
+    const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
+    instruments.forEach(inst => inst.setAttribute("visible", "false"));
+
+    // Select the correct instrument to show
+    let instrumentId;
+    switch (orbit) {
+        case "orbitA":
+            instrumentId = "magnetometer";
+            break;
+        case "orbitB":
+          console.log("displaying multispectral");
+            instrumentId = "multispectral-imager";
+            break;
+        case "orbitC":
+            instrumentId = "#xband-radio";
+            console.log("displaying xband");
+            break;
+        case "orbitD":
+            instrumentId = "gamma-spectrometer";
+            console.log("displaying gamma");
+            break;
+        default:
+          if (satellite) {
+            satellite.setAttribute("visible", "true");
+        }
+            console.log("Invalid orbit parameter.");
+            return;
+    }
+
+    // Make the selected instrument visible
+    const selectedInstrument = document.getElementById(instrumentId);
+    if (selectedInstrument) {
+        selectedInstrument.setAttribute("visible", "true");
+        console.log(`Showing: ${instrumentId}`);
+        
+       
+    } else {
+        console.log(`Instrument with ID '${instrumentId}' not found!`);
+    }
+}

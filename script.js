@@ -1,6 +1,9 @@
 import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 
+
+let linkTargetOrbitId = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
@@ -51,6 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbit = document.getElementById(orbitId);
         orbit.addEventListener('click', (event) => {
 
+
+            linkTargetOrbitId = orbitId; 
+            console.log("Current Orbit ID:", linkTargetOrbitId);
             //Perform view change
             event.stopPropagation();
             highlightOrbit(orbitId);
@@ -70,6 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //Get orbit Id
             const orbitId = link.getAttribute('data-orbit');
+
+
+            linkTargetOrbitId = orbitId; 
+            console.log("Current Orbit ID:", linkTargetOrbitId);
 
             //Perform view change
             toggleMenu();
@@ -233,12 +243,22 @@ document.addEventListener('DOMContentLoaded', () => {
     //logic for instrument button
     if (instrumentButton) {
         instrumentButton.addEventListener("click", function() {
-            window.location.href = "instrumentView.html";
+            // Assume orbit info is stored in a variable (modify this as needed)
+            let currentOrbit = getCurrentOrbit(); // Replace with actual logic
+    
+            // Redirect with orbit info as a query parameter
+            window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId )}`;
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
     }
-
+    
+    // Example function to get orbit (Replace this with actual logic)
+    function getCurrentOrbit() {
+        // Example: Retrieve from sessionStorage, API, or a global variable
+        return sessionStorage.getItem("currentOrbit") || "defaultOrbit";
+    }
+    
     // Function to load orbit details
     function loadOrbitDetails(orbitId) {
         const descriptionFile = `texts/${orbitId}/${orbitId}Description.txt`;
