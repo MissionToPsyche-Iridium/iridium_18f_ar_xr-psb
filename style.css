@@ -274,6 +274,61 @@ nav{
     background-color: #ef5966;
 }
 
+/* Instrument Description Box */
+.instrument-description {
+    visibility: hidden; /* Initially hidden */
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    width: 30%;
+    max-height: 200px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1000;
+    transition: max-height 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.instrument-description.show {
+    visibility: visible; /* Show when an instrument is selected */
+}
+
+.instrument-description.expanded {
+    max-height: 400px;
+    width: 300px;
+    overflow-y: auto;
+    transition: width 0.3s ease, max-height 0.3s ease;
+}
+
+#instrument-text {
+    flex-grow: 1;
+    max-height: 120px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    font-size: 16px;
+}
+
+#instrument-see-more-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #f47c33;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#instrument-see-more-btn:hover {
+    background-color: #ef5966;
+}
+
 /* A-Frame scene styles */
 a-scene {
     margin-top: 80px; /* Push scene below the fixed header */
