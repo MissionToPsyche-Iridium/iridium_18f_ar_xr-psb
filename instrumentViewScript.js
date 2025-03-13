@@ -68,6 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 instrumentDetailsText.style.overflow = "hidden";
 
                 seeMoreBtn1.style.display = "block";
+                seeMoreBtn1.onclick = function() {
+                    if (instrumentDetailsBox.classList.contains("expanded")) {
+                        instrumentDetailsBox.classList.remove("expanded");
+                        instrumentDetailsText.style.maxHeight = "120px";
+                        seeMoreBtn1.innerText = "See More";
+                    } else {
+                        instrumentDetailsBox.classList.add("expanded");
+                        instrumentDetailsText.style.maxHeight = "400px";
+                        instrumentDetailsText.style.overflowY = "auto";
+                        seeMoreBtn1.innerText = "See Less";
+                    }
+                };
                 seeMoreBtn1.innerText = "See More";
             })
 
