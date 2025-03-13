@@ -280,7 +280,7 @@ nav{
     position: absolute;
     bottom: 5px;
     right: 10px;
-    width: 30%;
+    width: 250px;
     max-height: 200px;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.8);
@@ -299,7 +299,6 @@ nav{
 
 .instrument-description.expanded {
     max-height: 400px;
-    width: 300px;
     overflow-y: auto;
     transition: width 0.3s ease, max-height 0.3s ease;
 }
@@ -327,6 +326,50 @@ nav{
 
 #instrument-see-more-btn:hover {
     background-color: #ef5966;
+}
+
+#see-more-btn2 {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #f47c33;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#see-more-btn2:hover {
+    background-color: #ef5966;
+}
+
+.sample-data {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    width: 250px;
+    max-height: 200px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1;
+    transition: max-height 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.sample-data.show {
+    visibility: visible;
+}
+
+.sample-data.expanded {
+    max-height: 400px;
+    overflow-y: auto;
+    transition: width 0.3s ease, max-height 0.3s ease;
 }
 
 /* A-Frame scene styles */

@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const seeMoreBtn1 = document.getElementById("see-more-btn1");
     const returnToOrbitButton = document.getElementById("instrumentButton");
 
+    const sampleDataTitle = document.getElementById("sample-data-title");
+    const sampleDataText = document.getElementById("sampledatatext");
+    const sampleDataBox = document.querySelector(".sample-data");
+    const seeMoreBtn2 = document.getElementById("see-more-btn2");
+
     const camera = document.querySelector("[camera]");
     if (camera) {
         camera.setAttribute("look-controls", "enabled", false);
@@ -89,6 +94,45 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+    function loadSampleData(instrumentId) {
+        const dataFile = `texts/${instrumentId}/${instrumentId}Data.txt`;
+
+        fetch(dataFile)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
+            .then(data => {
+                sampleDataTitle.innerText = "Sample Data";
+                sampleDataText.innerText = data;
+
+                sampleDataBox.classList.add("show");
+                sampleDataBox.classList.remove("expanded");
+                sampleDataText.style.maxHeight = "120px";
+                sampleDataText.style.overflow = "hidden";
+
+                seeMoreBtn2.style.display = "block";
+                seeMoreBtn2.onclick = function() {
+                    if (sampleDataBox.classList.contains("expanded")) {
+                        sampleDataBox.classList.remove("expanded");
+                        sampleDataText.style.maxHeight = "120px";
+                        seeMoreBtn2.innerText = "See More";
+                    } else {
+                        sampleDataBox.classList.add("expanded");
+                        sampleDataText.style.maxHeight = "400px";
+                        sampleDataText.style.overflowY = "auto";
+                        seeMoreBtn2.innerText = "See Less";
+                    }
+                };
+                seeMoreBtn2.innerText = "See More";
+            })
+            .catch(error => {
+                sampleDataText.innerText = "Sample data unavailable.";
+                console.error("Error loading sample data file:", error);
+            });
+    }
+
+
     const instrumentButtons = document.querySelectorAll("[data-instrument]");
     instrumentButtons.forEach(button => {
         button.addEventListener("click", event => {
@@ -106,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedInstrument = instruments[instrumentId];
                 selectedInstrument.setAttribute("visible", "true");
                 loadInstrumentDetails(instrumentId);
+                loadSampleData(instrumentId);
             } else {
                 console.warn(`No model found for ${instrumentId}`);
             }
