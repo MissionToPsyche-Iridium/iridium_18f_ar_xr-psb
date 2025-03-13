@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.setAttribute("wasd-controls", "enabled", false);
     }
 
-    setTimeout(() => {
+   /* setTimeout(() => {
         // Set default view to the spacecraft
         Object.keys(instruments).forEach(id => {
             if (instruments[id]) {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedInstrument = instruments.spacecraft;
         loadInstrumentDetails("spacecraft");
         console.log("Checking instrument models after DOM load:", instruments);
-    }, 1000);
+    }, 1000); */
 
     function loadInstrumentDetails(instrumentId) {
         const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
@@ -132,6 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
+    console.log("Orbit parameter:", orbit);
+    if (orbit) {
+        showInstrument(orbit);
+    } else {
+        console.log("No orbit parameter found in URL.");
+    }
 
     const instrumentButtons = document.querySelectorAll("[data-instrument]");
     instrumentButtons.forEach(button => {
@@ -195,4 +201,49 @@ document.addEventListener("DOMContentLoaded", () => {
             selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
         }
     });
+
+
+    function showInstrument(orbit) {
+      // Hide all instruments first
+      const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
+      instruments.forEach(inst => inst.setAttribute("visible", "false"));
+  
+      // Select the correct instrument to show
+      let instrumentId;
+      switch (orbit) {
+          case "orbitA":
+              instrumentId = "magnetometer";
+              break;
+          case "orbitB":
+            console.log("displaying multispectral");
+              instrumentId = "multispectral-imager";
+              break;
+          case "orbitC":
+              instrumentId = "#xband-radio";
+              console.log("displaying xband");
+              break;
+          case "orbitD":
+              instrumentId = "gamma-spectrometer";
+              console.log("displaying gamma");
+              break;
+          default:
+            if (spacecraft) {
+              spacecraft.setAttribute("visible", "true");
+          }
+              console.log("Invalid orbit parameter.");
+              return;
+      }
+  
+      // Make the selected instrument visible
+      const selectedInstrument = document.getElementById(instrumentId);
+      if (selectedInstrument) {
+          selectedInstrument.setAttribute("visible", "true");
+          console.log(`Showing: ${instrumentId}`);
+          
+         
+      } else {
+          console.log(`Instrument with ID '${instrumentId}' not found!`);
+      }
+  }
+
 });
