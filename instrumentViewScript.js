@@ -1,9 +1,15 @@
+import { initNavigationMenu, toggleMenu } from "./menuScript.js";
+
 let selectedInstrument = null; // Track the currently selected instrument
 let isDragging = false;
 let previousMouseX = 0;
 let previousMouseY = 0;
+const navigationMenu = document.querySelector(".navigation__menu");
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    initNavigationMenu();
+
     console.log("Instrument View Loaded"); // Debugging check
     const urlParams = new URLSearchParams(window.location.search);
     const orbit = urlParams.get("orbit");
@@ -139,11 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("No orbit parameter found in URL.");
     }
 
+    //Navigation menu event listener
     const instrumentButtons = document.querySelectorAll("[data-instrument]");
     instrumentButtons.forEach(button => {
         button.addEventListener("click", event => {
             const instrumentId = event.target.getAttribute("data-instrument");
             console.log(`Instrument Selected: ${instrumentId}`);
+            toggleMenu();
 
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {
