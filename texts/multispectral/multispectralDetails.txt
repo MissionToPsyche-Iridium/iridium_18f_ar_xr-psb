@@ -1,1 +1,1 @@
-This is description for multispecteral
+Allows the spacecraft to gather contextual, topographical, and mineralogical data of the Psyche asteroid Using visible to near-infrared wavelength image maps. (Dibb et al., 2023)

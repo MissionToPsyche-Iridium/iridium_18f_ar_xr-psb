@@ -1,1 +1,1 @@
-This is description for magnetometer
+Used to measure the magnetic feild around Psyche asteroid and search for evidence of remanent magnetism. (Weiss et al., 2023)
