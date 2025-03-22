@@ -365,6 +365,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    //Touchscreen functionality
+    document.addEventListener("touchstart", (event) => {
+        const touchX = event.touches[0].clientX;
+        const touchY = event.touches[0].clientY;
+
+        const scene = document.querySelector("a-scene");
+        const cameraEl = document.getElementById('camera'); // Get the camera entity
+        
+        if (!cameraEl || !cameraEl.components.camera || !cameraEl.components.camera.camera ) {
+            alert("Camera not properly initialized!");
+            return;
+        }
+
+        const camera = cameraEl.components.camera.camera;
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        const canvas = scene.renderer.domElement;
+        const rect = canvas.getBoundingClientRect();
+
+        mouse.x = ((touchX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((touchY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.object3D.children, true);
+
+        const hit = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
+
+        if (hit) {
+            const wrapper = hit.object.el.parentEl;
+            const torus = wrapper.querySelector("a-torus:not(.hitbox)");
+
+            if (torus) {
+                const orbitId = torus.id;
+                highlightOrbit(orbitId);
+                transitionToOrbit(orbitId);
+                updateBannerText(orbitId);
+                panToPsyche(orbitId);
+                orbitPopupText(orbitId);
+                loadOrbitDetails(orbitId);
+            } else {
+                console.warn("Hitbox hit but no torus found in wrapper.");
+            }
+        } else {
+            console.log("No hitbox hit.");
+        }
+    });
 });
 
 var x = setInterval(function() {
@@ -400,8 +448,8 @@ var x = setInterval(function() {
     }
 
     // Display the result in the element with id="demo"
-  document.getElementById("countdown-timer").innerHTML = "T- " + years + "y " + months + "m " + days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
+  document.getElementById("countdown-timer").innerHTML = "T- " + years + " years " + months + " months " + days + " days "; // + hours + "h "
+  //+ minutes + "m " + seconds + "s ";
 
   // If the count down is finished, write some text
   if (years === 0 & months === 0 & days === 0 & hours === 0 & minutes === 0 & seconds === 0) {
@@ -410,51 +458,6 @@ var x = setInterval(function() {
   
     }
 }, 1000)
-
-
-//Touch respose *still needs work*
-AFRAME.registerComponent('touch-controls', {
-    init: function () {
-        this.el.addEventListener('touchstart', this.onTouchStart.bind(this));
-        this.el.addEventListener('touchmove', this.onTouchMove.bind(this));
-        this.el.addEventListener('touchend', this.onTouchEnd.bind(this));
-        this.initialTouch = { x: 0, y: 0 };
-    },
-
-    onTouchStart: function (event) {
-        if (event.touches.length === 1) {
-            this.initialTouch.x = event.touches[0].clientX;
-            this.initialTouch.y = event.touches[0].clientY;
-        }
-    },
-
-    onTouchMove: function (event) {
-        if (event.touches.length === 1) {
-            let deltaX = event.touches[0].clientX - this.initialTouch.x;
-            let deltaY = event.touches[0].clientY - this.initialTouch.y;
-
-            // Rotate the camera rig horizontally (Y-axis)
-            this.el.object3D.rotation.y -= deltaX * 0.005;
-
-            // Move the camera up/down (Y-axis)
-            this.el.object3D.position.y -= deltaY * 0.01;
-
-            // Update initial touch positions
-            this.initialTouch.x = event.touches[0].clientX;
-            this.initialTouch.y = event.touches[0].clientY;
-        }
-    },
-
-    onTouchEnd: function () {
-        // You can add functionality here if needed when the user lifts their finger
-    }
-});
-
-
-
-function displayErrorPage(){
-    window.location.href = "/error.html";
-}
 
 let isSpeaking = false;
 let speech = null;

@@ -95,11 +95,50 @@
         </a-entity>
 
         <!-- Orbits -->
-        <a-torus id="orbitD" position="0 -1 -4" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="0 0 0" opacity="0.25" data-raycastable></a-torus>
-        <a-torus id="orbitC" position="0 -1 -4" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
-        <a-torus id="orbitB" position="0 -1 -4" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
-        <a-torus id="orbitA" position="0 -1 -4" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus>
+        <!-- <a-torus id="orbitD" position="0 -1 -4" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="0 0 0" opacity="0.25" data-raycastable></a-torus> -->
+        <!-- <a-torus id="orbitC" position="0 -1 -4" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
+        <!-- <a-torus id="orbitB" position="0 -1 -4" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
+        <!-- <a-torus id="orbitA" position="0 -1 -4" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
 
+        <a-entity id="orbitD-wrapper" position="0 -1 -4">
+            <a-torus id="orbitD" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" 
+                     color="#ffffff" rotation="0 0 0" opacity="0.25"></a-torus>
+            <a-torus visible="false" class="hitbox" radius="1.0" radius-tubular="0.1"
+                     segments-radial="35" segments-tubular="65"
+                     material="transparent: true; opacity: 0.00"
+                     rotation="0 0 0"
+                     data-raycastable></a-torus>
+        </a-entity>
+
+        <a-entity id="orbitC-wrapper" position="0 -1 -4">
+            <a-torus id="orbitC" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" 
+                     color="#ffffff" rotation="-90 0 0" opacity="0.25"></a-torus> 
+            <a-torus visible="false" class="hitbox" radius="1.7" radius-tubular="0.1"
+                     segments-radial="35" segments-tubular="65"
+                     material="transparent: true; opacity: 0.00"
+                     rotation="-90 0 0"
+                     data-raycastable></a-torus>
+        </a-entity>
+          
+        <a-entity id="orbitB-wrapper" position="0 -1 -4">
+            <a-torus id="orbitB" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65"
+                     color="#ffffff" rotation="-90 0 0" opacity="0.25"></a-torus>
+            <a-torus visible="false" class="hitbox" radius="2.4" radius-tubular="0.1"
+                     segments-radial="35" segments-tubular="65"
+                     material="transparent: true; opacity: 0.001"
+                     rotation="-90 0 0"
+                     data-raycastable></a-torus>
+        </a-entity>
+
+        <a-entity id="orbitA-wrapper" position="0 -1 -4">
+            <a-torus id="orbitA" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65"
+                     color="#ffffff" rotation="-90 0 0" opacity="0.25"></a-torus>
+            <a-torus visible="false" class="hitbox" radius="2.9" radius-tubular="0.1"
+                     segments-radial="35" segments-tubular="65"
+                     material="transparent: true; opacity: 0.001"
+                     rotation="-90 0 0"
+                     data-raycastable></a-torus>
+        </a-entity>
 
         <!-- Spacecraft -->
         <a-entity 
