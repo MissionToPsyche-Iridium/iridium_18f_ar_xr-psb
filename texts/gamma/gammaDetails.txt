@@ -1,1 +1,1 @@
-This is description for gamma
+Measures the major-element composition of the Psyche astorid by detecting cosmic-ray generated gamma-rays. (Dibbs et. al., 2024) (Peplowski et. al., 2022)
