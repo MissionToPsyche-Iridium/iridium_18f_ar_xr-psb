@@ -204,6 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function transitionToOrbit(orbitId) {
         if (currentOrbit === orbitId) return;
         currentOrbit = orbitId;
+        // hide countdown timer when transitioning to an orbit
+        document.querySelector(".countdown-timer-box").style.display = "none";
         moveObjectThroughOrbit(orbitId);
     }
 
@@ -283,12 +285,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Reset description box to default state
                 orbitBox.classList.remove("expanded");
-                orbitText.style.maxHeight = "120px";
-                orbitText.style.overflow = "hidden";
+                orbitText.classList.remove("expanded");
+                orbitText.classList.add("collapsed");
+
+                // orbitText.style.maxHeight = "120px";
+                // orbitText.style.overflow = "hidden";
 
                 // Ensure "See More" button remains visible
                 seeMoreBtn.style.display = "block";
-                seeMoreBtn.innerText = "See More";
+                seeMoreBtn.innerText = "+";
             })
             .catch(error => {
                 orbitText.innerText = "Orbit information unavailable.";
@@ -298,16 +303,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Expand/Collapse functionality
     seeMoreBtn.addEventListener("click", function () {
-        if (orbitBox.classList.contains("expanded")) {
+
+        if (orbitText.classList.contains("expanded")) {
+            /* if expanded, collapse it*/
             orbitBox.classList.remove("expanded");
-            seeMoreBtn.innerText = "See More";
-            orbitText.style.maxHeight = "120px";
-            orbitText.style.overflow = "hidden";
+            orbitText.classList.remove("expanded");
+            orbitText.classList.add("collapsed");
+            seeMoreBtn.innerText = "+";
+            // orbitText.style.maxHeight = "120px";
+            // orbitText.style.overflow = "hidden";
         } else {
+            /*if collapsed, expand it*/
             orbitBox.classList.add("expanded");
-            seeMoreBtn.innerText = "See Less";
-            orbitText.style.maxHeight = "none"; // Fully expand
-            orbitText.style.overflow = "visible";
+            orbitText.classList.remove("collapsed");
+            orbitText.classList.add("expanded");
+            seeMoreBtn.innerText = "-";
+            //orbitText.style.maxHeight = "none"; // Fully expand
+            //orbitText.style.overflow = "visible";
         }
     });
     
