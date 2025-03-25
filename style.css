@@ -219,9 +219,9 @@ nav{
 
 .orbit-description {
     visibility: hidden; /*don't show it until an orbit has been clicked*/
-    position: absolute;
-    bottom: 5px;
-    right: 10px; /* Keep it consistently placed */
+    position: fixed;
+    top:75px; /*underneath nav bar*/
+    right: 2px;
     width: 30%; /* Fixed width */
     max-height: 200px; /* Default height */
     overflow: hidden;
@@ -230,9 +230,10 @@ nav{
     padding: 15px;
     border-radius: 8px;
     z-index: 1000;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
     display: flex;
     flex-direction: column;
+    
 }
 
 .orbit-description.show{
@@ -257,16 +258,33 @@ nav{
     font-size: 16px;
 }
 
+#orbit-text.collapsed{
+    display: none;
+}
+
+/* Expanded state */
+#orbit-text.expanded {
+    display: block; /* Show the text when expanded */
+    max-height: none; /* Allow full expansion */
+    overflow: visible;
+}
+
+
 #see-more-btn {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
     background-color: #f47c33;
     color: white;
     border: none;
-    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;  /* Use flexbox to center the text inside */
+    justify-content: center;
     text-align: center;
 }
 
@@ -429,7 +447,7 @@ a-scene {
     }
     .orbit-description {
         right: 10px; /* Adjust slightly for smaller screens */
-        width: 30%; /* Maintain readability on small screens */
+        width: 45%; /* Maintain readability on small screens */
     }
 
     #instrumentButton {
