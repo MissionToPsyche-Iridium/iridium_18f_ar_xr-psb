@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initNavigationMenu();
 
     console.log("Instrument View Loaded"); // Debugging check
+    //Extract the query parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
+    //Get the value of the "orbit" parameter
     const orbit = urlParams.get("orbit");
 
     const instruments = {
@@ -141,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Orbit parameter:", orbit);
     if (orbit) {
         showInstrument(orbit);
+        console.log(orbit);
     } else {
         console.log("No orbit parameter found in URL.");
     }
@@ -173,7 +176,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (returnToOrbitButton) {
         returnToOrbitButton.addEventListener("click", () => {
-            console.log("Returning to orbit view");
+            if(selectedInstrument){
+            const currentOrbit = selectedInstrument.getAttribute("orbit");
+            console.log("Returning to " + currentOrbit);
+            sessionStorage.setItem("selectedOrbit",  currentOrbit);
+            }
             window.location.href = "index.html"; // Update this to the correct orbit view page if needed // Ensure this is the correct path to orbit view
         });
     } else {
@@ -212,46 +219,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function showInstrument(orbit) {
-      // Hide all instruments first
-      const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
-      instruments.forEach(inst => inst.setAttribute("visible", "false"));
+        // Hide all instruments first
+        const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
+        instruments.forEach(inst => inst.setAttribute("visible", "false"));
+    
+        // Select the correct instrument to show
+        let instrumentId;
+        switch (orbit) {
+            case "orbitA":
+                instrumentId = "magnetometer";
+                break;
+            case "orbitB":
+                console.log("displaying multispectral");
+                instrumentId = "multispectral-imager";
+                break;
+            case "orbitC":
+                instrumentId = "xband-radio";
+                console.log("displaying xband");
+                break;
+            case "orbitD":
+                instrumentId = "gamma-spectrometer";
+                console.log("displaying gamma");
+                break;
+            default:
+                if (spacecraft) {
+                spacecraft.setAttribute("visible", "true");
+            }
+                console.log("Invalid orbit parameter.");
+                return;
+        }
   
-      // Select the correct instrument to show
-      let instrumentId;
-      switch (orbit) {
-          case "orbitA":
-              instrumentId = "magnetometer";
-              break;
-          case "orbitB":
-            console.log("displaying multispectral");
-              instrumentId = "multispectral-imager";
-              break;
-          case "orbitC":
-              instrumentId = "#xband-radio";
-              console.log("displaying xband");
-              break;
-          case "orbitD":
-              instrumentId = "gamma-spectrometer";
-              console.log("displaying gamma");
-              break;
-          default:
-            if (spacecraft) {
-              spacecraft.setAttribute("visible", "true");
-          }
-              console.log("Invalid orbit parameter.");
-              return;
-      }
-  
-      // Make the selected instrument visible
-      const selectedInstrument = document.getElementById(instrumentId);
-      if (selectedInstrument) {
-          selectedInstrument.setAttribute("visible", "true");
-          console.log(`Showing: ${instrumentId}`);
-          
-         
-      } else {
-          console.log(`Instrument with ID '${instrumentId}' not found!`);
-      }
+        // Make the selected instrument visible
+        selectedInstrument = document.getElementById(instrumentId);
+        const instrumentLink = selectedInstrument.getAttribute("data")
+
+        loadInstrumentDetails(instrumentLink);
+        loadSampleData(instrumentLink);
+
+        if (selectedInstrument) {
+            selectedInstrument.setAttribute("visible", "true");
+            console.log(`Showing: ${instrumentId}`);
+        } else {
+            console.log(`Instrument with ID '${instrumentId}' not found!`);
+        }
   }
 
 });

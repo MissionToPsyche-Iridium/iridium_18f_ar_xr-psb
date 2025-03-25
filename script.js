@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             z: -1
         });
 
+        linkTargetOrbitId = storedOrbit; 
+        console.log("Current Orbit ID:", linkTargetOrbitId);
+
         //Perform view change
         highlightOrbit(storedOrbit);
         transitionToOrbit(storedOrbit);
@@ -51,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
     // Event listeners for each orbit click
     orbits.forEach(orbitId => {
-        const orbit = document.getElementById(orbitId);
+        const orbit = document.getElementById(orbitId + "-wrapper");
         orbit.addEventListener('click', (event) => {
 
 
@@ -243,19 +246,20 @@ document.addEventListener('DOMContentLoaded', () => {
     //logic for instrument button
     if (instrumentButton) {
         instrumentButton.addEventListener("click", function() {
-            // Assume orbit info is stored in a variable (modify this as needed)
-            let currentOrbit = getCurrentOrbit(); // Replace with actual logic
+            //Assume orbit info is stored in a variable
+            let currentOrbit = getCurrentOrbit();
     
-            // Redirect with orbit info as a query parameter
-            window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId )}`;
+            //Redirect with orbit info as a query parameter
+            window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+            console.log(`instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`);
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
     }
     
-    // Example function to get orbit (Replace this with actual logic)
+    //Function to get orbit
     function getCurrentOrbit() {
-        // Example: Retrieve from sessionStorage, API, or a global variable
+        //Retrieve from sessionStorage, API, or a global variable
         return sessionStorage.getItem("currentOrbit") || "defaultOrbit";
     }
     

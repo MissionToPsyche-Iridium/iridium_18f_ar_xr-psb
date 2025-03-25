@@ -62,8 +62,8 @@
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
 
-        <a-light type="ambient" intensity="0.5"></a-light>
-        <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light>
+        <!-- <a-light type="ambient" intensity="0.5"></a-light> -->
+        <!-- <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light> -->
 
         <a-assets>
             <img id="bkgrd" src="images/background.jpg">
@@ -71,7 +71,7 @@
         <a-sky src="#bkgrd"></a-sky>
         
         <!--<a-light type="point" position="0 2 -3" intensity="1.5" color="whites"></a-light>-->
-        <a-light type="point" position="-3 -5 7" intensity="1.5" color="white"></a-light>
+        <!-- <a-light type="point" position="-3 -5 7" intensity="1.5" color="white"></a-light> -->
 
         <!--old position-->
         <!--<a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>-->
@@ -79,20 +79,20 @@
         <a-entity id="spacecraft" gltf-model="url(models/PsycheSpacecraft-color.glb)" position="1 0 -8" scale="0.3 0.3 0.3"visible="false" rotation="180 45 0"></a-entity>
         
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
-        <a-entity id="gamma-spectrometer" gltf-model="url(models/gammaRaySpectrometer.glb)" position="0 0 -4" scale="0.45 0.45 0.45" visible="false"></a-entity>
-        <a-entity id="neutron-spectrometer" gltf-model="url(models/neutronSpectrometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0"></a-entity>
+        <a-entity id="gamma-spectrometer" gltf-model="url(models/gammaRaySpectrometer.glb)" position="0 0 -4" scale="0.45 0.45 0.45" visible="false" orbit = "orbitD" data = "gamma"></a-entity>
+        <a-entity id="neutron-spectrometer" gltf-model="url(models/neutronSpectrometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0" orbit = "orbitD" data = "neutron"></a-entity>
         
         <!--old position-->
         <!--<a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>-->
         <!--new position-->
-        <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -3" scale="0.3 0.3 0.3" visible="false"></a-entity>
+        <a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -3" scale="0.3 0.3 0.3" visible="false" orbit = "orbitA" data = "magnetometer"></a-entity>
 
         <!--old position-->
         <!--<a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="0 .5 -4" scale="0.3 0.3 0.3" visible="false"></a-entity>-->
         <!--new position-->
-        <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="-0.3 .7 -5" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0"></a-entity>
+        <a-entity id="multispectral-imager" gltf-model="url(models/imager.glb)" position="-0.3 .7 -5" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0" orbit = "orbitB" data = "multispectral"></a-entity>
 
-        <a-entity id="xband-radio" gltf-model="url(models/xbandradio.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="90 0 30"></a-entity>
+        <a-entity id="xband-radio" gltf-model="url(models/xbandradio.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="90 0 30" orbit = "orbitC" data = "xband-radio"></a-entity>
         
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
@@ -100,6 +100,7 @@
             </a-entity>
         </a-entity>
     </a-scene>
+
     <script type = "module" src="instrumentViewScript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
