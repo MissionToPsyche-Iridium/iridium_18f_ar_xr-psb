@@ -1,12 +1,48 @@
 import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
-
-
 let linkTargetOrbitId = null;
+
+//Observer pattern
+class OrbitObserver {
+    constructor() {
+        this.subscribers = {};
+    }
+
+    subscribe(event, callback){
+        if(!this.subscribers[event]){
+            this.subscribers[event] = [];
+        }
+        this.subscribers[event].push(callback);
+    }
+
+    unsubscriber(event, callback){
+        if(this.subscribers[event]){
+            this.subscribers[event] = this.subscribers[event].filter(cb => cb !== callback);
+        }
+    }
+
+    notify(event, data){
+        if(this.subscribers[event]){
+            this.subscribers[event].forEach(callback => callback(data));
+        }
+    }
+}
+
+//Global observer instance
+const orbitObserver = new OrbitObserver();
+
 
 document.addEventListener('DOMContentLoaded', () => {
     
     initNavigationMenu();
+
+    //Subscribe functions to orbit selection event
+    orbitObserver.subscribe("orbitSelected", highlightOrbit);
+    orbitObserver.subscribe("orbitSelected", transitionToOrbit);
+    orbitObserver.subscribe("orbitSelected", updateBannerText);
+    orbitObserver.subscribe("orbitSelected", panToPsyche);
+    orbitObserver.subscribe("orbitSelected", orbitPopupText);
+    orbitObserver.subscribe("orbitSelected", loadOrbitDetails);
 
     //Attach event listeners
     textSizeToggle();
@@ -30,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit) {
 
+        
         //Set inital camera position
         camera.setAttribute('position', {
             x: 0,
@@ -38,15 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         linkTargetOrbitId = storedOrbit; 
-        console.log("Current Orbit ID:", linkTargetOrbitId);
 
         //Perform view change
-        highlightOrbit(storedOrbit);
-        transitionToOrbit(storedOrbit);
-        updateBannerText(storedOrbit);
-        panToPsyche(storedOrbit);
-        orbitPopupText(storedOrbit);
-        loadOrbitDetails(storedOrbit);
+        orbitObserver.notify("orbitSelected", storedOrbit);
 
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
@@ -57,17 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbit = document.getElementById(orbitId + "-wrapper");
         orbit.addEventListener('click', (event) => {
 
-
             linkTargetOrbitId = orbitId; 
-            console.log("Current Orbit ID:", linkTargetOrbitId);
+
             //Perform view change
             event.stopPropagation();
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            panToPsyche(orbitId);
-            orbitPopupText(orbitId);
-            loadOrbitDetails(orbitId);
+            orbitObserver.notify("orbitSelected", orbitId);
         });
     });
     
@@ -80,18 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
             //Get orbit Id
             const orbitId = link.getAttribute('data-orbit');
 
-
             linkTargetOrbitId = orbitId; 
-            console.log("Current Orbit ID:", linkTargetOrbitId);
 
             //Perform view change
             toggleMenu();
-            highlightOrbit(orbitId);
-            transitionToOrbit(orbitId);
-            updateBannerText(orbitId);
-            panToPsyche(orbitId);
-            orbitPopupText(orbitId);
-            loadOrbitDetails(orbitId);
+            orbitObserver.notify("orbitSelected", orbitId);
         });
     });
 
@@ -248,21 +266,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //logic for instrument button
     if (instrumentButton) {
         instrumentButton.addEventListener("click", function() {
-            //Assume orbit info is stored in a variable
-            let currentOrbit = getCurrentOrbit();
-    
             //Redirect with orbit info as a query parameter
             window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
-            console.log(`instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`);
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
-    }
-    
-    //Function to get orbit
-    function getCurrentOrbit() {
-        //Retrieve from sessionStorage, API, or a global variable
-        return sessionStorage.getItem("currentOrbit") || "defaultOrbit";
     }
     
     // Function to load orbit details
@@ -407,15 +415,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.object3D.children, true);
+        const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
+        
+        //Check if button is pressed, in case an orbit is behind button
+        if (event.target.classList.contains("btn") || event.target.id === "instrumentButton") {
+            return; //Stop further processing
+        }
 
-        const hit = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
-
-        if (hit) {
-            const wrapper = hit.object.el.parentEl;
+        if (orbitSelection) {
+            const wrapper = orbitSelection.object.el.parentEl;
             const torus = wrapper.querySelector("a-torus:not(.hitbox)");
 
             if (torus) {
                 const orbitId = torus.id;
+                linkTargetOrbitId = orbitId; //Store current orbitID for instrument view linking
                 highlightOrbit(orbitId);
                 transitionToOrbit(orbitId);
                 updateBannerText(orbitId);
