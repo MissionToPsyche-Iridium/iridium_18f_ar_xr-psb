@@ -138,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSampleData(instrumentId) {
         const dataFile = `texts/${instrumentId}/${instrumentId}SampleData.png`;
 
-        console.log("Checking for " + instrumentId);
         fetch(dataFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");

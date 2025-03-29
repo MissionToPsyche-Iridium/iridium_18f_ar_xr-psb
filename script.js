@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(linkTargetOrbitId){
         //Perform view change
         orbitObserver.notify("orbitSelected", storedOrbit);
+        
         }
 
         // Clear stored value after applying the functions
@@ -94,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //Perform view change
             event.stopPropagation();
             orbitObserver.notify("orbitSelected", orbitId);
+            changeButtonPicture(orbitId);
         });
     });
     
@@ -351,6 +353,34 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         .catch(error => console.error("Error loading text file:", error));
     }
+
+    function changeButtonPicture(orbitId){
+        const instrumentPictureFile = `images/instruments/${orbitId}.png`;
+    
+        //Map instruments to the orbit ID
+        const instrumentMap = {
+            "orbitA": "magnetometer",
+            "orbitB": "multispectral imager",
+            "orbitC": "x band-radio",
+            "orbitD": "spectrometers"
+        };
+
+        const instrumentName = instrumentMap[orbitId];
+
+        let img = instrumentButton.querySelector("img");
+        if (!img) {
+            img = document.createElement("img");
+            instrumentButton.textContent = "";
+            instrumentButton.appendChild(img);
+        }
+
+        //Set image attributes
+        img.src = instrumentPictureFile;
+        img.alt = `Go to ${instrumentName}`;
+        img.style.height = "30px";
+    
+    }
+
     //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
     //window.highlightOrbit = highlightOrbit;
 
