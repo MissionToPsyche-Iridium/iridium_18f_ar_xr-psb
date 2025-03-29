@@ -351,8 +351,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         .catch(error => console.error("Error loading text file:", error));
     }
-    window.moveObjectThroughOrbit = moveObjectThroughOrbit;
-    window.highlightOrbit = highlightOrbit;
+    //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
+    //window.highlightOrbit = highlightOrbit;
 
     // Allows users to switch to larger text size for greater readability
     function textSizeToggle(){

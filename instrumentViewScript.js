@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const instruments = {
         spacecraft: document.querySelector("#spacecraft"),
-        gamma: document.querySelector("#gamma-spectrometer"),
-        neutron: document.querySelector("#neutron-spectrometer"),
+        gamma: document.querySelector("#gamma"),
+        neutron: document.querySelector("#neutron"),
         magnetometer: document.querySelector("#magnetometer"),
         multispectral: document.querySelector("#multispectral-imager"),
         "xband-radio": document.querySelector("#xband-radio")
@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSampleData(instrumentId) {
         const dataFile = `texts/${instrumentId}/${instrumentId}SampleData.png`;
 
+        console.log("Checking for " + instrumentId);
         fetch(dataFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
@@ -283,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("displaying xband");
                 break;
             case "orbitD":
-                instrumentId = "gamma-spectrometer";
+                instrumentId = "gamma";
                 console.log("displaying gamma");
                 break;
             default:
