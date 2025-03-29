@@ -64,9 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check if there's a stored orbit from reference page and apply the functions
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
-    if (storedOrbit) {
+    if (storedOrbit && storedOrbit !== "null") {
 
-        
         //Set inital camera position
         camera.setAttribute('position', {
             x: 0,
@@ -76,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         linkTargetOrbitId = storedOrbit; 
 
+        if(linkTargetOrbitId){
         //Perform view change
         orbitObserver.notify("orbitSelected", storedOrbit);
+        }
 
         // Clear stored value after applying the functions
         sessionStorage.removeItem("selectedOrbit");
