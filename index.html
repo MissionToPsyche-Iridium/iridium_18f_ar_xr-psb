@@ -34,7 +34,9 @@
             </div>
 
             <!-- instrument button -->
-            <button id="instrumentButton" class="btn btn-primary">Go to Instruments</button>
+            <button id="instrumentButton" class="btn btn-primary" data-raycastable>
+                Go to Instruments
+            </button>
 
             <div class="center-text">
                 <p id="bannerText" class="m-0">Psyche</p>
@@ -160,7 +162,7 @@
         <!-- Camera and Rig -->
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
-                <a-cursor material="color: #ef5966" raycaster="objects: [data-raycastable]"></a-cursor>-
+                <a-cursor material="color: #ef5966" opacity = "0" raycaster="objects: [data-raycastable]" cursor="rayOrigin: mouse"></a-cursor>
             </a-entity>
         </a-entity>
     </a-scene>

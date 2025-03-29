@@ -45,14 +45,14 @@
     </header>
 
     <!-- Sample Data Text Box -->
-    <div class="sample-data text-light bg-dark p-3 rounded position-absolute">
+    <div class="sample-data text-light bg-dark p-3 rounded position-absolute d-none">
         <h5 id="sample-data-title">Sample Data</h5>
         <p id="sampledatatext">This is where the sample data of the selected instrument will appear.</p>
         <button id="see-more-btn2" class="btn btn-secondary btn-sm">See More</button>
     </div>
 
     <!-- Instrument Details Text Box -->
-    <div class="instrument-details text-light bg-dark p-3 rounded position-absolute">
+    <div class="instrument-details text-light bg-dark p-3 rounded position-absolute d-none">
         <h5 id="instrument-details">Instrument details</h5>
         <p id="instrumentdetails">This is where the description of the selected instrument will appear.</p>
         <button id="see-more-btn1" class="btn btn-secondary btn-sm">See More</button>
@@ -79,8 +79,8 @@
         <a-entity id="spacecraft" gltf-model="url(models/PsycheSpacecraft-color.glb)" position="1 0 -8" scale="0.3 0.3 0.3"visible="false" rotation="180 45 0"></a-entity>
         
         <!--we can use this to change visbility of html page to allow for only one page to be needed -->
-        <a-entity id="gamma-spectrometer" gltf-model="url(models/gammaRaySpectrometer.glb)" position="0 0 -4" scale="0.45 0.45 0.45" visible="false" orbit = "orbitD" data = "gamma"></a-entity>
-        <a-entity id="neutron-spectrometer" gltf-model="url(models/neutronSpectrometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0" orbit = "orbitD" data = "neutron"></a-entity>
+        <a-entity id="gamma" gltf-model="url(models/gammaRaySpectrometer.glb)" position="0 0 -4" scale="0.45 0.45 0.45" visible="false" orbit = "orbitD" data = "gamma"></a-entity>
+        <a-entity id="neutron" gltf-model="url(models/neutronSpectrometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0" orbit = "orbitD" data = "neutron"></a-entity>
         
         <!--old position-->
         <!--<a-entity id="magnetometer" gltf-model="url(models/magnetometer.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false"></a-entity>-->
