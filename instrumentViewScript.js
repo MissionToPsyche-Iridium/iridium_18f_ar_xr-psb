@@ -6,10 +6,42 @@ let previousMouseX = 0;
 let previousMouseY = 0;
 const navigationMenu = document.querySelector(".navigation__menu");
 
+//Observer pattern
+class InstrumentObserver {
+    constructor() {
+        this.subscribers = {};
+    }
+
+    subscribe(event, callback){
+        if(!this.subscribers[event]){
+            this.subscribers[event] = [];
+        }
+        this.subscribers[event].push(callback);
+    }
+
+    unsubscriber(event, callback){
+        if(this.subscribers[event]){
+            this.subscribers[event] = this.subscribers[event].filter(cb => cb !== callback);
+        }
+    }
+
+    notify(event, data){
+        if(this.subscribers[event]){
+            this.subscribers[event].forEach(callback => callback(data));
+        }
+    }
+}
+
+//Global observer instance
+const instrumentObserver = new InstrumentObserver();
+
 document.addEventListener("DOMContentLoaded", () => {
 
     initNavigationMenu();
 
+    instrumentObserver.subscribe("instrumentSelected", loadInstrumentDetails);
+    instrumentObserver.subscribe("instrumentSelected", loadSampleData);
+    
     console.log("Instrument View Loaded"); // Debugging check
     //Extract the query parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -175,8 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedInstrument = instruments[instrumentId];
                 selectedInstrument.setAttribute("visible", "true");
                 if(instrumentId != "spacecraft"){
-                    loadInstrumentDetails(instrumentId);
-                    loadSampleData(instrumentId);
+                    instrumentObserver.notify("instrumentSelected", instrumentId);
                 }
                 else{
                     instrumentDetailsBox.classList.add("d-none");
@@ -268,8 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const instrumentLink = selectedInstrument.getAttribute("data")
 
         if(instrumentId != "spacecraft"){
-            loadInstrumentDetails(instrumentLink);
-            loadSampleData(instrumentLink);
+            instrumentObserver.notify("instrumentSelected", instrumentId);
         }
         else{
             instrumentDetailsBox.classList.add("d-none");
