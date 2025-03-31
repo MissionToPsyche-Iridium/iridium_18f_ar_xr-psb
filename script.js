@@ -371,16 +371,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let img = instrumentButton.querySelector("img");
         if (!img) {
+            console.log("TEST");
             img = document.createElement("img");
-            instrumentButton.textContent = "";
-            instrumentButton.appendChild(img);
         }
+        instrumentButton.textContent = "";
+        instrumentButton.appendChild(img);
 
         //Set image attributes
         img.src = instrumentPictureFile;
         img.alt = `Go to ${instrumentName}`;
         img.style.height = "30px";
-    
     }
 
     //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
