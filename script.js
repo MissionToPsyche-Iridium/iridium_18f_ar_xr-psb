@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(linkTargetOrbitId){
         //Perform view change
         orbitObserver.notify("orbitSelected", storedOrbit);
-        
         }
 
         // Clear stored value after applying the functions
@@ -477,12 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (torus) {
                 const orbitId = torus.id;
                 linkTargetOrbitId = orbitId; //Store current orbitID for instrument view linking
-                highlightOrbit(orbitId);
-                transitionToOrbit(orbitId);
-                updateBannerText(orbitId);
-                panToPsyche(orbitId);
-                orbitPopupText(orbitId);
-                loadOrbitDetails(orbitId);
+                orbitObserver.notify("orbitSelected", orbitId);
             } else {
                 console.warn("Hitbox hit but no torus found in wrapper.");
             }
