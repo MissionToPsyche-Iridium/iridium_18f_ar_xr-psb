@@ -180,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = 90;
         let step = 0;
 
+        const cameraControls = cameraEl.components['look-controls'];
+        if (cameraControls) {
+            cameraControls.enabled = false; // Disable camera controls
+        }
+
         //Smooth out camera movement
         const interval = setInterval(() => {
 
@@ -202,6 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Set the camera to look at the Psyche object after panning
                 camera.setAttribute('look-at', '#psyche');
+            
+                // Re-enable camera controls
+                if (cameraControls) {
+                    cameraControls.enabled = true; // Re-enable camera controls
+                }
             }
         }, 10);
     }
