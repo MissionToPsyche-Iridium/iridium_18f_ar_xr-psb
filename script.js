@@ -268,9 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //logic for instrument button
     if (instrumentButton) {
-        instrumentButton.addEventListener("click", function() {
-            //Redirect with orbit info as a query parameter
-            window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+        //Check for mouse click
+        instrumentButton.addEventListener("pointerdown", function(event) {
+            if (event.pointerType === "mouse") {
+                //Redirect with orbit info as a query parameter
+                window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+            }
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
@@ -423,6 +426,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Touchscreen functionality
     document.addEventListener("touchstart", (event) => {
+        const buttons = [instrumentButton, document.getElementById("textSizeBtn"), document.getElementById("speakButton")];
+
+        //Check if pressing button
+        for (let button of buttons) {
+            if (button && (event.target === button || button.contains(event.target))) {
+                if(button.id === "instrumentButton"){
+                    window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+                }
+                event.stopPropagation();
+                return; // Stop further processing
+            }
+        }
+
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
 
@@ -447,11 +463,12 @@ document.addEventListener('DOMContentLoaded', () => {
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.object3D.children, true);
         const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
-        
+
         //Check if button is pressed, in case an orbit is behind button
-        if (event.target.classList.contains("btn") || event.target.id === "instrumentButton" || event.target.id === "textSizeBtn" || event.target.id === "speakButton") {
+        /*if (buttonSelection) {
+            console.log("Here");
             return; //Stop further processing
-        }
+        }*/
 
         if (orbitSelection) {
             const wrapper = orbitSelection.object.el.parentEl;
