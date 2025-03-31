@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
         
         //Check if button is pressed, in case an orbit is behind button
-        if (event.target.classList.contains("btn") || event.target.id === "instrumentButton") {
+        if (event.target.classList.contains("btn") || event.target.id === "instrumentButton" || event.target.id === "textSizeBtn" || event.target.id === "speakButton") {
             return; //Stop further processing
         }
 
