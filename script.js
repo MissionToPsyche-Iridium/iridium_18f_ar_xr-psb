@@ -371,7 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let img = instrumentButton.querySelector("img");
         if (!img) {
-            console.log("TEST");
             img = document.createElement("img");
         }
         instrumentButton.textContent = "";
