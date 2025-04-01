@@ -70,8 +70,10 @@
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
         
-        <!--<a-light type="point" position="0 2 -3" intensity="1.5" color="whites"></a-light>-->
-        <!-- <a-light type="point" position="-3 -5 7" intensity="1.5" color="white"></a-light> -->
+        <!-- Light that will change brightness depending on instrument in scene; slightly blue-ish white to look less clinical-->
+        <!-- This lighting is adequately bright for both spectrometers and spacecraft (need brighter for magnetometer, imager, & xband radio)-->
+        <a-light id="dynamic-directional-light" type="directional" intensity="1.5" color="#F0F5FF" position="-2.5 2 1"></a-light>
+        <a-light id="dynamic-point-light" type="point" position="0 2 3" intensity="1.0" color=#F0F5FF></a-light>
 
         <!--old position-->
         <!--<a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>-->

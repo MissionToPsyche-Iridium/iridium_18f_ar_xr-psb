@@ -68,6 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const sampleDataBox = document.querySelector(".sample-data");
     const seeMoreBtn2 = document.getElementById("see-more-btn2");
 
+    const directionalLight = document.querySelector("#dynamic-directional-light");
+    const pointLight = document.querySelector("#dynamic-point-light");
+
     const camera = document.querySelector("[camera]");
     if (camera) {
         camera.setAttribute("look-controls", "enabled", false);
@@ -196,6 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(`Instrument Selected: ${instrumentId}`);
             toggleMenu();
 
+            // Update the light for the selected instrument
+            updateLightForInstrument(instrumentId);
+
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {
                     instruments[id].setAttribute("visible", "false");
@@ -313,5 +319,32 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(`Instrument with ID '${instrumentId}' not found!`);
         }
   }
+
+    // Dynamic lighting for instruments needing brighter lighting
+    // point light always same position; directional may need updating
+    function updateLightForInstrument(instrumentId) {
+      switch (instrumentId) {
+          case "magnetometer":
+              directionalLight.setAttribute("intensity", "5.0");
+              directionalLight.setAttribute("position", "-3 -2 1");
+              pointLight.setAttribute("intensity", "7.0");
+              break;
+          case "multispectral":
+              directionalLight.setAttribute("intensity", "2.0");
+              directionalLight.setAttribute("position", "1 3 -4");
+              pointLight.setAttribute("intensity", "5.0");
+              break;
+          case "xband-radio":
+              directionalLight.setAttribute("intensity", "2.0");
+              directionalLight.setAttribute("position", "-4 2 -1");
+              pointLight.setAttribute("intensity", "5.0");
+              break;
+          default:
+              directionalLight.setAttribute("intensity", "1.5");
+              directionalLight.setAttribute("position", "-2.5 2 1");
+              pointLight.setAttribute("intensity", "1.0");
+              break;
+        }
+    }
 
 });
