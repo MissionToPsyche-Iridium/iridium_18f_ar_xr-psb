@@ -292,13 +292,13 @@ nav{
     background-color: #ef5966;
 }
 
-/* Instrument Description Box */
-.instrument-description {
-    visibility: hidden; /* Initially hidden */
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    width: 250px;
+/* Instrument details Box */
+.instrument-details {
+    visibility: visible;
+    position: fixed;
+    top: 75px; /* Underneath nav bar */
+    right: 2px;
+    width: 75%;
     max-height: 200px;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.8);
@@ -306,56 +306,84 @@ nav{
     padding: 15px;
     border-radius: 8px;
     z-index: 1000;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    flex-direction: column;    
 }
 
-.instrument-description.show {
-    visibility: visible; /* Show when an instrument is selected */
+/* For testing - show class for visibility */
+.instrument-details.show {
+    visibility: visible; /* Ensure it’s visible */
+    opacity: 1; /* Make sure it's fully opaque */
+    transition: visibility 0s linear 0s; /* Immediate visibility */
 }
 
-.instrument-description.expanded {
-    max-height: 400px;
-    overflow-y: auto;
-    transition: width 0.3s ease, max-height 0.3s ease;
+/* Expanded state */
+.instrument-details.expanded {
+    max-height: 400px; /* Expanded height */
+    overflow-y: auto; /* Allow scrolling */
+    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-#instrument-text {
-    flex-grow: 1;
-    max-height: 120px;
+/* Collapsed state: Only show the title and button */
+.instrument-details.collapsed #instrumentdetails {
+    display: none; /* Hide the text content */
+}
+
+/* Expanded state: Show the title, button, and text */
+.instrument-details.expanded #instrumentdetails {
+    display: block; /* Show the text content */
+    max-height: 400px; /* Allow full expansion */
+    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
+
+/* Instrument details text */
+#instrumentdetails {
+    flex-grow: 1; /* Allow text to expand */
+    max-height: 120px; /* Default height */
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     font-size: 16px;
 }
 
-#instrument-see-more-btn {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+#see-more-btn1 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
     background-color: #f47c33;
     color: white;
     border: none;
-    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;  /* Use flexbox to center the text inside */
+    justify-content: center;
     text-align: center;
 }
 
-#instrument-see-more-btn:hover {
+#see-more-btn1:hover {
     background-color: #ef5966;
 }
 
 #see-more-btn2 {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
     background-color: #f47c33;
     color: white;
     border: none;
-    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;  /* Use flexbox to center the text inside */
+    justify-content: center;
     text-align: center;
 }
 
@@ -364,10 +392,10 @@ nav{
 }
 
 .sample-data {
-    position: absolute;
-    bottom: 5px;
-    left: 10px;
-    width: 250px;
+    position: fixed;
+    top: 145px; /* Underneath instrument info box */
+    right: 2px;
+    width: 75%;
     max-height: 200px;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.8);
@@ -375,20 +403,36 @@ nav{
     padding: 15px;
     border-radius: 8px;
     z-index: 1;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
     display: flex;
     flex-direction: column;
+  
 }
 
 .sample-data.show {
     visibility: visible;
 }
 
+/* Expanded state */
 .sample-data.expanded {
-    max-height: 400px;
-    overflow-y: auto;
-    transition: width 0.3s ease, max-height 0.3s ease;
+    max-height: 400px; /* Expanded height */
+    overflow-y: auto; /* Allow scrolling */
+    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;
 }
+
+/* Collapsed state: Only show the title and button */
+.sample-data.collapsed #sampledatatext {
+    display: none; /* Hide the text content */
+}
+
+/* Expanded state: Show the title, button, and text */
+.sample-data.expanded #sampledatatext {
+    display: block; /* Show the text content */
+    max-height: 400px; /* Allow full expansion */
+    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
+
+
 
 /* A-Frame scene styles */
 a-scene {
@@ -475,63 +519,4 @@ a-scene {
         backdrop-filter: blur(10px); /* Glass effect */
         border-radius: 10px; /* Rounded button */
     }
-}
-
-/* Default state of the instrument-details box */
-.instrument-details {
-    visibility: visible; /* Ensure the box is visible for testing */
-    position: absolute;
-    bottom: 5px;
-    right: 10px; /* Consistent placement */
-    width: 300px; /* Set fixed width */
-    max-height: 200px; /* Default height */
-    overflow: hidden; /* Hide overflow initially */
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    z-index: 1000;
-    transition: max-height 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Expanded state */
-.instrument-details.expanded {
-    max-height: 400px; /* Expanded height */
-    width: 300px; /* Fix width for expanded view */
-    overflow-y: auto; /* Allow scrolling */
-    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;
-}
-
-/* Instrument details text */
-#instrumentdetails {
-    flex-grow: 1; /* Allow text to expand */
-    max-height: 120px; /* Default height */
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-    font-size: 16px;
-}
-
-/* For testing - show class for visibility */
-.instrument-details.show {
-    visibility: visible; /* Ensure it’s visible */
-    opacity: 1; /* Make sure it's fully opaque */
-    transition: visibility 0s linear 0s; /* Immediate visibility */
-}
-#see-more-btn1 {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    background-color: #f47c33;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-}
-
-#see-more-btn1:hover {
-    background-color: #ef5966;
 }

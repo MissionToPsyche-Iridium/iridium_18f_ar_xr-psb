@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "xband-radio": document.querySelector("#xband-radio")
     };
 
-    const instrumentTitle = document.getElementById("instrument-details");
+    const instrumentTitle = document.getElementById("instrument-details-title");
     const instrumentDetailsText = document.getElementById("instrumentdetails");
     const instrumentDetailsBox = document.querySelector(".instrument-details");
     const seeMoreBtn1 = document.getElementById("see-more-btn1");
@@ -99,12 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(data => {
                 const instrumentNames = {
-                spacecraft: "Psyche Spacecraft Details",
-                gamma: "Gamma Ray Spectrometer Details",
-                neutron: "Neutron Spectrometer Details",
-                magnetometer: "Magnetometer Details",
-                multispectral: "Multispectral Imager Details",
-                "xband-radio": "X-band Radio Details"
+                spacecraft: "Psyche Spacecraft",
+                gamma: "Gamma Ray Spectrometer",
+                neutron: "Neutron Spectrometer",
+                magnetometer: "Magnetometer",
+                multispectral: "Multispectral Imager",
+                "xband-radio": "X-band Radio"
               };
 
                 instrumentTitle.innerText = instrumentNames[instrumentId] || instrumentId.replace(/-/g, " ");
@@ -120,16 +120,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 seeMoreBtn1.onclick = function() {
                     if (instrumentDetailsBox.classList.contains("expanded")) {
                         instrumentDetailsBox.classList.remove("expanded");
-                        instrumentDetailsText.style.maxHeight = "120px";
-                        seeMoreBtn1.innerText = "See More";
+                        instrumentDetailsBox.classList.add("collapsed");
+                        // instrumentDetailsText.style.maxHeight = "120px";
+                        seeMoreBtn1.innerText = "+";
                     } else {
                         instrumentDetailsBox.classList.add("expanded");
-                        instrumentDetailsText.style.maxHeight = "400px";
-                        instrumentDetailsText.style.overflowY = "auto";
-                        seeMoreBtn1.innerText = "See Less";
+                        instrumentDetailsBox.classList.remove("collapsed");
+                        //instrumentDetailsText.style.maxHeight = "400px";
+                        // instrumentDetailsText.style.overflowY = "auto";
+                        seeMoreBtn1.innerText = "-";
                     }
                 };
-                seeMoreBtn1.innerText = "See More";
+                seeMoreBtn1.innerText = "+";
             })
 
             .catch(error => {
@@ -166,16 +168,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 seeMoreBtn2.onclick = function() {
                     if (sampleDataBox.classList.contains("expanded")) {
                         sampleDataBox.classList.remove("expanded");
-                        sampleDataText.style.maxHeight = "120px";
-                        seeMoreBtn2.innerText = "See More";
+                        sampleDataBox.classList.add("collapsed");
+                        //sampleDataText.style.maxHeight = "120px";
+                        seeMoreBtn2.innerText = "+";
                     } else {
                         sampleDataBox.classList.add("expanded");
-                        sampleDataText.style.maxHeight = "400px";
-                        sampleDataText.style.overflowY = "auto";
-                        seeMoreBtn2.innerText = "See Less";
+                        sampleDataBox.classList.remove("collapsed");
+                        // sampleDataText.style.maxHeight = "400px";
+                        // sampleDataText.style.overflowY = "auto";
+                        seeMoreBtn2.innerText = "-";
                     }
                 };
-                seeMoreBtn2.innerText = "See More";
+                seeMoreBtn2.innerText = "+";
             })
             .catch(error => {
                 sampleDataText.innerText = "Sample data unavailable.";
