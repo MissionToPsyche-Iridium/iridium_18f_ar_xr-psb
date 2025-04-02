@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadInstrumentDetails(instrumentId) {
         const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
-
+        console.log(instrumentId);
         fetch(descriptionFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
@@ -321,8 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedInstrument = document.getElementById(instrumentId);
         const instrumentLink = selectedInstrument.getAttribute("data")
 
-        if(instrumentId != "spacecraft"){
-            instrumentObserver.notify("instrumentSelected", instrumentId);
+        if(selectedInstrument != "spacecraft"){
+            instrumentObserver.notify("instrumentSelected", instrumentLink);
         }
         else{
             instrumentDetailsBox.classList.add("d-none");
