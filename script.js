@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners for each orbit click
     orbits.forEach(orbitId => {
         const orbit = document.getElementById(orbitId + "-wrapper");
+        if(!isMobile()){
         orbit.addEventListener('click', (event) => {
 
             linkTargetOrbitId = orbitId; 
@@ -96,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitObserver.notify("orbitSelected", orbitId);
             changeButtonPicture(orbitId);
         });
+    }
     });
     
     // Event listeners for each navigation menu link
@@ -177,8 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const startPosition = camera.getAttribute('position');
-        const steps = 90;
+        const steps = 20;
         let step = 0;
+
+        camera.setAttribute('look-controls', 'enabled', 'false');
 
         //Smooth out camera movement
         const interval = setInterval(() => {
@@ -201,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
 
                 // Set the camera to look at the Psyche object after panning
-                camera.setAttribute('look-at', '#psyche');
+                //camera.setAttribute('look-at', '#psyche');
+                camera.setAttribute('look-controls', 'enabled', 'true');
             }
         }, 10);
     }
@@ -483,6 +488,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("No hitbox hit.");
         }
     });
+
+    //Check is using mobile
+    function isMobile() {
+        return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    }
 });
 
 var x = setInterval(function() {
