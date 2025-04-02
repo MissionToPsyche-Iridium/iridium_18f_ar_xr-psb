@@ -467,12 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const intersects = raycaster.intersectObjects(scene.object3D.children, true);
         const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
 
-        //Check if button is pressed, in case an orbit is behind button
-        /*if (buttonSelection) {
-            console.log("Here");
-            return; //Stop further processing
-        }*/
-
         if (orbitSelection) {
             const wrapper = orbitSelection.object.el.parentEl;
             const torus = wrapper.querySelector("a-torus:not(.hitbox)");
