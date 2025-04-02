@@ -1,1 +1,1 @@
-Measures the major-element composition of the Psyche astorid by measuring nuetron energy from the asteroid which is detected by sensors using 3 different filters. (Dibbs et. al., 2024) (Peplowski et. al., 2022)
+Measures the major-element composition of the Psyche astorid by measuring nuetron energy from the asteroid which is detected by sensors using 3 different filters. (Dibb et. al., 2024) (Peplowski et. al., 2022)

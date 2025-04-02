@@ -12,7 +12,52 @@
 
 body{
     font-family: "Helvetica", "Arial", sans-serif;
-    background-color: var(--magenta-color);
+    background-color: var(--dark-purple-color);
+}
+
+/*reference sheet cards*/
+.card {
+    background-color: var(--purple-color); /* Set the card background to --coral-color */
+    color: var(--text-color); /* Ensure text is readable */
+    border: none; /* Remove default card border */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+#references-page {
+    background-color: var(--dark-purple-color); /* Set the background color */
+    color: var(--text-color); /* Ensure text is readable */
+}
+
+#references-page p {
+    margin: 0; /* Remove default margin */
+    margin-bottom: 0.25rem; /* Add a smaller bottom margin for spacing */
+}
+
+#references-page footer {
+    background-color: var(--dark-purple-color); /* Set the footer background color */
+    color: var(--text-color); /* Ensure the text is readable */
+    padding: 15px; /* Add some padding for spacing */
+    border-top: 2px solid var(--coral-color); /* Optional: Add a border for separation */
+}
+
+/*modify color of hyperlinks*/
+#references-page a {
+    color: var(--gold-color); /* Replace with your desired color */
+}
+
+#references-page a:hover {
+    color: var(--coral-color); /* Optional: Change color on hover */
+}
+
+.row {
+    padding: 20px; /* Add padding around the cards */
+}
+
+.card-title {
+    font-weight: bold; /* Make the card title bold */
+    font-size: 1.25rem; /* Optional: Adjust the font size if needed */
+    color: var(--text-color); /* Ensure the text color matches the theme */
 }
 
 .hidden{
