@@ -142,10 +142,11 @@ nav{
     width: 80%;
     max-width: 400px;
     font-size: 16px;
-    z-index: 1000;
+    z-index: 100; /* in front of most but behind nav menu*/
     display: none; /* Initially hidden */
 }
 
+/*"go to instrument" button*/
 #instrumentButton {
     display: block;
     visibility: visible;
@@ -161,7 +162,6 @@ nav{
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    /* transition: background 0.3s ease-in-out; */
 }
 
 #instrumentButton:hover {
@@ -229,7 +229,7 @@ nav{
     color: white;
     padding: 15px;
     border-radius: 8px;
-    z-index: 1000;
+    z-index: 1;
     transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
     display: flex;
     flex-direction: column;
@@ -301,12 +301,11 @@ nav{
     width: 75%;
     max-height: 200px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 15px;
     border-radius: 8px;
-    z-index: 1000;
-    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
+    z-index: 1;
+    transition: max-height 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
     flex-direction: column;    
@@ -323,7 +322,7 @@ nav{
 .instrument-details.expanded {
     max-height: 400px; /* Expanded height */
     overflow-y: auto; /* Allow scrolling */
-    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out;
 }
 
 /* Collapsed state: Only show the title and button */
@@ -336,6 +335,8 @@ nav{
     display: block; /* Show the text content */
     max-height: 400px; /* Allow full expansion */
     overflow-y: auto; /* Enable scrolling if content exceeds max height */
+    transition: max-height 0.3s ease-in-out;
+
 }
 
 /* Instrument details text */
@@ -369,6 +370,62 @@ nav{
     background-color: #ef5966;
 }
 
+.sample-data {
+    position: fixed;
+    right: 2px;
+    top: 145px; /*Under instrument-details button */
+    width: 75%;
+    max-height: 200px;
+    overflow: hidden;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1;
+    transition: max-height 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.sample-data.show {
+    visibility: visible;
+}
+
+/* Expanded state */
+.sample-data.expanded {
+    max-height: 600px; 
+    overflow-y: auto; /* Allow scrolling */
+}
+
+/* Ensure the text and image fit within the container */
+#sampledatatext {
+    flex-grow: 1;
+    max-height: inherit; /* Ensure the content respects the container's height */
+    overflow-y: auto; /* Enable scrolling for the text and image */
+    display: flex;
+    flex-direction: column; /* Stack text and image vertically */
+    gap: 10px; /* Add spacing between text and image */
+}
+
+/* Constrain the image size */
+#sampledatatext img {
+    max-width: 100%; /* Ensure the image fits within the container's width */
+    max-height: 100%; /* Ensure the image fits within the container's height */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image scales properly */
+}
+
+/* Collapsed state: Only show the title and button */
+.sample-data.collapsed #sampledatatext {
+    display: none; /* Hide the text content */
+}
+
+/* Expanded state: Show the title, button, and text */
+.sample-data.expanded #sampledatatext {
+    display: block; /* Show the text content */
+    max-height: 600px; /* Allow full expansion */
+    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
+
 #see-more-btn2 {
     position: absolute;
     top: 10px;
@@ -390,48 +447,6 @@ nav{
 #see-more-btn2:hover {
     background-color: #ef5966;
 }
-
-.sample-data {
-    position: fixed;
-    top: 145px; /* Underneath instrument info box */
-    right: 2px;
-    width: 75%;
-    max-height: 200px;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    z-index: 1;
-    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;;
-    display: flex;
-    flex-direction: column;
-  
-}
-
-.sample-data.show {
-    visibility: visible;
-}
-
-/* Expanded state */
-.sample-data.expanded {
-    max-height: 400px; /* Expanded height */
-    overflow-y: auto; /* Allow scrolling */
-    transition: max-height 0.3s ease-in-out, width 0.3s ease-in-out;
-}
-
-/* Collapsed state: Only show the title and button */
-.sample-data.collapsed #sampledatatext {
-    display: none; /* Hide the text content */
-}
-
-/* Expanded state: Show the title, button, and text */
-.sample-data.expanded #sampledatatext {
-    display: block; /* Show the text content */
-    max-height: 400px; /* Allow full expansion */
-    overflow-y: auto; /* Enable scrolling if content exceeds max height */
-}
-
 
 
 /* A-Frame scene styles */

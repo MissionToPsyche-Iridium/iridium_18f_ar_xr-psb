@@ -121,13 +121,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (instrumentDetailsBox.classList.contains("expanded")) {
                         instrumentDetailsBox.classList.remove("expanded");
                         instrumentDetailsBox.classList.add("collapsed");
-                        // instrumentDetailsText.style.maxHeight = "120px";
+                        updateSampleDataBoxPosition();
                         seeMoreBtn1.innerText = "+";
                     } else {
+                        // if other box is expanded, collapse it
+                        if (sampleDataBox.classList.contains("expanded")) {
+                            sampleDataBox.classList.remove("expanded");
+                            sampleDataBox.classList.add("collapsed");
+                            seeMoreBtn2.innerText = "+";
+                        }
                         instrumentDetailsBox.classList.add("expanded");
                         instrumentDetailsBox.classList.remove("collapsed");
-                        //instrumentDetailsText.style.maxHeight = "400px";
-                        // instrumentDetailsText.style.overflowY = "auto";
+                        updateSampleDataBoxPosition();
                         seeMoreBtn1.innerText = "-";
                     }
                 };
@@ -153,14 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const imgElement = document.createElement("img");
                 imgElement.src = imageUrl;
                 imgElement.style.maxWidth = "100%";
+                imgElement.style.maxHeight = "auto";
                 sampleDataTitle.innerText = "Sample Data";
                 
                 sampleDataText.innerHTML = "";
                 sampleDataText.appendChild(imgElement);
 
-                //sampleDataBox.classList.add("show");
                 sampleDataBox.classList.remove("d-none");
                 sampleDataBox.classList.remove("expanded");
+                sampleDataBox.classList.add("collapsed");
                 sampleDataText.style.maxHeight = "120px";
                 sampleDataText.style.overflow = "hidden";
 
@@ -169,13 +175,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (sampleDataBox.classList.contains("expanded")) {
                         sampleDataBox.classList.remove("expanded");
                         sampleDataBox.classList.add("collapsed");
-                        //sampleDataText.style.maxHeight = "120px";
                         seeMoreBtn2.innerText = "+";
                     } else {
                         sampleDataBox.classList.add("expanded");
                         sampleDataBox.classList.remove("collapsed");
-                        // sampleDataText.style.maxHeight = "400px";
-                        // sampleDataText.style.overflowY = "auto";
+                        sampleDataText.style.maxHeight = ""; // Remove restriction
+                        sampleDataText.style.overflow = "auto"; // Enable scrolling
+
+                        // if other box is expanded, collapse it
+                        if (instrumentDetailsBox.classList.contains("expanded")) {
+                            instrumentDetailsBox.classList.remove("expanded");
+                            instrumentDetailsBox.classList.add("collapsed");
+                            updateSampleDataBoxPosition();
+                            seeMoreBtn1.innerText = "+";
+                        }
                         seeMoreBtn2.innerText = "-";
                     }
                 };
@@ -323,6 +336,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(`Instrument with ID '${instrumentId}' not found!`);
         }
   }
+
+    function updateSampleDataBoxPosition() {
+        const detailsBoxHeight = instrumentDetailsBox.offsetHeight;
+        sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + detailsBoxHeight + 5}px`; // Add 5px spacing
+    }
 
     // Dynamic lighting for instruments needing brighter lighting
     // point light always same position; directional may need updating
