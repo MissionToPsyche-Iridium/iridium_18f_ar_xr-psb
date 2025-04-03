@@ -1,1 +1,1 @@
-Used to measure the magnetic feild around Psyche asteroid and search for evidence of remanent magnetism. (Weiss et al., 2023)
+During Orbit A, the primary focus of the Psyche mission will be the initial characterization of the asteroid, with a particular emphasis on using the magnetometer. The magnetometer will be utilized to measure the magnetic field around the Psyche asteroid and search for evidence of remanent magnetism (Weiss et al., 2023)

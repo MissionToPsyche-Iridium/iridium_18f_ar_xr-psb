@@ -1,1 +1,1 @@
-Measures the gravitation feild of the Psyche asteroid to determine mass distribution and interior structure. (Zuber et al., 2022)
+During Orbit C of the NASA Psyche mission, the gravity science investigation measures the gravitational field of the Psyche asteroid to determine its mass distribution and interior structure. (Zuber et al., 2022)

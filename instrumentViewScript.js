@@ -309,12 +309,12 @@ let videoUrl = null;
              case "orbitB":
                  console.log("displaying multispectral");
                  instrumentId = "multispectral-imager";
-                 videoUrl = videoUrls["orbitA"];
+                 videoUrl = videoUrls["orbitB"];
                  break;
              case "orbitC":
                  instrumentId = "xband-radio";
                  console.log("displaying xband");
-                 videoUrl = videoUrls["orbitA"];
+                 videoUrl = videoUrls["orbitC"];
                  break;
              case "orbitD":
                  instrumentId = "gamma";

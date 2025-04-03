@@ -1,1 +1,1 @@
-Allows the spacecraft to gather contextual, topographical, and mineralogical data of the Psyche asteroid Using visible to near-infrared wavelength image maps. (Dibb et al., 2023)
+During Orbit B of the NASA Psyche mission, the multispectral imager allows the spacecraft to gather contextual, topographical, and mineralogical data of the Psyche asteroid Using visible to near-infrared wavelength image maps. (Dibb et al., 2023)

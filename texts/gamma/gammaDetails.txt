@@ -1,1 +1,1 @@
-Measures the major-element composition of the Psyche astorid by detecting cosmic-ray generated gamma-rays. (Dibbs et al., 2024) (Peplowski et al., 2022)
+During Orbit D of the NASA Psyche mission, the gamma-ray spectrometer measures the major-element composition of the Psyche asteroid by detecting cosmic-ray-generated gamma-rays. (Dibb et al., 2024; Peplowski et al., 2022)
