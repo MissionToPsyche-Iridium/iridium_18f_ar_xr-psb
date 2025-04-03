@@ -598,6 +598,10 @@ document.getElementById("speakButton").addEventListener("click", () => {
 
 });
 
+
+
+
+
 let currentSlide = 0;
     const tutorialSlides = [
         { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_1" },
