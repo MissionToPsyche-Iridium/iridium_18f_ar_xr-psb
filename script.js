@@ -577,3 +577,19 @@ document.getElementById("speakButton").addEventListener("click", () => {
         alert("Speech synthesis is not supported in this browser.");
     }
 });
+
+const helpButton = document.getElementById("helpButton");
+const tutorialOverlay = document.getElementById("tutorialOverlay");
+const closeOverlay = document.getElementById("closeOverlay");
+const tutorialVideo = document.getElementById("tutorialVideo");
+
+helpButton.addEventListener("click", () => {
+  tutorialOverlay.style.display = "flex";
+  tutorialVideo.currentTime = 0;
+  tutorialVideo.play();
+});
+
+closeOverlay.addEventListener("click", () => {
+  tutorialVideo.pause();
+  tutorialOverlay.style.display = "none";
+});
