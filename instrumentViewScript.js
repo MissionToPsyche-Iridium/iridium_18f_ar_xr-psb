@@ -268,50 +268,66 @@ document.addEventListener("DOMContentLoaded", () => {
         const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
         instruments.forEach(inst => inst.setAttribute("visible", "false"));
     
-        // Select the correct instrument to show
+        // Define the video URLs for each instrument
+        const videoUrls = {
+            "orbitA": "videos/psycheMagnetometerClip.mp4",
+            "orbitB": "videos/psycheSpectrometerClip.mp4",
+            "orbitC": "https://www.youtube.com/embed/VIDEO_ID_C",
+            "orbitD": "videos/psycheSpectrometerClip.mp4"
+        };
+    
+        // Select the correct instrument to show and video to play
         let instrumentId;
+        let videoUrl = "";
         switch (orbit) {
             case "orbitA":
                 instrumentId = "magnetometer";
+                videoUrl = videoUrls["orbitA"];
                 break;
             case "orbitB":
-                console.log("displaying multispectral");
+                console.log("Displaying multispectral");
                 instrumentId = "multispectral-imager";
+                videoUrl = videoUrls["orbitB"];
                 break;
             case "orbitC":
                 instrumentId = "xband-radio";
-                console.log("displaying xband");
+                console.log("Displaying xband");
+                videoUrl = videoUrls["orbitC"];
                 break;
             case "orbitD":
                 instrumentId = "gamma";
-                console.log("displaying gamma");
+                console.log("Displaying gamma");
+                videoUrl = videoUrls["orbitD"];
                 break;
             default:
                 if (spacecraft) {
-                spacecraft.setAttribute("visible", "true");
-            }
+                    spacecraft.setAttribute("visible", "true");
+                }
                 console.log("Invalid orbit parameter.");
                 return;
         }
-  
-        // Make the selected instrument visible
-        selectedInstrument = document.getElementById(instrumentId);
-        const instrumentLink = selectedInstrument.getAttribute("data")
-
-        if(instrumentId != "spacecraft"){
-            instrumentObserver.notify("instrumentSelected", instrumentId);
+    
+        // Show the selected instrument
+        if (instrumentId) {
+            const instrument = document.getElementById(instrumentId);
+            if (instrument) {
+                instrument.setAttribute("visible", "true");
+            }
         }
-        else{
-            instrumentDetailsBox.classList.add("d-none");
-            sampleDataBox.classList.add("d-none");
+    
+        // Show the video modal
+        if (videoUrl) {
+            const videoIframe = document.getElementById("videoIframe");
+            videoIframe.src = videoUrl;
+            new bootstrap.Modal(document.getElementById("videoModal")).show();
         }
-
-        if (selectedInstrument) {
-            selectedInstrument.setAttribute("visible", "true");
-            console.log(`Showing: ${instrumentId}`);
-        } else {
-            console.log(`Instrument with ID '${instrumentId}' not found!`);
-        }
-  }
-
+    }
+    
+    // Clear the video source when the modal is closed to stop the video
+    document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
+        document.getElementById("videoIframe").src = "";
+    });
+    
 });
+
+
