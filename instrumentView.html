@@ -44,34 +44,32 @@
 
     </header>
 
+    <!-- Instrument Details Text Box -->
+    <div class="instrument-details bg-dark p-3 rounded collapsed d-none">
+        <h5 id="instrument-details-title">Instrument details</h5>
+        <p id="instrumentdetails">This is where the description of the selected instrument will appear.</p>
+        <button id="see-more-btn1" class="btn btn-secondary btn-sm">+</button>
+    </div>
+
     <!-- Sample Data Text Box -->
-    <div class="sample-data text-light bg-dark p-3 rounded position-absolute d-none">
+    <div class="sample-data bg-dark p-3 rounded collapsed d-none">
         <h5 id="sample-data-title">Sample Data</h5>
         <p id="sampledatatext">This is where the sample data of the selected instrument will appear.</p>
-        <button id="see-more-btn2" class="btn btn-secondary btn-sm">See More</button>
+        <button id="see-more-btn2" class="btn btn-secondary btn-sm">+</button>
     </div>
-
-    <!-- Instrument Details Text Box -->
-    <div class="instrument-details text-light bg-dark p-3 rounded position-absolute d-none">
-        <h5 id="instrument-details">Instrument details</h5>
-        <p id="instrumentdetails">This is where the description of the selected instrument will appear.</p>
-        <button id="see-more-btn1" class="btn btn-secondary btn-sm">See More</button>
-    </div>
-
 
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
-
-        <!-- <a-light type="ambient" intensity="0.5"></a-light> -->
-        <!-- <a-light type="directional" position="-1 1 1" intensity="2.5"></a-light> -->
 
         <a-assets>
             <img id="bkgrd" src="images/background.jpg">
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
         
-        <!--<a-light type="point" position="0 2 -3" intensity="1.5" color="whites"></a-light>-->
-        <!-- <a-light type="point" position="-3 -5 7" intensity="1.5" color="white"></a-light> -->
+        <!-- Light that will change brightness depending on instrument in scene; slightly blue-ish white to look less clinical-->
+        <!-- This lighting is adequately bright for both spectrometers and spacecraft (need brighter for magnetometer, imager, & xband radio)-->
+        <a-light id="dynamic-directional-light" type="directional" intensity="1.5" color="#F0F5FF" position="-2.5 2 1"></a-light>
+        <a-light id="dynamic-point-light" type="point" position="0 2 3" intensity="1.0" color=#F0F5FF></a-light>
 
         <!--old position-->
         <!--<a-entity id="spacecraft" gltf-model="url(models/PsycheSatellite.glb)" position="0 -1.2 -4" scale="0.03 0.03 0.03"visible="true" rotation="90 -45 0"></a-entity>-->

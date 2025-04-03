@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "xband-radio": document.querySelector("#xband-radio")
     };
 
-    const instrumentTitle = document.getElementById("instrument-details");
+    const instrumentTitle = document.getElementById("instrument-details-title");
     const instrumentDetailsText = document.getElementById("instrumentdetails");
     const instrumentDetailsBox = document.querySelector(".instrument-details");
     const seeMoreBtn1 = document.getElementById("see-more-btn1");
@@ -67,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const sampleDataText = document.getElementById("sampledatatext");
     const sampleDataBox = document.querySelector(".sample-data");
     const seeMoreBtn2 = document.getElementById("see-more-btn2");
+
+    const directionalLight = document.querySelector("#dynamic-directional-light");
+    const pointLight = document.querySelector("#dynamic-point-light");
 
     const camera = document.querySelector("[camera]");
     if (camera) {
@@ -88,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadInstrumentDetails(instrumentId) {
         const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
-
+        console.log(instrumentId);
         fetch(descriptionFile)
             .then(response => {
                 if (!response.ok) throw new Error("File not found");
@@ -96,12 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(data => {
                 const instrumentNames = {
-                spacecraft: "Psyche Spacecraft Details",
-                gamma: "Gamma Ray Spectrometer Details",
-                neutron: "Neutron Spectrometer Details",
-                magnetometer: "Magnetometer Details",
-                multispectral: "Multispectral Imager Details",
-                "xband-radio": "X-band Radio Details"
+                spacecraft: "Psyche Spacecraft",
+                gamma: "Gamma Ray Spectrometer",
+                neutron: "Neutron Spectrometer",
+                magnetometer: "Magnetometer",
+                multispectral: "Multispectral Imager",
+                "xband-radio": "X-band Radio"
               };
 
                 instrumentTitle.innerText = instrumentNames[instrumentId] || instrumentId.replace(/-/g, " ");
@@ -117,16 +120,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 seeMoreBtn1.onclick = function() {
                     if (instrumentDetailsBox.classList.contains("expanded")) {
                         instrumentDetailsBox.classList.remove("expanded");
-                        instrumentDetailsText.style.maxHeight = "120px";
-                        seeMoreBtn1.innerText = "See More";
+                        instrumentDetailsBox.classList.add("collapsed");
+                        updateSampleDataBoxPosition();
+                        seeMoreBtn1.innerText = "+";
                     } else {
+                        // if other box is expanded, collapse it
+                        if (sampleDataBox.classList.contains("expanded")) {
+                            sampleDataBox.classList.remove("expanded");
+                            sampleDataBox.classList.add("collapsed");
+                            seeMoreBtn2.innerText = "+";
+                        }
                         instrumentDetailsBox.classList.add("expanded");
-                        instrumentDetailsText.style.maxHeight = "400px";
-                        instrumentDetailsText.style.overflowY = "auto";
-                        seeMoreBtn1.innerText = "See Less";
+                        instrumentDetailsBox.classList.remove("collapsed");
+                        updateSampleDataBoxPosition();
+                        seeMoreBtn1.innerText = "-";
                     }
                 };
-                seeMoreBtn1.innerText = "See More";
+                seeMoreBtn1.innerText = "+";
             })
 
             .catch(error => {
@@ -148,14 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const imgElement = document.createElement("img");
                 imgElement.src = imageUrl;
                 imgElement.style.maxWidth = "100%";
+                imgElement.style.maxHeight = "auto";
                 sampleDataTitle.innerText = "Sample Data";
                 
                 sampleDataText.innerHTML = "";
                 sampleDataText.appendChild(imgElement);
 
-                //sampleDataBox.classList.add("show");
                 sampleDataBox.classList.remove("d-none");
                 sampleDataBox.classList.remove("expanded");
+                sampleDataBox.classList.add("collapsed");
                 sampleDataText.style.maxHeight = "120px";
                 sampleDataText.style.overflow = "hidden";
 
@@ -163,16 +174,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 seeMoreBtn2.onclick = function() {
                     if (sampleDataBox.classList.contains("expanded")) {
                         sampleDataBox.classList.remove("expanded");
-                        sampleDataText.style.maxHeight = "120px";
-                        seeMoreBtn2.innerText = "See More";
+                        sampleDataBox.classList.add("collapsed");
+                        seeMoreBtn2.innerText = "+";
                     } else {
                         sampleDataBox.classList.add("expanded");
-                        sampleDataText.style.maxHeight = "400px";
-                        sampleDataText.style.overflowY = "auto";
-                        seeMoreBtn2.innerText = "See Less";
+                        sampleDataBox.classList.remove("collapsed");
+                        sampleDataText.style.maxHeight = ""; // Remove restriction
+                        sampleDataText.style.overflow = "auto"; // Enable scrolling
+
+                        // if other box is expanded, collapse it
+                        if (instrumentDetailsBox.classList.contains("expanded")) {
+                            instrumentDetailsBox.classList.remove("expanded");
+                            instrumentDetailsBox.classList.add("collapsed");
+                            updateSampleDataBoxPosition();
+                            seeMoreBtn1.innerText = "+";
+                        }
+                        seeMoreBtn2.innerText = "-";
                     }
                 };
-                seeMoreBtn2.innerText = "See More";
+                seeMoreBtn2.innerText = "+";
             })
             .catch(error => {
                 sampleDataText.innerText = "Sample data unavailable.";
@@ -195,6 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const instrumentId = event.target.getAttribute("data-instrument");
             console.log(`Instrument Selected: ${instrumentId}`);
             toggleMenu();
+
+            // Update the light for the selected instrument
+            updateLightForInstrument(instrumentId);
 
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {

@@ -1,1 +1,1 @@
-Measures the gravitation feild of the Psyche asteroid to determine mass distribution and interior structure. (Zuber et.al., 2022)
+Measures the gravitation feild of the Psyche asteroid to determine mass distribution and interior structure. (Zuber et al., 2022)

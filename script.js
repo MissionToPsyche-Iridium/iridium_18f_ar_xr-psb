@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(linkTargetOrbitId){
         //Perform view change
         orbitObserver.notify("orbitSelected", storedOrbit);
-        
         }
 
         // Clear stored value after applying the functions
@@ -88,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners for each orbit click
     orbits.forEach(orbitId => {
         const orbit = document.getElementById(orbitId + "-wrapper");
+        if(!isMobile()){
         orbit.addEventListener('click', (event) => {
 
             linkTargetOrbitId = orbitId; 
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitObserver.notify("orbitSelected", orbitId);
             changeButtonPicture(orbitId);
         });
+    }
     });
     
     // Event listeners for each navigation menu link
@@ -178,8 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const startPosition = camera.getAttribute('position');
-        const steps = 90;
+        const steps = 20;
         let step = 0;
+
+        camera.setAttribute('look-controls', 'enabled', 'false');
 
         //Smooth out camera movement
         const interval = setInterval(() => {
@@ -202,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
 
                 // Set the camera to look at the Psyche object after panning
-                camera.setAttribute('look-at', '#psyche');
+                //camera.setAttribute('look-at', '#psyche');
+                camera.setAttribute('look-controls', 'enabled', 'true');
             }
         }, 10);
     }
@@ -268,9 +272,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //logic for instrument button
     if (instrumentButton) {
-        instrumentButton.addEventListener("click", function() {
-            //Redirect with orbit info as a query parameter
-            window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+        //Check for mouse click
+        instrumentButton.addEventListener("pointerdown", function(event) {
+            if (event.pointerType === "mouse") {
+                //Redirect with orbit info as a query parameter
+                window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+            }
         });
     } else {
         console.log("Instrument Button NOT Found! Check your HTML.");
@@ -370,15 +377,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let img = instrumentButton.querySelector("img");
         if (!img) {
             img = document.createElement("img");
-            instrumentButton.textContent = "";
-            instrumentButton.appendChild(img);
         }
+        instrumentButton.textContent = "";
+        instrumentButton.appendChild(img);
 
         //Set image attributes
         img.src = instrumentPictureFile;
         img.alt = `Go to ${instrumentName}`;
         img.style.height = "30px";
-    
     }
 
     //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
@@ -423,6 +429,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Touchscreen functionality
     document.addEventListener("touchstart", (event) => {
+        const buttons = [instrumentButton, document.getElementById("textSizeBtn"), document.getElementById("speakButton")];
+
+        //Check if pressing button
+        for (let button of buttons) {
+            if (button && (event.target === button || button.contains(event.target))) {
+                if(button.id === "instrumentButton"){
+                    window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
+                }
+                event.stopPropagation();
+                return; // Stop further processing
+            }
+        }
+
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
 
@@ -447,11 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.object3D.children, true);
         const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
-        
-        //Check if button is pressed, in case an orbit is behind button
-        if (event.target.classList.contains("btn") || event.target.id === "instrumentButton") {
-            return; //Stop further processing
-        }
 
         if (orbitSelection) {
             const wrapper = orbitSelection.object.el.parentEl;
@@ -460,12 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (torus) {
                 const orbitId = torus.id;
                 linkTargetOrbitId = orbitId; //Store current orbitID for instrument view linking
-                highlightOrbit(orbitId);
-                transitionToOrbit(orbitId);
-                updateBannerText(orbitId);
-                panToPsyche(orbitId);
-                orbitPopupText(orbitId);
-                loadOrbitDetails(orbitId);
+                orbitObserver.notify("orbitSelected", orbitId);
             } else {
                 console.warn("Hitbox hit but no torus found in wrapper.");
             }
@@ -473,6 +482,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("No hitbox hit.");
         }
     });
+
+    //Check is using mobile
+    function isMobile() {
+        return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    }
 });
 
 var x = setInterval(function() {

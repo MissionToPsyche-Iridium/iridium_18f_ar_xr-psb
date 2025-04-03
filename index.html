@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psyche Satellite Orbit Visualization</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-bloom@latest/aframe-bloom.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/aframe-effects@0.9.1/dist/aframe-effects.min.js"></script> -->
+     
 </head>
 <body>
     <!-- Fixed Header with specified height -->
@@ -95,7 +96,6 @@
             scale="0.3 0.3 0.3"
             rotation="90 0 0"
             color="#ffffff"
-           
             >
         </a-entity>
 
@@ -108,7 +108,7 @@
             <!-- Emissive Torus with bright yellow and increased emissive intensity -->
             <a-torus id="orbitD" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#FFFF00" rotation="0 0 0" opacity="0.25"
                      material="shader: standard; emissive: #FFFF00; emissiveIntensity: 1000000"
-                     bloom="strength: 2000.0"
+                     disabled-bloom="strength: 2000.0"
                      animation__pulse="property: material.emissive; to: #00FFFF; dur: 20000; dir: normal; loop: true; delay: 5000"></a-torus>
             <a-torus visible="false" class="hitbox" radius="1.0" radius-tubular="0.1" segments-radial="35" segments-tubular="65" material="transparent: true; opacity: 0.00" rotation="0 0 0" data-raycastable></a-torus>
         </a-entity>
@@ -117,7 +117,7 @@
             <!-- Emissive Torus with bright yellow and increased emissive intensity -->
             <a-torus id="orbitC" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#FFFF00" rotation="-90 0 0" opacity="0.25"
                      material="shader: standard; emissive: #FFFF00; emissiveIntensity: 1000000"
-                     bloom="strength: 2000.0"
+                     disabled-bloom="strength: 2000.0"
                      animation__pulse="property: material.emissive; to: #00FFFF; dur: 20000; dir: normal; loop: true; delay: 5000 "></a-torus>
             <a-torus visible="false" class="hitbox" radius="1.7" radius-tubular="0.1" segments-radial="35" segments-tubular="65" material="transparent: true; opacity: 0.00" rotation="-90 0 0" data-raycastable></a-torus>
         </a-entity>
@@ -126,7 +126,7 @@
             <!-- Emissive Torus with bright yellow and increased emissive intensity -->
             <a-torus id="orbitB" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#FFFF00" rotation="-90 0 0" opacity="0.25"
                      material="shader: standard; emissive: #FFFF00; emissiveIntensity: 1000000"
-                     bloom="strength: 2000.0"
+                     disabled-bloom="strength: 2000.0"
                      animation__pulse="property: material.emissive; to: #00FFFF; dur: 20000; dir: alternate; loop: true; delay: 5000"></a-torus>
             <a-torus visible="false" class="hitbox" radius="2.4" radius-tubular="0.1" segments-radial="35" segments-tubular="65" material="transparent: true opacity: 0.001" rotation="-90 0 0" data-raycastable></a-torus>
         </a-entity>
@@ -135,20 +135,11 @@
             <!-- Emissive Torus with bright yellow and increased emissive intensity -->
             <a-torus id="orbitA" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#FFFF00" rotation="-90 0 0" opacity="0.25"
                      material="shader: standard; emissive: #FFFF00; emissiveIntensity: 10000000"
-                     bloom="strength: 5000.0"
+                     disabled-bloom="strength: 5000.0"
                      animation__pulse="property: material.emissive; to: #00FFFF; dur: 200000; dir: alternate; loop: true; delay: 5000"></a-torus>
             <a-torus visible="false" class="hitbox" radius="2.9" radius-tubular="0.1" segments-radial="35" segments-tubular="65" material="transparent: true; opacity: 0.001" rotation="-90 0 0" data-raycastable></a-torus>
         </a-entity>
         
-        
-        
-        
-        
-        
-        
-        
-
-
         <!-- Spacecraft -->
         <a-entity 
             id="moving-object" 
@@ -161,7 +152,7 @@
 
         <!-- Camera and Rig -->
         <a-entity id="cameraRig">
-            <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
+            <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls="enabled: true">
                 <a-cursor material="color: #ef5966" opacity = "0" raycaster="objects: [data-raycastable]" cursor="rayOrigin: mouse"></a-cursor>
             </a-entity>
         </a-entity>
