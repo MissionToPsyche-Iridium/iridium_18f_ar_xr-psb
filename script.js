@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     orbitObserver.subscribe("orbitSelected", panToPsyche);
     orbitObserver.subscribe("orbitSelected", orbitPopupText);
     orbitObserver.subscribe("orbitSelected", loadOrbitDetails);
+    orbitObserver.subscribe("orbitSelected", changeButtonPicture);
 
     //Attach event listeners
     textSizeToggle();
@@ -102,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
             //Perform view change
             event.stopPropagation();
             orbitObserver.notify("orbitSelected", orbitId);
-            changeButtonPicture(orbitId);
         });
     }
     });
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //Set image attributes
         img.src = instrumentPictureFile;
         img.alt = `Go to ${instrumentName}`;
-        img.style.height = "30px";
+        img.style.height = "40px";
     }
 
     //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
