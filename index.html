@@ -120,7 +120,7 @@
         <!-- <a-torus id="orbitC" position="0 -1 -4" radius="1.7" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
         <!-- <a-torus id="orbitB" position="0 -1 -4" radius="2.4" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
         <!-- <a-torus id="orbitA" position="0 -1 -4" radius="2.9" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#ffffff" rotation="-90 0 0" opacity="0.25" data-raycastable></a-torus> -->
-        <a-entity id="orbitD-wrapper" position="0 -1 -4">
+        <a-entity id="orbitD-wrapper" position="0 -1.3 -4">
             <!-- Emissive Torus with bright yellow and increased emissive intensity -->
             <a-torus id="orbitD" radius="1.0" radius-tubular="0.01" segments-radial="35" segments-tubular="65" color="#FFFF00" rotation="0 0 0" opacity="0.25"
                      material="shader: standard; emissive: #FFFF00; emissiveIntensity: 1000000"
@@ -167,8 +167,8 @@
         </a-entity>
 
         <!-- Camera and Rig -->
-        <a-entity id="cameraRig">
-            <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls="enabled: true">
+        <a-entity id="cameraRig" rotation="-25 0 0">
+            <a-entity id="camera" camera position="0 1 -1" wasd-controls look-controls="enabled: true">
                 <a-cursor material="color: #ef5966" opacity = "0" raycaster="objects: [data-raycastable]" cursor="rayOrigin: mouse"></a-cursor>
             </a-entity>
         </a-entity>

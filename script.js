@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbit = document.getElementById(orbitId + "-wrapper");
         if(!isMobile()){
         orbit.addEventListener('click', (event) => {
+            console.log(camera.getAttribute("position"))
 
             linkTargetOrbitId = orbitId; 
 
@@ -153,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
                 //const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
-                movingObject.setAttribute('position', `${x} ${y + orbitY} ${orbitZ}`);
+                movingObject.setAttribute('position', `${x} ${y + orbitY - 0.3} ${orbitZ}`);
                
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
                 // For orbit C, B, and A, rotate around the Y-axis, which means moving along the Y-axis
