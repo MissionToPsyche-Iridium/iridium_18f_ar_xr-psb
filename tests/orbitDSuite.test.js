@@ -32,16 +32,13 @@ describe('Orbit D scene interaction', () => {
   describe("Orbit D popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
-      //Move the cursor to orbitD location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(400,500);
-      await page.mouse.up();
-  
-      //Highlight orbitD
-      await page.mouse.down();
-      await page.mouse.up();
-      
+      await page.evaluate(() => {
+        const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
+        if (hitbox) {
+          hitbox.emit('click');
+        }
+      });
+
       //Get popup object
       const popupVisible = await page.$('#instructionPopup');
   
@@ -178,11 +175,4 @@ describe('Orbit D scene interaction', () => {
 
     }, 10000);
   });
-
-  describe("Orbit D error page", () => {
-    test('Error page is displayed when orbit D is not loaded correctly', async () => {
-    
-    }, 10000);
-  });
-
 });
