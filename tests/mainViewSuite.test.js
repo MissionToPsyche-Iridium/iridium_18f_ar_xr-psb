@@ -117,8 +117,30 @@ describe('AR Web App', () => {
 
     test('Scene responds to touch', async () => {
   
+      //Get orbitD-wrapper
+      const orbitDWrapper = await page.$('#orbitD-wrapper');
+
+      // Retrieve its bounding box to calculate the center coordinates
+      const boundingBox = await orbitDWrapper.boundingBox();
+      const centerX = boundingBox.x + boundingBox.width / 2;
+      const centerY = boundingBox.y + boundingBox.height / 2;
+
+      // Move to the center of the element and simulate a click
+      await page.mouse.move(centerX, centerY);
+      await page.mouse.down();
+      await page.mouse.up();
+
+      // Get orbit D's color attribute after the interaction
+      const orbitDColor = await page.evaluate(() => {
+          const orbitD = document.querySelector('#orbitD');
+          return orbitD.getAttribute('color');
+      });
+
+      // Check if orbit D has been highlighted with the expected color value
+      expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value
+
       //Move the cursor to orbitD location
-      await page.mouse.move(300,300);
+      /*await page.mouse.move(300,300);
       await page.mouse.down();
       await page.mouse.move(400,500);
       await page.mouse.up();
@@ -134,7 +156,7 @@ describe('AR Web App', () => {
       });
   
       //Check if orbit D has been highlighted
-      expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value
+      expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value*/
     
     }, 10000);
 

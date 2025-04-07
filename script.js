@@ -497,7 +497,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-var x = setInterval(function() {
+//Countdown timer
+var countdownTimer = setInterval(function() {
     var currentDate = new Date();
     var years = countDownDate.getFullYear() - currentDate.getFullYear();
     var months = countDownDate.getMonth() - currentDate.getMonth();
@@ -530,14 +531,13 @@ var x = setInterval(function() {
     }
 
     // Display the result in the element with id="demo"
-  document.getElementById("countdown-timer").innerHTML = "T- " + years + " years " + months + " months " + days + " days "; // + hours + "h "
-  //+ minutes + "m " + seconds + "s ";
+    document.getElementById("countdown-timer").innerHTML = "T- " + years + " years " + months + " months " + days + " days "; // + hours + "h "
+    //+ minutes + "m " + seconds + "s ";
 
-  // If the count down is finished, write some text
-  if (years === 0 & months === 0 & days === 0 & hours === 0 & minutes === 0 & seconds === 0) {
-    clearInterval(x);
-    document.getElementById("countdown-timer").innerHTML = "Arrived at Psyche!";
-  
+    // If the count down is finished, write some text
+    if (years === 0 & months === 0 & days === 0 & hours === 0 & minutes === 0 & seconds === 0) {
+        clearInterval(countdownTimer);
+        document.getElementById("countdown-timer").innerHTML = "Arrived at Psyche!";
     }
 }, 1000)
 
@@ -581,103 +581,84 @@ document.getElementById("speakButton").addEventListener("click", () => {
         speech.oncancel = () => {
             isSpeaking = false;
         };
-    } else {
+    } 
+    else {
         alert("Speech synthesis is not supported in this browser.");
     }
-
-
-
-
-
-
-
-
-    
-
-
-
-
 });
 
-
-
-
-
 let currentSlide = 0;
-    const tutorialSlides = [
-        { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_1" },
-        { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_1/giphy.gif" },
-        { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_2" },
-        { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_2/giphy.gif" }
-    ];
-    
-    // Load the tutorial modal
-    function loadTutorial() {
-        showSlide(currentSlide);
-        new bootstrap.Modal(document.getElementById("tutorialModal")).show();
-    }
-    
-    // Show a specific slide
-    function showSlide(index) {
-        const slide = tutorialSlides[index];
-        const mediaContainer = document.getElementById("mediaContainer");
-        mediaContainer.innerHTML = ""; // Clear previous content
-    
-        if (slide.type === "video") {
-            const iframe = document.createElement("iframe");
-            iframe.src = slide.src;
-            iframe.width = "560";
-            iframe.height = "315";
-            iframe.allow = "autoplay; encrypted-media";
-            iframe.allowFullscreen = true;
-            mediaContainer.appendChild(iframe);
-        } else if (slide.type === "gif") {
-            const img = document.createElement("img");
-            img.src = slide.src;
-            img.style.width = "100%";
-            mediaContainer.appendChild(img);
-        }
-    }
-    
+const tutorialSlides = [
+    { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_1" },
+    { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_1/giphy.gif" },
+    { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_2" },
+    { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_2/giphy.gif" }
+];
 
-    const prevBtn = document.querySelector("#prevBtn");
-    const nextBtn = document.querySelector("#nextBtn");
-    
-    // Add event listeners
-    prevBtn.addEventListener("click", prevSlide);
-    nextBtn.addEventListener("click", nextSlide);
-    
-    
+// Load the tutorial modal
+function loadTutorial() {
+    showSlide(currentSlide);
+    new bootstrap.Modal(document.getElementById("tutorialModal")).show();
+}
 
-    // Move to the next slide
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % tutorialSlides.length;
-        showSlide(currentSlide);
-    }
-    
-    // Move to the previous slide
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + tutorialSlides.length) % tutorialSlides.length;
-        showSlide(currentSlide);
-    }
-    
-    // Clear the media when the modal is closed
-    document.getElementById("tutorialModal").addEventListener("hidden.bs.modal", function () {
-        document.getElementById("mediaContainer").innerHTML = "";
-    });
+// Show a specific slide
+function showSlide(index) {
+    const slide = tutorialSlides[index];
+    const mediaContainer = document.getElementById("mediaContainer");
+    mediaContainer.innerHTML = ""; // Clear previous content
 
-    const helpButton = document.getElementById("helpButton");
- const tutorialOverlay = document.getElementById("tutorialOverlay");
- const closeOverlay = document.getElementById("closeOverlay");
- const tutorialVideo = document.getElementById("tutorialVideo");
- 
- helpButton.addEventListener("click", () => {
-   tutorialOverlay.style.display = "flex";
-   tutorialVideo.currentTime = 0;
-   tutorialVideo.play();
- });
- 
- closeOverlay.addEventListener("click", () => {
-   tutorialVideo.pause();
-   tutorialOverlay.style.display = "none";
- });
+    if (slide.type === "video") {
+        const iframe = document.createElement("iframe");
+        iframe.src = slide.src;
+        iframe.width = "560";
+        iframe.height = "315";
+        iframe.allow = "autoplay; encrypted-media";
+        iframe.allowFullscreen = true;
+        mediaContainer.appendChild(iframe);
+    } else if (slide.type === "gif") {
+        const img = document.createElement("img");
+        img.src = slide.src;
+        img.style.width = "100%";
+        mediaContainer.appendChild(img);
+    }
+}
+
+const prevBtn = document.querySelector("#prevBtn");
+const nextBtn = document.querySelector("#nextBtn");
+
+// Add event listeners
+prevBtn.addEventListener("click", prevSlide);
+nextBtn.addEventListener("click", nextSlide);
+
+// Move to the next slide
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % tutorialSlides.length;
+    showSlide(currentSlide);
+}
+
+// Move to the previous slide
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + tutorialSlides.length) % tutorialSlides.length;
+    showSlide(currentSlide);
+}
+
+// Clear the media when the modal is closed
+document.getElementById("tutorialModal").addEventListener("hidden.bs.modal", function () {
+    document.getElementById("mediaContainer").innerHTML = "";
+});
+
+const helpButton = document.getElementById("helpButton");
+const tutorialOverlay = document.getElementById("tutorialOverlay");
+const closeOverlay = document.getElementById("closeOverlay");
+const tutorialVideo = document.getElementById("tutorialVideo");
+
+helpButton.addEventListener("click", () => {
+    tutorialOverlay.style.display = "flex";
+    tutorialVideo.currentTime = 0;
+    tutorialVideo.play();
+});
+
+closeOverlay.addEventListener("click", () => {
+    tutorialVideo.pause();
+    tutorialOverlay.style.display = "none";
+});
