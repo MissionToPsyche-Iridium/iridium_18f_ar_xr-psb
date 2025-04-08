@@ -2,7 +2,7 @@ import { initNavigationMenu, toggleMenu } from "./menuScript.js";
  
 let videoUrls = {
     "orbitA": "videos/psycheMagnetometerClip.mp4",
-    "orbitB": "videos/psycheSpectrometerClip.mp4",
+    "orbitB": "videos\psycheImagerClip.mp4",
     "orbitC": "https://www.youtube.com/embed/VIDEO_ID_C",
     "orbitD": "videos/psycheSpectrometerClip.mp4"
 };
@@ -276,10 +276,10 @@ let videoUrl = null;
      document.addEventListener("mousemove", (event) => {
          event.preventDefault(); // Prevent unintended camera movement
          if (isDragging && selectedInstrument) {
-             const deltaX = event.clientX - previousMouseX;
-             const deltaY = event.clientY - previousMouseY;
-             previousMouseX = event.clientX;
-             previousMouseY = event.clientY;
+            const deltaX = event.clientX - previousMouseX;
+            const deltaY = event.clientY - previousMouseY;
+            previousMouseX = event.clientX;
+            previousMouseY = event.clientY;
  
              let currentRotation = selectedInstrument.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
              if (typeof currentRotation === "string") {
@@ -324,17 +324,18 @@ let videoUrl = null;
                  break;
              default:
                  if (spacecraft) {
+                    instrumentId = "spacecraft";
                  spacecraft.setAttribute("visible", "true");
              }
                  console.log("Invalid orbit parameter.");
-                 return;
+                
          }
  
-         // Make the selected instrument visible
          selectedInstrument = document.getElementById(instrumentId);
          const instrumentLink = selectedInstrument.getAttribute("data")
- 
-         if(selectedInstrument != "spacecraft"){
+         console.log(selectedInstrument);
+         if (instrumentId !== "spacecraft"){
+
              instrumentObserver.notify("instrumentSelected", instrumentLink);
          }
          else{
