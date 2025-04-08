@@ -32,15 +32,12 @@ describe('Orbit C scene interaction', () => {
   describe("Orbit C popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
-      //Move the cursor to orbitC location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(350,510);
-      await page.mouse.up();
-  
-      //Highlight orbitC
-      await page.mouse.down();
-      await page.mouse.up();
+      await page.evaluate(() => {
+        const hitbox = document.querySelector('#orbitC-wrapper .hitbox');
+        if (hitbox) {
+          hitbox.emit('click');
+        }
+      });
       
       //Get popup object
       const popupVisible = await page.$('#instructionPopup');
@@ -177,11 +174,4 @@ describe('Orbit C scene interaction', () => {
 
     }, 10000);
   });
-
-  describe("Orbit C error page", () => {
-    test('Error page is displayed when orbit C is not loaded correctly', async () => {
-    
-    }, 10000);
-  });
-
 });

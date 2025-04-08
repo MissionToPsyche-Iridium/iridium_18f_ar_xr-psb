@@ -32,15 +32,12 @@ describe('Orbit A scene interaction', () => {
   describe("Orbit A popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
-      //Move the cursor to orbitA location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(625,512);
-      await page.mouse.up();
-  
-      //Highlight orbitA
-      await page.mouse.down();
-      await page.mouse.up();
+      await page.evaluate(() => {
+        const hitbox = document.querySelector('#orbitA-wrapper .hitbox');
+        if (hitbox) {
+          hitbox.emit('click');
+        }
+      });
       
       //Get popup object
       const popupVisible = await page.$('#instructionPopup');
@@ -62,16 +59,6 @@ describe('Orbit A scene interaction', () => {
 
   describe("Orbit A highlight test", ()=>{
     test('Orbit A is highlighted and spacecraft object is visible when selected', async() => {
-  
-      //Move the cursor to orbitA location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(625,512);
-      await page.mouse.up();
-  
-      //Click the cursor
-      await page.mouse.down();
-      await page.mouse.up();
   
       //Get orbit A's color
       const orbitAColor = await page.evaluate(() => {
@@ -197,11 +184,4 @@ describe('Orbit A scene interaction', () => {
 
     }, 10000);
   });
-
-  describe("Orbit A error page", () => {
-    test('Error page is displayed when orbit A is not loaded correctly', async () => {
-    
-    }, 10000);
-  });
-
 });

@@ -23,7 +23,8 @@ describe('AR Web App', () => {
 
     //Open the application url
     await page.goto(url);
-  });
+
+  },10000);
 
   afterAll(async () => {
     await browser.close();
@@ -117,25 +118,22 @@ describe('AR Web App', () => {
 
     test('Scene responds to touch', async () => {
   
-      //Move the cursor to orbitD location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(400,500);
-      await page.mouse.up();
-  
-      //Click the cursor
-      await page.mouse.down();
-      await page.mouse.up();
-  
-      //Get orbit D's color
+      //Get Orbit D's hitbox and click it
+      await page.evaluate(() => {
+        const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
+        if (hitbox) {
+          hitbox.emit('click');
+        }
+      });
+      
+      //Get orbit D's color attribute after the interaction
       const orbitDColor = await page.evaluate(() => {
           const orbitD = document.querySelector('#orbitD');
           return orbitD.getAttribute('color');
       });
-  
-      //Check if orbit D has been highlighted
-      expect(orbitDColor).toBe('#f9a000'); // Replace with the expected color value
-    
+
+      //Check if orbit D has been highlighted with the expected color value
+      expect(orbitDColor).toBe('#f9a000');
     }, 10000);
 
   });

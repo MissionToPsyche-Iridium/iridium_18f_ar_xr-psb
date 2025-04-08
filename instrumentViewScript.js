@@ -377,6 +377,11 @@ let videoUrl = null;
                directionalLight.setAttribute("position", "-4 2 -1");
                pointLight.setAttribute("intensity", "5.0");
                break;
+            case "neutron":
+                directionalLight.setAttribute("intensity", "1.5");
+                directionalLight.setAttribute("position", "-5.5 -1 2");
+                pointLight.setAttribute("intensity", "7.0");
+                break;
            default:
                directionalLight.setAttribute("intensity", "1.5");
                directionalLight.setAttribute("position", "-2.5 2 1");
