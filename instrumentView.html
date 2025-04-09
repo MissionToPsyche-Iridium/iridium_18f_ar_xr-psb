@@ -69,6 +69,13 @@
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
         
+        <!-- background music: temp solution until wrapper page is worked out -->
+        <a-assets>
+            <audio id="bg-music" src="audio/background.mp3" preload="auto"></audio>
+        </a-assets>
+        <a-entity sound="src: #bg-music; autoplay: true; loop: true; volume: 0.5"></a-entity>
+
+
         <!-- Light that will change brightness depending on instrument in scene; slightly blue-ish white to look less clinical-->
         <!-- This lighting is adequately bright for both spectrometers and spacecraft (need brighter for magnetometer, imager, & xband radio)-->
         <a-light id="dynamic-directional-light" type="directional" intensity="1.5" color="#F0F5FF" position="-2.5 2 1"></a-light>
