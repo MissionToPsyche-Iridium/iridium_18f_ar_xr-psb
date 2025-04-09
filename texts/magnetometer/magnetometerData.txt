@@ -1,1 +1,1 @@
-This is magnetometer data
+Figure 8 from (Weiss B. P. Et. Al., 2023), Top shows the magnetic field strength in nanoTesla of the x, y, and z axis. Bottom shows the power spectral density, describing how the power of the magnetic field across different frequencies.
