@@ -42,7 +42,7 @@ body{
 }
 
 /*modify color of hyperlinks*/
-#references-page a {
+#references-page .card a {
     color: var(--gold-color); /* Replace with your desired color */
 }
 
@@ -397,7 +397,7 @@ nav{
     position: fixed;
     top: 75px; /* Underneath nav bar */
     right: 2px;
-    width: 75%;
+    width: 30%;
     max-height: 200px;
     overflow: hidden;
     color: white;
@@ -473,7 +473,7 @@ nav{
     position: fixed;
     right: 2px;
     top: 145px; /*Under instrument-details button */
-    width: 75%;
+    width: 30%;
     max-height: 200px;
     overflow: hidden;
     color: white;
@@ -606,6 +606,14 @@ a-scene {
     .orbit-description {
         right: 10px; /* Adjust slightly for smaller screens */
         width: 45%; /* Maintain readability on small screens */
+    }
+
+    .instrument-details{
+        width: 75%;
+    }
+
+    .sample-data{
+        width: 65%;
     }
 
     #instrumentButton {
