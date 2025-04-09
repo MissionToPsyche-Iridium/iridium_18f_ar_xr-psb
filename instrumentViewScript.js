@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.setAttribute("wasd-controls", "enabled", false);
     }
 
+    //Expand description and sample data boxes
     function toggleExpansion(box, button){
         const isExapanded = box.classList.contains("expanded");
         box.classList.toggle("expanded", !isExapanded);
@@ -127,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
             instrumentDetailsBox.classList.remove("d-none", "expanded");
             instrumentDetailsText.style.maxHeight = "120px";
             instrumentDetailsText.style.overflow = "hidden";
+            instrumentDetailsText.style.overflow = "auto";
 
             seeMoreBtn1.style.display = "block";
             seeMoreBtn1.innerText = "+";
