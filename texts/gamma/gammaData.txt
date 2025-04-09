@@ -1,1 +1,1 @@
-This is sample data for gamma.
+Figure 4, A. from (Peplowski Et. Al., 2022) shows a portion of the gamma-ray spectrum for high-purity Germanium.
