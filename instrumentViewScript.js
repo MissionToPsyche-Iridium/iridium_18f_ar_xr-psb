@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     instrumentObserver.subscribe("instrumentSelected", loadInstrumentDetails);
     instrumentObserver.subscribe("instrumentSelected", loadSampleData);
 
-    console.log("Instrument View Loaded"); // Debugging check
     //Extract the query parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
     //Get the value of the "orbit" parameter
@@ -84,18 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.setAttribute("look-controls", "enabled", false);
         camera.setAttribute("wasd-controls", "enabled", false);
     }
-
-    /* setTimeout(() => {
-        // Set default view to the spacecraft
-        Object.keys(instruments).forEach(id => {
-            if (instruments[id]) {
-                instruments[id].setAttribute("visible", id === "spacecraft" ? "true" : "false");
-            }
-        });
-        selectedInstrument = instruments.spacecraft;
-        loadInstrumentDetails("spacecraft");
-        console.log("Checking instrument models after DOM load:", instruments);
-    }, 1000); */
 
     function toggleExpansion(box, button){
         const isExapanded = box.classList.contains("expanded");
@@ -197,10 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    console.log("Orbit parameter:", orbit);
     if (orbit) {
         showInstrument(orbit);
-        console.log(orbit);
     } else {
         console.log("No orbit parameter found in URL.");
     }
@@ -210,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
     instrumentButtons.forEach(button => {
         button.addEventListener("click", event => {
             const instrumentId = event.target.getAttribute("data-instrument");
-            console.log(`Instrument Selected: ${instrumentId}`);
             toggleMenu();
 
             // Update the light for the selected instrument
@@ -219,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {
                     instruments[id].setAttribute("visible", "false");
-                    console.log(`Hiding model: ${id}`);
                 }
             });
 
@@ -243,7 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
         returnToOrbitButton.addEventListener("click", () => {
             if(selectedInstrument){
             const currentOrbit = selectedInstrument.getAttribute("orbit");
-            console.log("Returning to " + currentOrbit);
             sessionStorage.setItem("selectedOrbit",  currentOrbit);
             }
             window.location.href = "index.html"; // Update this to the correct orbit view page if needed // Ensure this is the correct path to orbit view
@@ -296,18 +278,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 videoUrl = videoUrls["orbitA"];
                 break;
             case "orbitB":
-                console.log("displaying multispectral");
                 instrumentId = "multispectral-imager";
                 videoUrl = videoUrls["orbitB"];
                 break;
             case "orbitC":
                 instrumentId = "xband-radio";
-                console.log("displaying xband");
                 videoUrl = videoUrls["orbitC"];
                 break;
             case "orbitD":
                 instrumentId = "gamma";
-                console.log("displaying gamma");
                 videoUrl = videoUrls["orbitA"];
 
                 break;
@@ -333,7 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (selectedInstrument) {
             selectedInstrument.setAttribute("visible", "true");
-            console.log(`Showing: ${instrumentId}`);
             console.log(`Showing: ${videoUrl}`);
             loadVideoOnPageLoad()
         } else {
@@ -386,7 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (videoUrl) {
                 videoIframe.src = videoUrl;
                 new bootstrap.Modal(document.getElementById("videoModal")).show();
-                console.log("Video loaded and modal shown.");
             } else {
                 console.log("Video URL is empty.");
             }
@@ -407,7 +384,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const aScene = document.querySelector("a-scene");
         if (aScene) {
             aScene.focus();
-            console.log("Focus returned to A-Frame scene.");
         }
     });
 });
