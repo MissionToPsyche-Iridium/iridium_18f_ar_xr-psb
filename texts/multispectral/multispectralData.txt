@@ -1,1 +1,1 @@
-This is multispecteral data.
+Left is Figure 7 from (Dibb, S. Et. Al., 2023) Imager band depth vs. laboratory band depth. Right is a multispectral image cube of Jupiter’s moon Io taken by Voyager 2 during the Voyager mission.
