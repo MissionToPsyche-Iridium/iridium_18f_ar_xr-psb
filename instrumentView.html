@@ -54,7 +54,10 @@
     <!-- Sample Data Text Box -->
     <div class="sample-data bg-dark p-3 rounded collapsed d-none">
         <h5 id="sample-data-title">Sample Data</h5>
-        <p id="sampledatatext">This is where the sample data of the selected instrument will appear.</p>
+        <div id="sampledatatext">
+            <div id="sample-data-image"></div>
+            <div id="sample-data-text"></div>
+        </div>
         <button id="see-more-btn2" class="btn btn-secondary btn-sm">+</button>
     </div>
 
@@ -66,6 +69,13 @@
         </a-assets>
         <a-sky src="#bkgrd"></a-sky>
         
+        <!-- background music: temp solution until wrapper page is worked out -->
+        <a-assets>
+            <audio id="bg-music" src="audio/background.mp3" preload="auto"></audio>
+        </a-assets>
+        <a-entity sound="src: #bg-music; autoplay: true; loop: true; volume: 0.5"></a-entity>
+
+
         <!-- Light that will change brightness depending on instrument in scene; slightly blue-ish white to look less clinical-->
         <!-- This lighting is adequately bright for both spectrometers and spacecraft (need brighter for magnetometer, imager, & xband radio)-->
         <a-light id="dynamic-directional-light" type="directional" intensity="1.5" color="#F0F5FF" position="-2.5 2 1"></a-light>

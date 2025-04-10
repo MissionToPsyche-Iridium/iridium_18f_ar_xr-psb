@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Touchscreen functionality
     document.addEventListener("touchstart", (event) => {
-        const buttons = [instrumentButton, document.getElementById("textSizeBtn"), document.getElementById("speakButton")];
+        const buttons = [instrumentButton, document.getElementById("textSizeBtn"), document.getElementById("speakButton"),document.getElementById("helpButton"), document.getElementById("see-more-btn") ];
 
         //Check if pressing button
         for (let button of buttons) {

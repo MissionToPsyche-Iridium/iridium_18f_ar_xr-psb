@@ -1,1 +1,1 @@
-This is neutron data
+Figure 4, B. from (Peplowski Et. Al., 2022) shows the neutron count per second across multiple channels with the 3 spectrometer filters shown in different colors.

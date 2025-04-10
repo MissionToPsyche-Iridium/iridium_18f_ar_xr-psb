@@ -401,7 +401,6 @@ let videoUrl = null;
             if (videoUrl) {
                 videoIframe.src = videoUrl;
                 new bootstrap.Modal(document.getElementById("videoModal")).show();
-                console.log("Video loaded and modal shown.");
             } else {
                 console.log("Video URL is empty.");
             }
@@ -409,7 +408,7 @@ let videoUrl = null;
             console.log("Video element not found.");
         }
     }
-    
+        
     document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
         
         // Remove any lingering modal backdrop
@@ -417,14 +416,11 @@ let videoUrl = null;
         while (modalBackdrops.length) {
             modalBackdrops[0].parentNode.removeChild(modalBackdrops[0]);
         }
-    
+
         // Set focus back to the A-Frame scene for full control
         const aScene = document.querySelector("a-scene");
         if (aScene) {
             aScene.focus();
-            console.log("Focus returned to A-Frame scene.");
         }
     });
-
-     
- });
+});
