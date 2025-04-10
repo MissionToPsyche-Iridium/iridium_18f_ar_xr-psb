@@ -589,10 +589,10 @@ document.getElementById("speakButton").addEventListener("click", () => {
 
 let currentSlide = 0;
 const tutorialSlides = [
-    { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_1" },
-    { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_1/giphy.gif" },
-    { type: "video", src: "https://www.youtube.com/embed/VIDEO_ID_2" },
-    { type: "gif", src: "https://media.giphy.com/media/EXAMPLE_2/giphy.gif" }
+    { type: "video", src: "https://www.youtube.com/embed/AwCiHscmEQE?si=PgwzvjLPpVTy8Gt4" },
+    { type: "gif", src: "images/psycheLaunchPress.jpg" },
+    { type: "video", src: "https://www.youtube.com/embed/M7KqDsykb3o?si=_oQh1kQ5j3YRh86_" },
+    { type: "video", src: "https://www.youtube.com/embed/aa28FejUW8s?si=It20uhf_riNoT8Ou&amp;start=60" }
 ];
 
 // Load the tutorial modal
@@ -621,6 +621,16 @@ function showSlide(index) {
         img.style.width = "100%";
         mediaContainer.appendChild(img);
     }
+
+    // Disable or enable buttons
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === tutorialSlides.length - 1;
+
+    if (currentSlide === tutorialSlides.length - 1) {
+        enterBtn.classList.remove("d-none");
+    } else {
+        enterBtn.classList.add("d-none");
+    }
 }
 
 const prevBtn = document.querySelector("#prevBtn");
@@ -629,11 +639,18 @@ const nextBtn = document.querySelector("#nextBtn");
 // Add event listeners
 prevBtn.addEventListener("click", prevSlide);
 nextBtn.addEventListener("click", nextSlide);
+document.getElementById("enterBtn").addEventListener("click", () => {
+    const modal = bootstrap.Modal.getInstance(document.getElementById("tutorialModal"));
+    modal.hide();
+});
+  
 
 // Move to the next slide
 function nextSlide() {
-    currentSlide = (currentSlide + 1) % tutorialSlides.length;
-    showSlide(currentSlide);
+    if (currentSlide < tutorialSlides.length - 1) {
+        currentSlide++;
+        showSlide(currentSlide);
+    }
 }
 
 // Move to the previous slide
