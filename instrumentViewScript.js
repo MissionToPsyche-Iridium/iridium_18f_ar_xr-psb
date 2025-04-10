@@ -2,17 +2,18 @@ import { initNavigationMenu, toggleMenu } from "./menuScript.js";
  
 let videoUrls = {
     "orbitA": "videos/psycheMagnetometerClip.mp4",
-    "orbitB": "videos\psycheImagerClip.mp4",
+    "orbitB": "videos/psycheImagerClip.mp4",
     "orbitC": "https://www.youtube.com/embed/VIDEO_ID_C",
     "orbitD": "videos/psycheSpectrometerClip.mp4"
 };
+
 let videoUrl = null;
  let selectedInstrument = null; // Track the currently selected instrument
  let isDragging = false;
  let previousMouseX = 0;
  let previousMouseY = 0;
  const navigationMenu = document.querySelector(".navigation__menu");
- 
+ const videoButton = document.getElementById('watchVideoBtn');
  //Observer pattern
  class InstrumentObserver {
      constructor() {
@@ -223,10 +224,13 @@ let videoUrl = null;
              const instrumentId = event.target.getAttribute("data-instrument");
              console.log(`Instrument Selected: ${instrumentId}`);
              toggleMenu();
- 
+
              // Update the light for the selected instrument
              updateLightForInstrument(instrumentId);
- 
+             videoUrl = getVideo(instrumentId);
+             console.log(instrumentId);
+             console.log(videoUrl);
+             updateVideo(videoUrl);
              Object.keys(instruments).forEach(id => {
                  if (instruments[id]) {
                      instruments[id].setAttribute("visible", "false");
@@ -292,8 +296,34 @@ let videoUrl = null;
              selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
          }
      });
- 
- 
+     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
+        const videoUrlsMap = {
+            "magnetometer": "videos/psycheMagnetometerClip.mp4",
+            "multispectral": "videos/psycheImagerClip.mp4",
+            "xband-radio": "",
+            "gamma": "",
+            "neutron": ""
+        };
+    
+        // Get the video URL for the instrument
+        const videoUrl = videoUrlsMap[instrumentId] || "";
+    
+        // Update the visibility of the video button
+        checkAndUpdateButtonVisibility(videoUrl);
+    
+        // Return the video URL
+        return videoUrl;
+    }
+    function checkAndUpdateButtonVisibility(videoUrl) {
+        if (!videoUrl) {
+            // Hide the button if videoUrl is empty, null, or undefined
+            videoButton.style.display = 'none';
+        } else {
+            // Show the button if a valid video URL exists
+            videoButton.style.display = 'inline-block';
+        }
+    }
+
      function showInstrument(orbit) {
          // Hide all instruments first
          const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
@@ -304,22 +334,22 @@ let videoUrl = null;
          switch (orbit) {
              case "orbitA":
                  instrumentId = "magnetometer";
-                 videoUrl = videoUrls["orbitA"];
+                 
                  break;
              case "orbitB":
                  console.log("displaying multispectral");
                  instrumentId = "multispectral-imager";
-                 videoUrl = videoUrls["orbitB"];
+                
                  break;
              case "orbitC":
                  instrumentId = "xband-radio";
                  console.log("displaying xband");
-                 videoUrl = videoUrls["orbitC"];
+                 
                  break;
              case "orbitD":
                  instrumentId = "gamma";
                  console.log("displaying gamma");
-                 videoUrl = videoUrls["orbitA"];
+                
 
                  break;
              default:
@@ -328,9 +358,8 @@ let videoUrl = null;
                  spacecraft.setAttribute("visible", "true");
              }
                  console.log("Invalid orbit parameter.");
-                
          }
- 
+         videoUrl = getVideo(instrumentId);
          selectedInstrument = document.getElementById(instrumentId);
          const instrumentLink = selectedInstrument.getAttribute("data")
          console.log(selectedInstrument);
@@ -390,8 +419,16 @@ let videoUrl = null;
          }
      }
     
-
+     function updateVideo(video) {
+        let videoIframe = document.getElementById('videoIframe');  // Replace with your iframe ID if different
     
+        if (videoIframe) {
+            console.log(`Showing: ${video}`);
+            videoIframe.src = video;  
+        } else {
+            console.error('Video iframe not found!');
+        }
+    }
 
      function loadVideoOnPageLoad() {
         // Get the video element by ID
