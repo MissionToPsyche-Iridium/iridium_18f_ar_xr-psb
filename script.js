@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Attach event listeners
     textSizeToggle();
-  
     
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
@@ -153,12 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (orbitId === "orbitD") {
                 // Circular motion along the YZ-plane (with x constant)
                 const y = radius * Math.sin(angle);  // Vertical (up/down) motion based on sine
-                //const z = radius * Math.cos(angle);  // Horizontal (forward/backward) motion based on cosine
                 movingObject.setAttribute('position', `${x} ${y + orbitY - 0.3} ${orbitZ}`);
                
             } else if (orbitId === "orbitC" || orbitId === "orbitB" || orbitId === "orbitA") {
                 // For orbit C, B, and A, rotate around the Y-axis, which means moving along the Y-axis
-                 // Use y for vertical motion for these orbits
+                // Use y for vertical motion for these orbits
                 movingObject.setAttribute('position', `${x} ${orbitY} ${z - 4}`);
             }
     
@@ -213,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
 
                 // Set the camera to look at the Psyche object after panning
-                //camera.setAttribute('look-at', '#psyche');
                 camera.setAttribute('look-controls', 'enabled', 'true');
             }
         }, 10);
@@ -314,9 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 orbitText.classList.remove("expanded");
                 orbitText.classList.add("collapsed");
 
-                // orbitText.style.maxHeight = "120px";
-                // orbitText.style.overflow = "hidden";
-
                 // Ensure "See More" button remains visible
                 seeMoreBtn.style.display = "block";
                 seeMoreBtn.innerText = "+";
@@ -336,16 +330,12 @@ document.addEventListener('DOMContentLoaded', () => {
             orbitText.classList.remove("expanded");
             orbitText.classList.add("collapsed");
             seeMoreBtn.innerText = "+";
-            // orbitText.style.maxHeight = "120px";
-            // orbitText.style.overflow = "hidden";
         } else {
             /*if collapsed, expand it*/
             orbitBox.classList.add("expanded");
             orbitText.classList.remove("collapsed");
             orbitText.classList.add("expanded");
             seeMoreBtn.innerText = "-";
-            //orbitText.style.maxHeight = "none"; // Fully expand
-            //orbitText.style.overflow = "visible";
         }
     });
     
@@ -394,9 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
         img.alt = `Go to ${instrumentName}`;
         img.style.height = "40px";
     }
-
-    //window.moveObjectThroughOrbit = moveObjectThroughOrbit;
-    //window.highlightOrbit = highlightOrbit;
 
     // Allows users to switch to larger text size for greater readability
     function textSizeToggle(){
