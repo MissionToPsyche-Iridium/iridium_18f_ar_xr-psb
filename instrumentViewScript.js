@@ -72,9 +72,10 @@ let videoUrl = null;
      const returnToOrbitButton = document.getElementById("instrumentButton");
  
      const sampleDataTitle = document.getElementById("sample-data-title");
-     const sampleDataText = document.getElementById("sampledatatext");
-     const sampleDataBox = document.querySelector(".sample-data");
-     const seeMoreBtn2 = document.getElementById("see-more-btn2");
+    const sampleDataImage = document.getElementById("sample-data-image");
+    const sampleDataText = document.getElementById("sample-data-text");
+    const sampleDataBox = document.querySelector(".sample-data");
+    const seeMoreBtn2 = document.getElementById("see-more-btn2");
  
      const directionalLight = document.querySelector("#dynamic-directional-light");
      const pointLight = document.querySelector("#dynamic-point-light");
@@ -96,26 +97,44 @@ let videoUrl = null;
          loadInstrumentDetails("spacecraft");
          console.log("Checking instrument models after DOM load:", instruments);
      }, 1000); */
+
+     function toggleExpansion(box, button){
+        const isExapanded = box.classList.contains("expanded");
+        box.classList.toggle("expanded", !isExapanded);
+        box.classList.toggle("collapsed", isExapanded);
+        button.innerText = isExapanded ? "+" : "-";
+
+        if(!isExapanded){
+            //Collapse other box
+            const otherBox = box ===instrumentDetailsBox ? sampleDataBox: instrumentDetailsBox;
+            const otherButton = box ===instrumentDetailsBox ? seeMoreBtn2 : seeMoreBtn1;
+
+            if(otherBox.classList.contains("expanded")){
+                otherBox.classList.remove("expanded");
+                otherBox.classList.add("collapsed");
+                otherButton.innerText = "+";
+            }
+        }
+        updateSampleDataBoxPosition();
+    }
  
      function loadInstrumentDetails(instrumentId) {
          const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
- 
-         console.log(instrumentId);
+         const instrumentNames = {
+            spacecraft: "Psyche Spacecraft",
+            gamma: "Gamma Ray Spectrometer",
+            neutron: "Neutron Spectrometer",
+            magnetometer: "Magnetometer",
+            multispectral: "Multispectral Imager",
+            "xband-radio": "X-band Radio"
+          };
+
          fetch(descriptionFile)
              .then(response => {
                  if (!response.ok) throw new Error("File not found");
                  return response.text();
              })
              .then(data => {
-                 const instrumentNames = {
-                 spacecraft: "Psyche Spacecraft",
-                 gamma: "Gamma Ray Spectrometer",
-                 neutron: "Neutron Spectrometer",
-                 magnetometer: "Magnetometer",
-                 multispectral: "Multispectral Imager",
-                 "xband-radio": "X-band Radio"
-               };
- 
                  instrumentTitle.innerText = instrumentNames[instrumentId] || instrumentId.replace(/-/g, " ");
                  instrumentDetailsText.innerText = data;
  
@@ -123,27 +142,10 @@ let videoUrl = null;
                  instrumentDetailsBox.classList.remove("d-none");
                  instrumentDetailsBox.classList.remove("expanded");
                  instrumentDetailsText.style.maxHeight = "120px";
-                 instrumentDetailsText.style.overflow = "hidden";
+                 instrumentDetailsText.style.overflow = "auto";
  
                  seeMoreBtn1.style.display = "block";
-                 seeMoreBtn1.onclick = function() {
-                     if (instrumentDetailsBox.classList.contains("expanded")) {
-                         instrumentDetailsBox.classList.remove("expanded");
-                         instrumentDetailsBox.classList.add("collapsed");
-                         seeMoreBtn1.innerText = "+";
-                     } else {
-                         // if other box is expanded, collapse it
-                         if (sampleDataBox.classList.contains("expanded")) {
-                             sampleDataBox.classList.remove("expanded");
-                             sampleDataBox.classList.add("collapsed");
-                             seeMoreBtn2.innerText = "+";
-                         }
-                         instrumentDetailsBox.classList.add("expanded");
-                         instrumentDetailsBox.classList.remove("collapsed");
-                         seeMoreBtn1.innerText = "-";
-                     }
-                 };
-                 seeMoreBtn1.innerText = "+";
+                 seeMoreBtn1.onclick = () => toggleExpansion(instrumentDetailsBox, seeMoreBtn1);
              })
  
              .catch(error => {
@@ -153,58 +155,49 @@ let videoUrl = null;
      }
  
      function loadSampleData(instrumentId) {
-         const dataFile = `texts/${instrumentId}/${instrumentId}SampleData.png`;
- 
-         fetch(dataFile)
-             .then(response => {
-                 if (!response.ok) throw new Error("File not found");
-                 return response.blob();
-             })
-             .then(blob => {
-                 const imageUrl = URL.createObjectURL(blob);
-                 const imgElement = document.createElement("img");
-                 imgElement.src = imageUrl;
-                 imgElement.style.maxWidth = "100%";
-                 imgElement.style.maxHeight = "auto";
-                 sampleDataTitle.innerText = "Sample Data";
- 
-                 sampleDataText.innerHTML = "";
-                 sampleDataText.appendChild(imgElement);
- 
-                 sampleDataBox.classList.remove("d-none");
-                 sampleDataBox.classList.remove("expanded");
-                 sampleDataBox.classList.add("collapsed");
-                 sampleDataText.style.maxHeight = "120px";
-                 sampleDataText.style.overflow = "hidden";
- 
-                 seeMoreBtn2.style.display = "block";
-                 seeMoreBtn2.onclick = function() {
-                     if (sampleDataBox.classList.contains("expanded")) {
-                         sampleDataBox.classList.remove("expanded");
-                         sampleDataBox.classList.add("collapsed");
-                         seeMoreBtn2.innerText = "+";
-                     } else {
-                         sampleDataBox.classList.add("expanded");
-                         sampleDataBox.classList.remove("collapsed");
-                         sampleDataText.style.maxHeight = ""; // Remove restriction
-                         sampleDataText.style.overflow = "auto"; // Enable scrolling
- 
-                         // if other box is expanded, collapse it
-                         if (instrumentDetailsBox.classList.contains("expanded")) {
-                             instrumentDetailsBox.classList.remove("expanded");
-                             instrumentDetailsBox.classList.add("collapsed");
-                             seeMoreBtn1.innerText = "+";
-                         }
-                         seeMoreBtn2.innerText = "-";
-                     }
-                 };
-                 seeMoreBtn2.innerText = "+";
-             })
-             .catch(error => {
-                 sampleDataText.innerText = "Sample data unavailable.";
-                 console.error("Error loading sample data file:", error);
-             });
-     }
+        const imageURL = `texts/${instrumentId}/${instrumentId}SampleData.png`;
+        const sampleDataTextURL = `texts/${instrumentId}/${instrumentId}Data.txt`;
+
+        fetch(imageURL)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.blob();
+            })
+            .then(blob => {
+                sampleDataImage.innerHTML = "";
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(blob);
+                img.style.maxWidth = "100%";
+                sampleDataImage.appendChild(img);
+            })
+            .catch(error => {
+                sampleDataImage.innerHTML = "";
+                console.error("Image load error:", error);
+            })
+
+        fetch(sampleDataTextURL)
+            .then(response => {
+                if (!response.ok) throw new Error("Text not found");
+                return response.text();
+            })
+            .then(text => {
+                sampleDataTitle.innerText = "Sample Data";
+                sampleDataText.innerText = text;
+
+                sampleDataBox.classList.remove("d-none", "expanded");
+                sampleDataBox.classList.add("collapsed");
+                sampleDataText.style.maxHeight = "120px";
+                sampleDataText.style.overflow = "auto";
+
+                seeMoreBtn2.style.display = "block";
+                seeMoreBtn2.innerText = "+";
+                seeMoreBtn2.onclick = () => toggleExpansion(sampleDataBox, seeMoreBtn2);
+            })
+            .catch(error => {
+                sampleDataText.innerText = "Sample data unavailable.";
+                console.error("Error loading sample data file:", error);
+            });
+    }
  
      console.log("Orbit parameter:", orbit);
      if (orbit) {
@@ -379,6 +372,10 @@ let videoUrl = null;
          }
    }
  
+   function updateSampleDataBoxPosition() {
+        const detailsBoxHeight = instrumentDetailsBox.offsetHeight;
+        sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + 5}px`; // Add 5px spacing
+    }
  
      // Dynamic lighting for instruments needing brighter lighting
      // point light always same position; directional may need updating
