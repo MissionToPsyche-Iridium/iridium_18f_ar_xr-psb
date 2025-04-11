@@ -631,7 +631,6 @@ document.getElementById("enterBtn").addEventListener("click", () => {
     modal.hide();
 });
   
-
 // Move to the next slide
 function nextSlide() {
     if (currentSlide < tutorialSlides.length - 1) {
