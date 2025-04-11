@@ -130,7 +130,6 @@ let videoUrl = null;
                      if (instrumentDetailsBox.classList.contains("expanded")) {
                          instrumentDetailsBox.classList.remove("expanded");
                          instrumentDetailsBox.classList.add("collapsed");
-                         updateSampleDataBoxPosition();
                          seeMoreBtn1.innerText = "+";
                      } else {
                          // if other box is expanded, collapse it
@@ -141,7 +140,6 @@ let videoUrl = null;
                          }
                          instrumentDetailsBox.classList.add("expanded");
                          instrumentDetailsBox.classList.remove("collapsed");
-                         updateSampleDataBoxPosition();
                          seeMoreBtn1.innerText = "-";
                      }
                  };
@@ -195,7 +193,6 @@ let videoUrl = null;
                          if (instrumentDetailsBox.classList.contains("expanded")) {
                              instrumentDetailsBox.classList.remove("expanded");
                              instrumentDetailsBox.classList.add("collapsed");
-                             updateSampleDataBoxPosition();
                              seeMoreBtn1.innerText = "+";
                          }
                          seeMoreBtn2.innerText = "-";
@@ -382,10 +379,6 @@ let videoUrl = null;
          }
    }
  
-     function updateSampleDataBoxPosition() {
-         const detailsBoxHeight = instrumentDetailsBox.offsetHeight;
-         sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + detailsBoxHeight + 5}px`; // Add 5px spacing
-     }
  
      // Dynamic lighting for instruments needing brighter lighting
      // point light always same position; directional may need updating

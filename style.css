@@ -208,6 +208,7 @@ nav{
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    z-index:1;
 }
 
 #instrumentButton:hover {
@@ -392,22 +393,32 @@ nav{
     background-color: #ef5966;
 }
 
+/*container of instrument and sample data boxes*/
+.instrument-and-data-wrapper{
+    position: fixed;
+    top: 75px; /*underneath nav bar*/
+    right: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items:flex-end; /*keeps right-aligned info boxes*/
+    width: 30%; /*default desktop width*/
+    z-index: 10;
+    gap: 5px; /* This controls spacing between boxes */
+}
+
+
 /* Instrument details Box */
 .instrument-details {
-    /*visibility: visible;*/
-    position: fixed;
-    top: 75px; /* Underneath nav bar */
-    right: 2px;
-    width: 300px;
+    position: relative;
+    width: 100%; /* Full width of the container */
     max-height: 400px;
     overflow: hidden; 
     color: white;
     padding: 15px;
     border-radius: 8px;
-    z-index: 1;
     transition: max-height 0.3s ease-in-out;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-direction: column;    
 }
 
@@ -424,6 +435,11 @@ nav{
     width: 400px;
     overflow-y: auto; /* Allow scrolling */
     transition: max-height 0.3s ease-in-out;
+}
+
+.instrument-details.collapsed{
+    overflow: visible;
+    max-height: none; /*allow to resize for long instrument names*/
 }
 
 /* Collapsed state: Only show the title and button */
@@ -444,6 +460,12 @@ nav{
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     font-size: 16px;
+}
+
+#instrument-details-title {
+    white-space: normal;
+    word-wrap: break-word; /*allow wraparound for long instrument names*/
+    /* overflow-wrap: break-word; */
 }
 
 #see-more-btn1 {
@@ -469,16 +491,13 @@ nav{
 }
 
 .sample-data {
-    position: fixed;
-    right: 2px;
-    top: 145px; /*Under instrument-details button */
-    width: 300px;
+    position: relative;
+    width: 100%;
     max-height: 200px;
     overflow: hidden;
     color: white;
     padding: 15px;
     border-radius: 8px;
-    z-index: 1;
     transition: max-height 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -606,6 +625,15 @@ a-scene {
     .orbit-description {
         right: 10px; /* Adjust slightly for smaller screens */
         width: 45%; /* Maintain readability on small screens */
+    }
+
+    .instrument-and-data-wrapper {
+        width: 90%; /* Adjust width for smaller screens */
+    }
+
+    .instrument-details,
+    .sample-data {
+        width: 100%; /* Make the boxes take up the full width of the container */
     }
 
     .textSizeButton{
