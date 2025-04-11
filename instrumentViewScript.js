@@ -85,18 +85,6 @@ let videoUrl = null;
          camera.setAttribute("look-controls", "enabled", false);
          camera.setAttribute("wasd-controls", "enabled", false);
      }
- 
-    /* setTimeout(() => {
-         // Set default view to the spacecraft
-         Object.keys(instruments).forEach(id => {
-             if (instruments[id]) {
-                 instruments[id].setAttribute("visible", id === "spacecraft" ? "true" : "false");
-             }
-         });
-         selectedInstrument = instruments.spacecraft;
-         loadInstrumentDetails("spacecraft");
-         console.log("Checking instrument models after DOM load:", instruments);
-     }, 1000); */
 
      function toggleExpansion(box, button){
         const isExapanded = box.classList.contains("expanded");
