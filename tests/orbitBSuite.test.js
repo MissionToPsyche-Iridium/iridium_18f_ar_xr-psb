@@ -1,4 +1,4 @@
-// TC-002
+// TS-003
 const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
 
@@ -31,6 +31,21 @@ describe('Orbit B scene interaction', () => {
 
   describe("Orbit B popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
+
+      //Check if overlay is visible
+      const isOverlayVisible = await page.evaluate(() => {
+        const overlay = document.querySelector('#closeOverlay');
+        if(!overlay) return false;
+
+        const isVisible = overlay.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOverlayVisible).toBe(true);
+
+      //Click outside overlay to close it
+      await page.mouse.move(30,30);
+      await page.mouse.down();
+      await page.mouse.up();
 
       await page.evaluate(() => {
         const hitbox = document.querySelector('#orbitB-wrapper .hitbox');

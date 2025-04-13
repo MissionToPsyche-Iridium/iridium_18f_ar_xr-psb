@@ -1,4 +1,4 @@
-// TC-001
+// T-001
 const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
 
@@ -34,9 +34,24 @@ describe('AR Web App', () => {
 
     test('Asteroid object and orbits are rendered on screen', async () => {
       
+      //Check if overlay is visible
+      const isOverlayVisible = await page.evaluate(() => {
+        const overlay = document.querySelector('#closeOverlay');
+        if(!overlay) return false;
+
+        const isVisible = overlay.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOverlayVisible).toBe(true);
+
+      //Click outside overlay to close it
+      await page.mouse.move(30,30);
+      await page.mouse.down();
+      await page.mouse.up();
+
       //Check is entites exists
       const asteroidExists = await page.$('#psyche');
-      expect(asteroidExists).not.toBeNull();
+      await expect(asteroidExists).not.toBeNull();
 
       const orbitDExists = await page.$('#orbitD');
       expect(orbitDExists).not.toBeNull();
@@ -49,17 +64,6 @@ describe('AR Web App', () => {
 
       const orbitAExists = await page.$('#orbitA');
       expect(orbitAExists).not.toBeNull();
-
-      //Ensure the model has been loaded using the `model-loaded` event
-      const asteroidLoaded = await page.evaluate(() => {
-        return new Promise((resolve) => {
-          const asteroid = document.querySelector('#psyche');
-          if (!asteroid) resolve(false);
-
-          //Listen for the 'model-loaded' event
-          asteroid.addEventListener('model-loaded', () => resolve(true));
-        });
-      });
 
       //Check if asteroid is visible
       const isAsteroidVisible = await page.evaluate(() => {
