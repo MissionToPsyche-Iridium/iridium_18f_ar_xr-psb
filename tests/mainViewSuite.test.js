@@ -31,7 +31,6 @@ describe('AR Web App', () => {
   });
 
   describe("Main view asset render test", () => {
-
     test('Asteroid object and orbits are rendered on screen', async () => {
       
       //Check if overlay is visible

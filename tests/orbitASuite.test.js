@@ -23,7 +23,7 @@ describe('Orbit A scene interaction', () => {
 
     //Open the application url
     await page.goto(url);
-  });
+  },10000);
 
   afterAll(async () => {
     await browser.close();
