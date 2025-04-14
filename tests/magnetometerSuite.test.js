@@ -226,8 +226,14 @@ describe('AR Web App', () => {
             ]);
 
 	        //Verify return to orbit view page
+            //Get orbit A's color
+            const orbitAColor = await page.evaluate(() => {
+                const orbitA = document.querySelector('#orbitA');
+                return orbitA.getAttribute('color');
+            });
 
-
+            //Check if orbit A has been highlighted
+            expect(orbitAColor).toBe('#f9a000');
         }, 10000);
     });
 });
