@@ -26,7 +26,7 @@ describe('Orbit A scene interaction', () => {
   });
 
   afterAll(async () => {
-    //await browser.close();
+    await browser.close();
   });
 
   describe("Orbit A popup test", () => {
@@ -93,22 +93,14 @@ describe('Orbit A scene interaction', () => {
         const isVisible = spacecraft.getAttribute('visible') !== 'false';
         return isVisible;
       });
+
       expect(isSpacecraftVisible).toBe(true);  // Ensure it's visible
+
     }, 10000);
   });
 
   describe("Orbit A motion test", () => {
     test('Scene responds to motion', async () => {
-
-      //Move the cursor to orbitA location
-      await page.mouse.move(300,300);
-      await page.mouse.down();
-      await page.mouse.move(625,512);
-      await page.mouse.up();
-  
-      //Highlight orbitA
-      await page.mouse.down();
-      await page.mouse.up();
      
       //Get initial camera position
       const initialPosition = await page.evaluate(() => {
@@ -135,7 +127,6 @@ describe('Orbit A scene interaction', () => {
       expect(updatedPosition).not.toBe(initialPosition);    
     }, 10000);
   });
-
 
   describe("Orbit A information display", () => {
     test('Information specific to orbit A is displayed', async () => {
@@ -197,9 +188,6 @@ describe('Orbit A scene interaction', () => {
         const style = window.getComputedStyle(button);
         return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
       }, instrumentButton);
-
-      await instrumentButton.click();
-
     }, 10000);
   });
 });

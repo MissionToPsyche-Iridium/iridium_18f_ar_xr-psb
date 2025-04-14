@@ -47,6 +47,7 @@ describe('Orbit D scene interaction', () => {
       await page.mouse.down();
       await page.mouse.up();
       
+      //Select orbit D
       await page.evaluate(() => {
         const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
         if (hitbox) {
@@ -77,8 +78,8 @@ describe('Orbit D scene interaction', () => {
   
       //Get orbit D's color
       const orbitDColor = await page.evaluate(() => {
-          const orbitD = document.querySelector('#orbitD');
-          return orbitD.getAttribute('color');
+        const orbitD = document.querySelector('#orbitD');
+        return orbitD.getAttribute('color');
       });
   
       //Check if orbit D has been highlighted
@@ -159,15 +160,15 @@ describe('Orbit D scene interaction', () => {
       //Click the button
       await seeMoreButton.click();
 
-      //Wait for the text box to expand (assuming it gets a new class or changes height)
+      //Wait for the text box to expand
       await page.evaluate(() => new Promise(resolve => 
         setTimeout(resolve, 500)
       ));
 
-      //Verify if the text box has expanded (adjust the condition based on actual behavior)
+      //Verify if the text box has expanded
       const expanded = await page.evaluate(description => {
         if (!description) return false;
-        return description.scrollHeight > description.clientHeight; // Checks if content overflowed
+        return description.scrollHeight > description.clientHeight;
       }, await page.$('.orbit-description'));
 
       expect(expanded).toBe(true);
