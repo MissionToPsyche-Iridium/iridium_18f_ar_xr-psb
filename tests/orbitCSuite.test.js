@@ -1,4 +1,4 @@
-// TC-002
+// TS-004
 const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
 
@@ -32,6 +32,22 @@ describe('Orbit C scene interaction', () => {
   describe("Orbit C popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
+      //Check if overlay is visible
+      const isOverlayVisible = await page.evaluate(() => {
+        const overlay = document.querySelector('#closeOverlay');
+        if(!overlay) return false;
+
+        const isVisible = overlay.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOverlayVisible).toBe(true);
+
+      //Click outside overlay to close it
+      await page.mouse.move(30,30);
+      await page.mouse.down();
+      await page.mouse.up();
+      
+      //Select orbit C
       await page.evaluate(() => {
         const hitbox = document.querySelector('#orbitC-wrapper .hitbox');
         if (hitbox) {
@@ -62,8 +78,8 @@ describe('Orbit C scene interaction', () => {
 
       //Get orbit C's color
       const orbitCColor = await page.evaluate(() => {
-          const orbitC = document.querySelector('#orbitC');
-          return orbitC.getAttribute('color');
+        const orbitC = document.querySelector('#orbitC');
+        return orbitC.getAttribute('color');
       });
   
       //Check if orbit C has been highlighted
@@ -77,6 +93,7 @@ describe('Orbit C scene interaction', () => {
         const isVisible = spacecraft.getAttribute('visible') !== 'false';
         return isVisible;
       });
+
       expect(isSpacecraftVisible).toBe(true);  // Ensure it's visible
 
     }, 10000);
@@ -143,15 +160,15 @@ describe('Orbit C scene interaction', () => {
       //Click the button
       await seeMoreButton.click();
 
-      //Wait for the text box to expand (assuming it gets a new class or changes height)
+      //Wait for the text box to expand
       await page.evaluate(() => new Promise(resolve => 
         setTimeout(resolve, 500)
       ));
 
-      //Verify if the text box has expanded (adjust the condition based on actual behavior)
+      //Verify if the text box has expanded
       const expanded = await page.evaluate(description => {
         if (!description) return false;
-        return description.scrollHeight > description.clientHeight; // Checks if content overflowed
+        return description.scrollHeight > description.clientHeight;
       }, await page.$('.orbit-description'));
 
       expect(expanded).toBe(true);

@@ -1,4 +1,4 @@
-// TC-002
+// TS-003
 const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
 
@@ -32,6 +32,22 @@ describe('Orbit B scene interaction', () => {
   describe("Orbit B popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
 
+      //Check if overlay is visible
+      const isOverlayVisible = await page.evaluate(() => {
+        const overlay = document.querySelector('#closeOverlay');
+        if(!overlay) return false;
+
+        const isVisible = overlay.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOverlayVisible).toBe(true);
+
+      //Click outside overlay to close it
+      await page.mouse.move(30,30);
+      await page.mouse.down();
+      await page.mouse.up();
+
+      //Select orbit B
       await page.evaluate(() => {
         const hitbox = document.querySelector('#orbitB-wrapper .hitbox');
         if (hitbox) {
@@ -66,7 +82,7 @@ describe('Orbit B scene interaction', () => {
         return orbitB.getAttribute('color');
       });
 
-      //Check if orbit A has been highlighted
+      //Check if orbit B has been highlighted
       expect(orbitBColor).toBe('#f9a000'); 
     
       //Check if spacecraft is visible
@@ -144,15 +160,15 @@ describe('Orbit B scene interaction', () => {
       //Click the button
       await seeMoreButton.click();
 
-      //Wait for the text box to expand (assuming it gets a new class or changes height)
+      //Wait for the text box to expand
       await page.evaluate(() => new Promise(resolve => 
         setTimeout(resolve, 500)
       ));
 
-      //Verify if the text box has expanded (adjust the condition based on actual behavior)
+      //Verify if the text box has expanded
       const expanded = await page.evaluate(description => {
         if (!description) return false;
-        return description.scrollHeight > description.clientHeight; // Checks if content overflowed
+        return description.scrollHeight > description.clientHeight;
       }, await page.$('.orbit-description'));
 
       expect(expanded).toBe(true);
