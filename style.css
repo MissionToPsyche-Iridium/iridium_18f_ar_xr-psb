@@ -78,7 +78,7 @@ body{
     z-index: 1000; /* Ensure header stays on top */
     color: white; /* Make text white */
     width: 100%; /* Ensure header takes full width */
-    height: 70px; /* Fixed height for the header */
+    height: 50px; /* Fixed height for the header */
 }
 
 .center-text {
@@ -321,7 +321,7 @@ nav{
 .orbit-description {
     visibility: hidden; /*don't show it until an orbit has been clicked*/
     position: fixed;
-    top:75px; /*underneath nav bar*/
+    top:10%; /*underneath nav bar*/
     right: 2px;
     width: 30%; /* Fixed width */
     max-height: 200px; /* Default height */
@@ -343,11 +343,17 @@ nav{
 
 /* Expanded state */
 .orbit-description.expanded {
-    max-height: 400px;
-    width: 300px;
-    overflow-y: auto;
     position: absolute;
+    top: 10%; /* adjust this as needed */
+    transform: translateX(0%);
+    
+    width: 70%;
+    max-height: calc(100vh - 200px); /* cap it to avoid overlapping other UI */
+    overflow-y: auto;
+
     transition: width 0.3s ease, max-height 0.3s ease;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 
@@ -526,7 +532,7 @@ a-scene {
     }
 
     .top-bar {
-        height: 70px; /* Keep header height fixed at 70px */
+        height: 50px; /* Keep header height fixed at 70px */
     }
 
     .psyche-logo {
