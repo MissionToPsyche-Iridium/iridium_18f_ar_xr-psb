@@ -215,37 +215,37 @@ nav{
     background-color: var(--coral-color);
 }
 
-.textSizeButton{
+.bottomButtonGroup {
     position: absolute;
-    top: 90%;
-    margin-left: 10px;
-    z-index: 1001; 
-    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px); /* Glass effect */
-    border-radius: 10px; /* Rounded button */
+    bottom: 2%;
+    left: 1%;
+    display: flex;
+    gap: 1vw;
+    z-index: 1001;
 }
 
-.speakButton {
-    position: absolute;
-    top: 90%;
-    left: 70px; 
-    z-index: 1001; 
-    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+.bottomButtonGroup button {
+    background-color: rgba(255, 255, 255, 0.15);
     border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px); /* Glass effect */
-    border-radius: 10px; /* Rounded button */
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 0.5vw;
+    cursor: pointer;
+    width: 8vw;
+    height: 8vw;
+    max-width: 50px;
+    max-height: 50px;
+    min-width: 30px;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.helpButton{
-    position: absolute;
-    top: 90%;
-    left: 130px; 
-    z-index: 1001; 
-    background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px); /* Glass effect */
-    border-radius: 10px; /* Rounded button */   
+.bottomButtonGroup button img {
+    width: 70%;
+    height: auto;
+    object-fit: contain;
 }
 
 .tutorialOverlay {
@@ -546,36 +546,54 @@ a-scene {
         width: 100%; /* Make the boxes take up the full width of the container */
     }
 
-    .textSizeButton{
+    .bottomButtonGroup {
         position: absolute;
-        top: 94%;
-        margin-left: 1%;
-        z-index: 1001; 
-        background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px); /* Glass effect */
-        border-radius: 10px; /* Rounded button */
+        bottom: 2%;
+        left: 1%;
+        display: flex;
+        gap: 1vw;
+        z-index: 1001;
     }
     
-    .speakButton {
-        position: absolute;
-        top: 94%;
-        left: 11%; 
-        z-index: 1001; 
-        background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
+    .bottomButtonGroup button {
+        background-color: rgba(255, 255, 255, 0.15);
         border: 2px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px); /* Glass effect */
-        border-radius: 10px; /* Rounded button */
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 0.5vw;
+        cursor: pointer;
+        width: 8vw;
+        height: 8vw;
+        max-width: 50px;
+        max-height: 50px;
+        min-width: 30px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .bottomButtonGroup button img {
+        width: 70%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+@media (max-width: 350px) {
+    .bottomButtonGroup {
+        flex-direction: column;
+        gap: 1vh;
+        left: 2%;
+        bottom: 2%;
     }
 
-    .helpButton{
-        position: absolute;
-        top: 94%;
-        left: 21%; 
-        z-index: 1001; 
-        background-color: rgba(255, 255, 255, 0.15); /* Transparent white */
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px); /* Glass effect */
-        border-radius: 10px; /* Rounded button */   
+    .bottomButtonGroup button {
+        width: 10vw;
+        height: 10vw;
+    }
+
+    .bottomButtonGroup button img {
+        width: 60%;
     }
 }
