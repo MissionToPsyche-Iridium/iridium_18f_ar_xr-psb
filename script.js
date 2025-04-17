@@ -33,14 +33,12 @@ const orbitObserver = new OrbitObserver();
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const tutorialShown = sessionStorage.getItem('tutorialShown');
-    //storing something in sessionStorage not sure if this is the best
-    if (!tutorialShown) {
-       
-        loadTutorial();
-        
-        sessionStorage.setItem('tutorialShown', 'true');
+    const hasSeenIntro = sessionStorage.getItem("introShown");
+    if (!hasSeenIntro) {
+        sessionStorage.setItem("introShown", "true");
+        loadIntroduction();
     }
+    
     initNavigationMenu();
 
     //Subscribe functions to orbit selection event
@@ -575,22 +573,23 @@ document.getElementById("speakButton").addEventListener("click", () => {
 });
 
 let currentSlide = 0;
-const tutorialSlides = [
+
+const introSlides = [
     { type: "video", src: "https://www.youtube.com/embed/AwCiHscmEQE?si=PgwzvjLPpVTy8Gt4" },
     { type: "gif", src: "images/psycheLaunchPress.jpg" },
     { type: "video", src: "https://www.youtube.com/embed/M7KqDsykb3o?si=_oQh1kQ5j3YRh86_" },
     { type: "video", src: "https://www.youtube.com/embed/aa28FejUW8s?si=It20uhf_riNoT8Ou&amp;start=60" }
 ];
 
-// Load the tutorial modal
-function loadTutorial() {
+// Load the introduction modal
+function loadIntroduction() {
     showSlide(currentSlide);
-    new bootstrap.Modal(document.getElementById("tutorialModal")).show();
+    new bootstrap.Modal(document.getElementById("introModal")).show();
 }
 
 // Show a specific slide
 function showSlide(index) {
-    const slide = tutorialSlides[index];
+    const slide = introSlides[index];
     const mediaContainer = document.getElementById("mediaContainer");
     mediaContainer.innerHTML = ""; // Clear previous content
 
@@ -611,9 +610,9 @@ function showSlide(index) {
 
     // Disable or enable buttons
     prevBtn.disabled = currentSlide === 0;
-    nextBtn.disabled = currentSlide === tutorialSlides.length - 1;
+    nextBtn.disabled = currentSlide === introSlides.length - 1;
 
-    if (currentSlide === tutorialSlides.length - 1) {
+    if (currentSlide === introSlides.length - 1) {
         enterBtn.classList.remove("d-none");
     } else {
         enterBtn.classList.add("d-none");
@@ -627,13 +626,13 @@ const nextBtn = document.querySelector("#nextBtn");
 prevBtn.addEventListener("click", prevSlide);
 nextBtn.addEventListener("click", nextSlide);
 document.getElementById("enterBtn").addEventListener("click", () => {
-    const modal = bootstrap.Modal.getInstance(document.getElementById("tutorialModal"));
+    const modal = bootstrap.Modal.getInstance(document.getElementById("introModal"));
     modal.hide();
 });
-  
+
 // Move to the next slide
 function nextSlide() {
-    if (currentSlide < tutorialSlides.length - 1) {
+    if (currentSlide < introSlides.length - 1) {
         currentSlide++;
         showSlide(currentSlide);
     }
@@ -641,14 +640,15 @@ function nextSlide() {
 
 // Move to the previous slide
 function prevSlide() {
-    currentSlide = (currentSlide - 1 + tutorialSlides.length) % tutorialSlides.length;
+    currentSlide = (currentSlide - 1 + introSlides.length) % introSlides.length;
     showSlide(currentSlide);
 }
 
 // Clear the media when the modal is closed
-document.getElementById("tutorialModal").addEventListener("hidden.bs.modal", function () {
+document.getElementById("introModal").addEventListener("hidden.bs.modal", function () {
     document.getElementById("mediaContainer").innerHTML = "";
 });
+
 
 const helpButton = document.getElementById("helpButton");
 const tutorialOverlay = document.getElementById("tutorialOverlay");
