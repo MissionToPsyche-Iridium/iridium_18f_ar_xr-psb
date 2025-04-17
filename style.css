@@ -81,6 +81,15 @@ body{
     height: 50px; /* Fixed height for the header */
 }
 
+#watchVideoBtn {
+    display: none; /* Remove !important */
+}
+
+.instrument-details.expanded #watchVideoBtn,
+.sample-data.expanded #watchVideoBtn {
+    display: inline-block; /* No !important here either */
+}
+
 .center-text {
     position: absolute;
     text-align: center;
@@ -276,7 +285,6 @@ nav{
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
-  
 #closeOverlay {
     position: absolute;
     top: -20px;
@@ -402,7 +410,7 @@ nav{
 /*container of instrument and sample data boxes*/
 .instrument-and-data-wrapper{
     position: fixed;
-    top: 75px; /*underneath nav bar*/
+    top: 10%;
     right: 2px;
     display: flex;
     flex-direction: column;
@@ -434,8 +442,8 @@ nav{
 
 /* Expanded state */
 .instrument-details.expanded, .sample-data.expanded {
-    max-height: 400px; /* Expanded height */
-    width: 400px;
+    max-height: 80%; /* Expanded height */
+    width: 80%;
     overflow-y: auto; /* Allow scrolling */
     transition: max-height 0.3s ease-in-out;
 }
@@ -448,9 +456,12 @@ nav{
 
 /* Expanded state: Show the title, button, and text */
 .instrument-details.expanded #instrumentdetails {
-    display: block; /* Show the text content */
-    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+    display: block;
+    max-height: calc(100vh - 200px); /* prevents overflow on tall screens */
+    overflow-y: auto;
     transition: max-height 0.3s ease-in-out;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 #instrument-details-title {
@@ -470,17 +481,20 @@ nav{
 
 /* Constrain the image size */
 #sampledatatext img {
-    max-width: 100%; /* Ensure the image fits within the container's width */
-    max-height: 100%; /* Ensure the image fits within the container's height */
+    max-width: 70%; /* Ensure the image fits within the container's width */
+    max-height: 20%; /* Ensure the image fits within the container's height */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Ensure the image scales properly */
 }
 
 /* Expanded state: Show the title, button, and text */
 .sample-data.expanded #sampledatatext {
-    display: block; /* Show the text content */
-    max-height: 600px; /* Allow full expansion */
-    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+    display: block;
+    max-height: calc(92vh - 205px); /* consistent with instrument details */
+    overflow-y: auto;
+    transition: max-height 0.3s ease-in-out;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 /* A-Frame scene styles */
@@ -591,7 +605,7 @@ a-scene {
 
     .instrument-details,
     .sample-data {
-        width: 100%; /* Make the boxes take up the full width of the container */
+        width: 60%; /* Make the boxes take up the full width of the container */
     }
 
     .bottomButtonGroup {

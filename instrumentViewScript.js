@@ -101,9 +101,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 otherBox.classList.add("collapsed");
                 otherButton.innerText = "+";
             }
+
+            if (box === instrumentDetailsBox && selectedInstrument) {
+                const instrumentId = selectedInstrument.id;
+                const instrumentName = getInstrumentNameById(instrumentId);
+                const videoUrl = getVideo(instrumentName); // Now using the value name
+                checkAndUpdateButtonVisibility(videoUrl);
+            }else {
+                const videoUrl = ""
+                checkAndUpdateButtonVisibility(videoUrl); // Update visibility based on video URL
+            }
+    
+
+
+        } else {
+        if (box === instrumentDetailsBox && selectedInstrument) {
+            const videoUrl = ""
+            checkAndUpdateButtonVisibility(videoUrl); // Update visibility based on video URL
         }
-        updateSampleDataBoxPosition();
     }
+        updateSampleDataBoxPosition();
+    } 
  
     function loadInstrumentDetails(instrumentId) {
         const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
@@ -126,13 +144,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 instrumentDetailsText.innerText = data;
 
                 //instrumentDetailsBox.classList.add("show");
-                instrumentDetailsBox.classList.remove("d-none");
-                instrumentDetailsBox.classList.remove("expanded");
+                instrumentDetailsBox.classList.remove("d-none", "collapsed", "expanded");
+                instrumentDetailsBox.classList.add("collapsed"); // or 'expanded' if you want it open
+
+
                 instrumentDetailsText.style.maxHeight = "120px";
                 instrumentDetailsText.style.overflow = "auto";
 
                 seeMoreBtn1.style.display = "block";
+                seeMoreBtn1.innerText = "+"; // Set the icon to collapsed state
                 seeMoreBtn1.onclick = () => toggleExpansion(instrumentDetailsBox, seeMoreBtn1);
+
             })
  
             .catch(error => {
@@ -201,6 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Update the light for the selected instrument
             updateLightForInstrument(instrumentId);
+            videoUrl = ""
+            checkAndUpdateButtonVisibility("");
             videoUrl = getVideo(instrumentId);
             console.log(instrumentId);
             console.log(videoUrl);
@@ -281,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const videoUrl = videoUrlsMap[instrumentId] || "";
 
         // Update the visibility of the video button
-        checkAndUpdateButtonVisibility(videoUrl);
+        //checkAndUpdateButtonVisibility(videoUrl);
 
         // Return the video URL
         return videoUrl;
@@ -411,7 +435,18 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Video element not found.");
         }
     }
-        
+    function getInstrumentNameById(instrumentId) {
+        // This function maps the id to its corresponding value name
+        const instrumentNameMapping = {
+            "spacecraft": "spacecraft",
+            "gamma": "gamma",
+            "neutron": "neutron",
+            "magnetometer": "magnetometer",
+            "multispectral-imager": "multispectral",
+            "xband-radio": "xband-radio"
+        };
+        return instrumentNameMapping[instrumentId] || null;
+    }  
     document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
         
         // Remove any lingering modal backdrop
