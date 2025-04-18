@@ -82,12 +82,17 @@ describe('Orbit A scene interaction', () => {
     
         expect(isButtonVisible).toBe(true);
 
+        //Wait for the text box to expand 
+        await page.evaluate(() => new Promise(resolve => 
+          setTimeout(resolve, 100)
+        ));
+
         //Click the button
         await seeMoreButton.click();
 
         //Wait for the text box to expand 
         await page.evaluate(() => new Promise(resolve => 
-            setTimeout(resolve, 500)
+            setTimeout(resolve, 100)
         ));
 
         //Verify if the text box has expanded 
