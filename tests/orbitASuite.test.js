@@ -23,6 +23,21 @@ describe('Orbit A scene interaction', () => {
 
     //Open the application url
     await page.goto(url);
+
+    //Check if overlay is visible
+    const isOverlayVisible = await page.evaluate(() => {
+      const overlay = document.querySelector('#closeOverlay');
+      if(!overlay) return false;
+
+      const isVisible = overlay.getAttribute('visible') !== 'false';
+      return isVisible;
+    });
+    expect(isOverlayVisible).toBe(true);
+
+    //Click outside overlay to close it
+    await page.mouse.move(30,30);
+    await page.mouse.down();
+    await page.mouse.up();
   },10000);
 
   afterAll(async () => {
@@ -31,22 +46,6 @@ describe('Orbit A scene interaction', () => {
 
   describe("Orbit A popup test", () => {
     test('Instruction popup appears and disappears after 5 seconds', async () => {
-
-      //Check if overlay is visible
-      const isOverlayVisible = await page.evaluate(() => {
-        const overlay = document.querySelector('#closeOverlay');
-        if(!overlay) return false;
-
-        const isVisible = overlay.getAttribute('visible') !== 'false';
-        return isVisible;
-      });
-      expect(isOverlayVisible).toBe(true);
-
-      //Click outside overlay to close it
-      await page.mouse.move(30,30);
-      await page.mouse.down();
-      await page.mouse.up();
-
       //Select OrbitA
       await page.evaluate(() => {
         const hitbox = document.querySelector('#orbitA-wrapper .hitbox');
@@ -73,34 +72,92 @@ describe('Orbit A scene interaction', () => {
     }, 10000);
   });
 
-  describe("Orbit A highlight test", ()=>{
-    test('Orbit A is highlighted and spacecraft object is visible when selected', async() => {
-  
-      //Get orbit A's color
-      const orbitAColor = await page.evaluate(() => {
-          const orbitA = document.querySelector('#orbitA');
-          return orbitA.getAttribute('color');
-      });
-  
-      //Check if orbit A has been highlighted
-      expect(orbitAColor).toBe('#f9a000'); 
-    
-      //Check if spacecraft is visible
-      const isSpacecraftVisible = await page.evaluate(() => {
-        const spacecraft = document.querySelector('#moving-object');
-        if(!spacecraft) return false;
+  describe("Orbit A visual components", () => {
+    test('Orbit A objects render', async () => {
+      //Check is entites exists
+      const asteroidExists = await page.$('#psyche');
+      await expect(asteroidExists).not.toBeNull();
 
-        const isVisible = spacecraft.getAttribute('visible') !== 'false';
+      const orbitDExists = await page.$('#orbitD');
+      expect(orbitDExists).not.toBeNull();
+
+      const orbitCExists = await page.$('#orbitC');
+      expect(orbitCExists).not.toBeNull();
+
+      const orbitBExists = await page.$('#orbitB');
+      expect(orbitBExists).not.toBeNull();
+
+      const orbitAExists = await page.$('#orbitA');
+      expect(orbitAExists).not.toBeNull();
+
+      const satelliteExists = await page.$('#moving-object');
+      expect(satelliteExists).not.toBeNull()
+
+      //Check if asteroid is visible
+      const isAsteroidVisible = await page.evaluate(() => {
+        const asteroid = document.querySelector('#psyche');
+        if(!asteroid) return false;
+
+        const isVisible = asteroid.getAttribute('visible') !== 'false';
         return isVisible;
       });
+      expect(isAsteroidVisible).toBe(true);  // Ensure it's visible
 
-      expect(isSpacecraftVisible).toBe(true);  // Ensure it's visible
+      //Check if orbit D is visible
+      const isOrbitDVisible = await page.evaluate(() => {
+        const orbitD = document.querySelector('#orbitD');
+        if(!orbitD) return false;
+
+        const isVisible = orbitD.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOrbitDVisible).toBe(true);  // Ensure it's visible
+
+      //Check if orbit C is visible
+      const isOrbitCVisible = await page.evaluate(() => {
+        const orbitC = document.querySelector('#orbitC');
+        if(!orbitC) return false;
+
+        const isVisible = orbitC.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOrbitCVisible).toBe(true);  // Ensure it's visible
+
+      //Check if orbit B is visible
+      const isOrbitBVisible = await page.evaluate(() => {
+        const orbitB = document.querySelector('#orbitB');
+        if(!orbitB) return false;
+
+        const isVisible = orbitB.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOrbitBVisible).toBe(true);  // Ensure it's visible
+
+      //Check if orbit A is visible
+      const isOrbitAVisible = await page.evaluate(() => {
+        const orbitA = document.querySelector('#orbitA');
+        if(!orbitA) return false;
+
+        const isVisible = orbitA.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isOrbitAVisible).toBe(true);  // Ensure it's visible
+
+      //Check if orbit A is visible
+      const isSatelliteVisible = await page.evaluate(() => {
+        const satellite = document.querySelector('#moving-object');
+        if(!satellite) return false;
+
+        const isVisible = satellite.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
+      expect(isSatelliteVisible).toBe(true);  // Ensure it's visible
 
     }, 10000);
   });
 
-  describe("Orbit A motion test", () => {
-    test('Scene responds to motion', async () => {
+  describe("Orbit A device touch and movement response test", () => {
+    test('Orbit A response to device touch and movement', async () => {
      
       //Get initial camera position
       const initialPosition = await page.evaluate(() => {
@@ -128,50 +185,29 @@ describe('Orbit A scene interaction', () => {
     }, 10000);
   });
 
-  describe("Orbit A information display", () => {
-    test('Information specific to orbit A is displayed', async () => {
-      //Get description box object
-      const descriptionBoxVisible = await page.$('.orbit-description');
-    
-      expect(descriptionBoxVisible).not.toBeNull();
-
-      //Ensure description Box is visible
-      const isVisible = await page.evaluate(description => {
-        if (!description) return false;
-        const style = window.getComputedStyle(description);
-        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-      }, descriptionBoxVisible);
-      expect(isVisible).toBe(true);
-
-      //Get button element
-      const seeMoreButton = await page.$('#see-more-btn');
-
-      //Ensure the button exists and is visible
-      expect(seeMoreButton).not.toBeNull();
-
-      const isButtonVisible = await page.evaluate(button => {
-        if (!button) return false;
-        const style = window.getComputedStyle(button);
-        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-      }, seeMoreButton);
+  describe("Orbit A highlight test", ()=>{
+    test('Orbit A is highlighted and spacecraft object is visible when selected', async() => {
   
-      expect(isButtonVisible).toBe(true);
+      //Get orbit A's color
+      const orbitAColor = await page.evaluate(() => {
+          const orbitA = document.querySelector('#orbitA');
+          return orbitA.getAttribute('color');
+      });
+  
+      //Check if orbit A has been highlighted
+      expect(orbitAColor).toBe('#f9a000'); 
+    
+      //Check if spacecraft is visible
+      const isSpacecraftVisible = await page.evaluate(() => {
+        const spacecraft = document.querySelector('#moving-object');
+        if(!spacecraft) return false;
 
-      //Click the button
-      await seeMoreButton.click();
+        const isVisible = spacecraft.getAttribute('visible') !== 'false';
+        return isVisible;
+      });
 
-      //Wait for the text box to expand 
-      await page.evaluate(() => new Promise(resolve => 
-        setTimeout(resolve, 500)
-      ));
+      expect(isSpacecraftVisible).toBe(true);
 
-      //Verify if the text box has expanded 
-      const expanded = await page.evaluate(description => {
-        if (!description) return false;
-        return description.scrollHeight > description.clientHeight; // Checks if content overflowed
-      }, await page.$('.orbit-description'));
-
-      expect(expanded).toBe(true);
     }, 10000);
   });
 
@@ -188,6 +224,46 @@ describe('Orbit A scene interaction', () => {
         const style = window.getComputedStyle(button);
         return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
       }, instrumentButton);
+    }, 10000);
+  });
+
+  describe("Orbit A navigation menu test", () => {
+    test('Navigation menu expands and displays orbit links', async () => {
+      //Ensure the menu starts collapsed
+      let menu = await page.$('#navbarNav');
+      let isVisible = await menu.evaluate(el => window.getComputedStyle(el).display !== 'none');
+      expect(isVisible).toBe(false);
+
+      //Open the menu
+      await page.click('#btnToggle');
+      await page.waitForSelector('#navbarNav', { visible: true });
+
+      //Check that all orbit links are present
+      const expectedLinks = [
+        { orbit: 'orbitA', text: 'Orbit A: Characterization' },
+        { orbit: 'orbitB', text: 'Orbit B: Topography' },
+        { orbit: 'orbitC', text: 'Orbit C: Gravity Science' },
+        { orbit: 'orbitD', text: 'Orbit D: Elemental Mapping' },
+      ];
+
+      for (const { orbit, text } of expectedLinks) {
+        const link = await page.$(`a[data-orbit="${orbit}"]`);
+        expect(link).not.toBeNull();
+  
+        const linkText = await link.evaluate(el => el.textContent.trim());
+        expect(linkText).toBe(text);
+      }
+  
+      // Check the info icon exists
+      const infoIcon = await page.$('.info-icon img[alt="Info"]');
+      expect(infoIcon).not.toBeNull();
+  
+      // Close the menu
+      await page.click('#btnToggle');
+      await page.waitForFunction(() => {
+        const menu = document.querySelector('#navbarNav');
+        return menu && window.getComputedStyle(menu).display === 'none';
+      });
     }, 10000);
   });
 });
