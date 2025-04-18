@@ -575,10 +575,12 @@ document.getElementById("speakButton").addEventListener("click", () => {
 let currentSlide = 0;
 
 const introSlides = [
-    { type: "video", src: "https://www.youtube.com/embed/AwCiHscmEQE?si=PgwzvjLPpVTy8Gt4" },
-    { type: "gif", src: "images/psycheLaunchPress.jpg" },
-    { type: "video", src: "https://www.youtube.com/embed/M7KqDsykb3o?si=_oQh1kQ5j3YRh86_" },
-    { type: "video", src: "https://www.youtube.com/embed/aa28FejUW8s?si=It20uhf_riNoT8Ou&amp;start=60" }
+    { type: "video", src: "https://www.youtube.com/embed/AwCiHscmEQE?si=PgwzvjLPpVTy8Gt4", text: "On October 13, 2023, NASA\'s Psyche mission took flight."},
+    { type: "gif", src: "images/psycheLaunchPress.jpg", text: "Aboard a SpaceX Falcon Heavy rocket, the spacecraft began its 6-year journey." },
+    { type: "video", src: "https://www.youtube.com/embed/M7KqDsykb3o?si=_oQh1kQ5j3YRh86_", text: "The Psyche spacecraft is on a 2.5 billion-mile journey to a metal-rich asteroid named Psyche."},
+    { type: "video", src: "https://www.youtube.com/embed/y__vwRQ3PVg?start=66&end=96", text: "Upon arrival, the spacecraft will follow four orbital paths using various scientific instruments to gather data." },
+    { type: "video", src: "https://www.youtube.com/embed/y__vwRQ3PVg?start=20&end=66", text: "Scientists believe there\'s much to learn from the Psyche asteroid — including how planets form!"},
+    {type: "end", text: "Now it\'s your turn to explore. Start your journey to a metal world!", buttonText: "START"}
 ];
 
 // Load the introduction modal
@@ -607,6 +609,15 @@ function showSlide(index) {
         img.style.width = "100%";
         mediaContainer.appendChild(img);
     }
+
+    // If there's accompanying text, add it
+    if (slide.text) {
+        const textEl = document.createElement("p");
+        textEl.innerText = slide.text;
+        textEl.className = "slide-description";
+        mediaContainer.appendChild(textEl);
+    }
+  
 
     // Disable or enable buttons
     prevBtn.disabled = currentSlide === 0;
