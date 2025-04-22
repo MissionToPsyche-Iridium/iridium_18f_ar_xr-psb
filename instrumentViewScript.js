@@ -263,17 +263,17 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Return to Orbit button not found!");
     }
  
-    document.addEventListener("mousedown", (event) => {
+    document.addEventListener("mousedown", (event) => { //change to touchstart
         isDragging = true;
         previousMouseX = event.clientX;
         previousMouseY = event.clientY;
     });
 
-    document.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => { //change to touchend
         isDragging = false;
     });
  
-    document.addEventListener("mousemove", (event) => {
+    document.addEventListener("mousemove", (event) => {  //change to touchmove
         event.preventDefault(); // Prevent unintended camera movement
         if (isDragging && selectedInstrument) {
         const deltaX = event.clientX - previousMouseX;
@@ -296,9 +296,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
             "multispectral": "videos/psycheImagerClip.mp4",
-            "xband-radio": "",
-            "gamma": "",
-            "neutron": ""
+            "xband-radio": "videos/psycheXBandRadioClip.mp4",
+            "gamma": "videos/psycheSpectrometerClip.mp4",
+            "neutron": "videos/psycheSpectrometerClip.mp4"
         };
 
         // Get the video URL for the instrument
