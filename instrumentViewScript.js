@@ -292,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
             selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
         }
     });
+    
     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
