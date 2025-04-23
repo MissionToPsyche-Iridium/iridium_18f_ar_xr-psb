@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
     const directionalLight = document.querySelector("#dynamic-directional-light");
     const pointLight = document.querySelector("#dynamic-point-light");
+    const ambientLight = document.querySelector("#dynamic-ambient-light");
 
     const camera = document.querySelector("[camera]");
     if (camera) {
@@ -263,17 +264,17 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Return to Orbit button not found!");
     }
  
-    document.addEventListener("mousedown", (event) => {
+    document.addEventListener("mousedown", (event) => { //change to touchstart
         isDragging = true;
         previousMouseX = event.clientX;
         previousMouseY = event.clientY;
     });
 
-    document.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => { //change to touchend
         isDragging = false;
     });
  
-    document.addEventListener("mousemove", (event) => {
+    document.addEventListener("mousemove", (event) => {  //change to touchmove
         event.preventDefault(); // Prevent unintended camera movement
         if (isDragging && selectedInstrument) {
         const deltaX = event.clientX - previousMouseX;
@@ -352,11 +353,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
                 console.log("Invalid orbit parameter.");
         }
+        // correct instrument lighting
+        updateLightForInstrument(instrumentId);
+
         videoUrl = getVideo(instrumentId);
         selectedInstrument = document.getElementById(instrumentId);
         const instrumentLink = selectedInstrument.getAttribute("data")
         if (instrumentId !== "spacecraft"){
-
             instrumentObserver.notify("instrumentSelected", instrumentLink);
         }
         else{
@@ -386,26 +389,37 @@ document.addEventListener("DOMContentLoaded", () => {
             directionalLight.setAttribute("intensity", "5.0");
             directionalLight.setAttribute("position", "-3 -2 1");
             pointLight.setAttribute("intensity", "7.0");
+            ambientLight.setAttribute("intensity", "0");
             break;
         case "multispectral":
             directionalLight.setAttribute("intensity", "2.0");
             directionalLight.setAttribute("position", "1 3 -4");
             pointLight.setAttribute("intensity", "5.0");
+            ambientLight.setAttribute("intensity", "0");
             break;
         case "xband-radio":
             directionalLight.setAttribute("intensity", "2.0");
             directionalLight.setAttribute("position", "-4 2 -1");
             pointLight.setAttribute("intensity", "5.0");
+            ambientLight.setAttribute("intensity", "0");
+            break;
+        case "gamma":
+            directionalLight.setAttribute("intensity", "1");
+            directionalLight.setAttribute("position", "-2.5 2 4");
+            pointLight.setAttribute("intensity", ".25");
+            ambientLight.setAttribute("intensity", ".25");
             break;
         case "neutron":
-            directionalLight.setAttribute("intensity", "1.5");
-            directionalLight.setAttribute("position", "-5.5 -1 2");
-            pointLight.setAttribute("intensity", "7.0");
+            directionalLight.setAttribute("intensity", "10");
+            directionalLight.setAttribute("position", "-1.5 0 1.5");
+            pointLight.setAttribute("intensity", "1.5");
+            ambientLight.setAttribute("intensity", "50.0");
             break;
         default:
-            directionalLight.setAttribute("intensity", "1.5");
+            directionalLight.setAttribute("intensity", "1.0");
             directionalLight.setAttribute("position", "-2.5 2 1");
-            pointLight.setAttribute("intensity", "1.0");
+            pointLight.setAttribute("intensity", "3.5");
+            ambientLight.setAttribute("intensity", "0");
             break;
         }
     }
