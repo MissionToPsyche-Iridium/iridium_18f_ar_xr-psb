@@ -1,5 +1,5 @@
 import { initNavigationMenu, toggleMenu } from "./menuScript.js";
- 
+
 let videoUrl = null;
 let selectedInstrument = null; // Track the currently selected instrument
 let isDragging = false;
@@ -35,9 +35,9 @@ class InstrumentObserver {
  
 //Global observer instance
 const instrumentObserver = new InstrumentObserver();
- 
+
 document.addEventListener("DOMContentLoaded", () => {
- 
+
     initNavigationMenu();
 
     instrumentObserver.subscribe("instrumentSelected", loadInstrumentDetails);
