@@ -81,6 +81,14 @@ body{
     height: 50px; /* Fixed height for the header */
 }
 
+#orbitViewPage .top-bar{
+    background-color: var(--magenta-color);
+}
+
+#instrumentViewPage .top-bar{
+    background-color: var(--coral-color);
+}
+
 #watchVideoBtn {
     display: none; /* Remove !important */
     background-color: var(--gold-color);
