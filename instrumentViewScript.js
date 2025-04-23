@@ -1,12 +1,5 @@
 import { initNavigationMenu, toggleMenu } from "./menuScript.js";
  
-let videoUrls = {
-    "orbitA": "videos/psycheMagnetometerClip.mp4",
-    "orbitB": "videos/psycheImagerClip.mp4",
-    "orbitC": "https://www.youtube.com/embed/VIDEO_ID_C",
-    "orbitD": "videos/psycheSpectrometerClip.mp4"
-};
-
 let videoUrl = null;
 let selectedInstrument = null; // Track the currently selected instrument
 let isDragging = false;
@@ -109,16 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const videoUrl = getVideo(instrumentName); // Now using the value name
                 checkAndUpdateButtonVisibility(videoUrl);
             }else {
-                const videoUrl = ""
-                checkAndUpdateButtonVisibility(videoUrl); // Update visibility based on video URL
+                checkAndUpdateButtonVisibility(""); // Update visibility based on video URL
             }
-    
-
 
         } else {
         if (box === instrumentDetailsBox && selectedInstrument) {
-            const videoUrl = ""
-            checkAndUpdateButtonVisibility(videoUrl); // Update visibility based on video URL
+            checkAndUpdateButtonVisibility(""); // Update visibility based on video URL
         }
     }
         updateSampleDataBoxPosition();
@@ -147,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 //instrumentDetailsBox.classList.add("show");
                 instrumentDetailsBox.classList.remove("d-none", "collapsed", "expanded");
                 instrumentDetailsBox.classList.add("collapsed"); // or 'expanded' if you want it open
-
 
                 instrumentDetailsText.style.maxHeight = "120px";
                 instrumentDetailsText.style.overflow = "auto";
@@ -224,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Update the light for the selected instrument
             updateLightForInstrument(instrumentId);
-            videoUrl = ""
             checkAndUpdateButtonVisibility("");
             videoUrl = getVideo(instrumentId);
             console.log(instrumentId);
@@ -258,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const currentOrbit = selectedInstrument.getAttribute("orbit");
             sessionStorage.setItem("selectedOrbit",  currentOrbit);
             }
-            window.location.href = "index.html"; // Update this to the correct orbit view page if needed // Ensure this is the correct path to orbit view
+            window.location.href = "index.html";
         });
     } else {
         console.warn("Return to Orbit button not found!");
