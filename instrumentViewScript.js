@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (box === instrumentDetailsBox && selectedInstrument) {
                 const instrumentId = selectedInstrument.id;
-                const instrumentName = getInstrumentNameById(instrumentId);
-                const videoUrl = getVideo(instrumentName); // Now using the value name
+                //const instrumentName = getInstrumentNameById(instrumentId);
+                const videoUrl = getVideo(instrumentId); // Now using the value name
                 checkAndUpdateButtonVisibility(videoUrl);
             }else {
                 checkAndUpdateButtonVisibility(""); // Update visibility based on video URL
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
-            "multispectral": "videos/psycheImagerClip.mp4",
+            "multispectral-imager": "videos/psycheImagerClip.mp4",
             "xband-radio": "videos/psycheXBandRadioClip.mp4",
             "gamma": "videos/psycheSpectrometerClip.mp4",
             "neutron": "videos/psycheSpectrometerClip.mp4"
