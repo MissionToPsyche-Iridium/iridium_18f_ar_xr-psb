@@ -339,8 +339,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("touchend", endDrag);
 
     document.addEventListener("touchmove", (e) => {
-        e.preventDefault(); //Prevent default scrolling
-        if (e.touches.length > 0) {
+        const target = e.target;
+
+        console.log("Target is: "+ target);
+    
+        // Allow scrolling if inside a scrollable element like <textarea>, <input>, or a scrollable div
+        const isInScrollable = target.closest(".scrollable");
+    
+        if (!isInScrollable) {
+            e.preventDefault(); // Only prevent default if NOT in a scrollable area
+        }
+    
+        if (e.touches.length > 0 && !isInScrollable) {
             drag(e.touches[0].clientX, e.touches[0].clientY);
         }
     }, { passive: false });
