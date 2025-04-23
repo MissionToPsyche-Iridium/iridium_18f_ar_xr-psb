@@ -22,36 +22,35 @@ describe('AR Web App', () => {
     	page = await browser.newPage();
 
     	//Open the application url
-    	await page.goto(url);
+        await page.goto(url);
+
+        //Check if overlay is visible
+        const isOverlayVisible = await page.evaluate(() => {
+            const overlay = document.querySelector('#closeOverlay');
+            if(!overlay) return false;
+
+            const isVisible = overlay.getAttribute('visible') !== 'false';
+            return isVisible;
+        });
+        expect(isOverlayVisible).toBe(true);
+
+        //Click outside overlay to close it
+        await page.mouse.move(30,30);
+        await page.mouse.down();
+        await page.mouse.up();
     },10000);
 
     afterAll(async () => {
         await browser.close();
     });
 
-    describe("Psyche gamma-ray spectrometer visual representation", () => {
-        test('Gamma-ray spectrometer model is rendered when selected', async () => {
-
-            //Check if overlay is visible
-            const isOverlayVisible = await page.evaluate(() => {
-                const overlay = document.querySelector('#closeOverlay');
-                if(!overlay) return false;
-
-                const isVisible = overlay.getAttribute('visible') !== 'false';
-                return isVisible;
-            });
-            expect(isOverlayVisible).toBe(true);
-
-            //Click outside overlay to close it
-            await page.mouse.move(30,30);
-            await page.mouse.down();
-            await page.mouse.up();
-
+    describe("Gamma-ray Spectrometer instrument video test", () => {
+        test('Gamma-ray Spectrometer instrument video plays with page is loaded', async () => {
 	        //Select Orbit D
             await page.evaluate(() => {
                 const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
                 if (hitbox) {
-                    hitbox.emit('click');
+                hitbox.emit('click');
                 }
             });
 
@@ -72,16 +71,31 @@ describe('AR Web App', () => {
                 await instrumentButton.click(),
             ]);
 
-            //Wait for the box to appear
+            //Wait for the video window to appear
             await page.evaluate(() => new Promise(resolve => 
                 setTimeout(resolve, 500)
             ));
 
-	        //Click outside overlay to close it
-            await page.mouse.move(100,30);
-            await page.mouse.down();
-            await page.mouse.up();
+            //Check if window is visible
+            const isWindowVisible = await page.evaluate(() => {
+                const window = document.querySelector('#videoModal');
+                if(!window) return false;
 
+                const isVisible = window.getAttribute('visible') !== 'false';
+                return isVisible;
+            });
+            expect(isWindowVisible).toBe(true);
+
+            await page.evaluate(() => new Promise(resolve => 
+                setTimeout(resolve, 500)
+            ));
+
+            await page.click('#videoModal .btn-close');
+        }, 10000);
+    });
+
+    describe("Gamma-ray Spectrometer render test", () => {
+        test('Gamma-ray Spectrometer 3D object renders when Magnetometer page is loaded', async () => {
             //Verify gamma-ray spectrometer model loaded
             const gammaExists = await page.$('#gamma');
       	    await expect(gammaExists).not.toBeNull();
@@ -99,8 +113,12 @@ describe('AR Web App', () => {
         }, 10000);
     });
 
-    describe("Psyche gamma-ray spectrometer response", () => {
-        test('Gamma-ray spectrometer responds to user motion and touch', async () => {
+    describe("Gamma-ray Spectrometer touch and motion response", () => {
+        test('Gamma-ray Spectrometer responds to user motion and touch', async () => {
+            //Wait for the page
+            await page.evaluate(() => new Promise(resolve => 
+                setTimeout(resolve, 200)
+            ));
 
             //Get initial model position
       	    const initialPosition = await page.evaluate(() => {
@@ -125,91 +143,52 @@ describe('AR Web App', () => {
   
       	    // Ensure the model position has changed
       	    expect(updatedPosition).not.toBe(initialPosition);
-
         }, 10000);
     });
 
-    describe("Psyche gamma-ray spectrometer webpage information ", () => {
-        test('Details box is shown and correct description is displayed when selected', async () => {
+    describe("Gamma-ray Spectrometer navigation menu test", () => {
+        test('Navigation menu expands and displays instrument links', async () => {
+            //Ensure the menu starts collapsed
+            await page.waitForSelector('#navbarNavInstrument', { hidden: true });
+        
+            // Open the menu
+            await page.click('#btnToggle');
+            await page.waitForSelector('#navbarNavInstrument', { visible: true });
+            
+            //Check that all instrument links are present
+            const expectedLinks = [
+                { instrument: 'spacecraft', text: 'Psyche Spacecraft' },
+                { instrument: 'magnetometer', text: 'Magnetometer' },
+                { instrument: 'multispectral', text: 'Multispectral Imager' },
+                { instrument: 'xband-radio', text: 'X-band Radio' },
+                { instrument: 'gamma', text: 'Gamma Ray Spectrometer' },
+                { instrument: 'neutron', text: 'Neutron Spectrometer' },
+            ];
+        
+            for (const { instrument, text } of expectedLinks) {
+                const link = await page.$(`a[data-instrument="${instrument}"]`);
+                expect(link).not.toBeNull();
+        
+                const linkText = await link.evaluate(el => el.textContent.trim());
+                expect(linkText).toBe(text);
+            }
+        
+            // Check the info icon exists
+            const infoIcon = await page.$('.info-icon img[alt="Info"]');
+            expect(infoIcon).not.toBeNull();
 
-            await page.waitForSelector('#instrument-details');
-
-            //Verify details box is visible
-      	    const isDetailsBoxVisible = await page.evaluate(() => {
-        	    const detailsBox = document.querySelector('#instrument-details');
-                if(!detailsBox) return false;
-
-        	    const style = window.getComputedStyle(detailsBox);
-                return style.display !== 'none' && style.visibility !== 'hidden';
-      	    });
-      	    expect(isDetailsBoxVisible).toBe(true);
-
-            //Check box title
-            const titleText = await page.$eval('#instrument-details-title', el => el.textContent.trim());
-            expect(titleText).toBe('Gamma Ray Spectrometer');
-
-            //Get button element
-            const seeMoreButton = await page.waitForSelector('#see-more-btn1');
-
-            //Ensure the button exists and is visible
-            expect(seeMoreButton).not.toBeNull();
-
-            //Click the button
-            await seeMoreButton.click();
-
-            //Wait for the text box to expand 
+            //Wait for the nav menu to appear
             await page.evaluate(() => new Promise(resolve => 
                 setTimeout(resolve, 500)
             ));
-
-            //Check contents
-            const descriptionText = await page.$eval('#instrumentdetails', el => el.textContent.trim());
-            expect(descriptionText).toBe('In Orbit D—the closest orbit—the gamma-ray spectrometer focuses on elemental mapping by detecting gamma-rays generated by cosmic-ray interactions with Psyche’s surface. This instrument identifies and quantifies key elements, such as iron and nickel, by analyzing the energy signatures of the emitted gamma-rays. This detailed compositional data is critical for understanding whether Psyche is the remnant core of a disrupted planetesimal or a unique metal-rich body\.');
-
+        
+            // Close the menu
+            await page.click('#btnToggle');
+            await page.waitForSelector('#navbarNavInstrument', { hidden: true });
         }, 10000);
     });
 
-    describe("Gamma-ray spectrometer sample data", () => {
-        test('Sample data box is shown and correct description is displayed when selected', async () => {
-
-            await page.waitForSelector('#sample-data');
-
-            //Verify sample data box is visible
-      	    const isDataBoxVisible = await page.evaluate(() => {
-        	    const dataBox = document.querySelector('#sample-data');
-        	    if(!dataBox) return false;
-
-        	    const style = window.getComputedStyle(dataBox);
-                return style.display !== 'none' && style.visibility !== 'hidden';
-      	    });
-      	    expect(isDataBoxVisible).toBe(true);
-
-            //Check box title
-            const titleText = await page.$eval('#sample-data-title', el => el.textContent.trim());
-            expect(titleText).toBe('Sample Data');
-
-            //Get button element
-            const seeMoreButton = await page.waitForSelector('#see-more-btn2');
-
-            //Ensure the button exists and is visible
-            expect(seeMoreButton).not.toBeNull();
-
-            //Click the button
-            await seeMoreButton.click();
-
-            //Wait for the text box to expand 
-            await page.evaluate(() => new Promise(resolve => 
-                setTimeout(resolve, 500)
-            ));
-
-            //Check contents
-            const descriptionText = await page.$eval('#sample-data-text', el => el.textContent.trim());
-            expect(descriptionText).toBe('Figure 4, A. from (Peplowski Et. Al., 2022) shows a portion of the gamma-ray spectrum for high-purity Germanium\.');
-
-        }, 10000);
-    });
-
-    describe("Gamma-ray spectrometer view exit page", () => {
+    describe("Gamma-ray Spectrometer view exit page", () => {
         test('User is returned to Orbit View when button is selected', async () => {
 
             //Get orbit button element

@@ -46,14 +46,14 @@ describe('Orbit A scene interaction', () => {
 
   describe("Orbit A information display", () => {
     const orbits = ['A', 'B', 'C', 'D'];
-    test.each(orbits)('Information specific to orbit A is displayed', async (name) => {
+    test.each(orbits)('Information specific to selected orbit is displayed', async (orbit) => {
         //Get Orbit hitbox and click it
         await page.evaluate((orbitName) => {
             const hitbox = document.querySelector(`#orbit${orbitName}-wrapper .hitbox`);
             if (hitbox) {
             hitbox.emit('click');
             }
-        }, name);
+        }, orbit);
 
         //Get description box object
         const descriptionBoxVisible = await page.$('.orbit-description');
@@ -103,7 +103,4 @@ describe('Orbit A scene interaction', () => {
         expect(isExpanded).toBe(true);
     }, 10000);
   });
-
-  
-
 });

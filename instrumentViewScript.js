@@ -296,10 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
-            "multispectral": "videos/psycheImagerClip.mp4",
-            "xband-radio": "",
-            "gamma": "",
-            "neutron": ""
+            "multispectral-imager": "videos/psycheImagerClip.mp4",
+            "xband-radio": "videos/psycheXBandRadioClip.mp4",
+            "gamma": "videos/psycheSpectrometerClip.mp4",
+            "neutron": "videos/psycheSpectrometerClip.mp4"
         };
 
         // Get the video URL for the instrument
@@ -411,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     function updateVideo(video) {
-        let videoIframe = document.getElementById('videoIframe');  // Replace with your iframe ID if different
+        let videoIframe = document.getElementById('videoIframe');
 
         if (videoIframe) {
             console.log(`Showing: ${video}`);
