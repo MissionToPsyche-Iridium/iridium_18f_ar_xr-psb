@@ -83,8 +83,11 @@ body{
 
 #watchVideoBtn {
     display: none; /* Remove !important */
+    background-color: var(--gold-color);
 }
-
+#enterBtn{
+    background-color: var(--gold-color);
+}
 .instrument-details.expanded #watchVideoBtn,
 .sample-data.expanded #watchVideoBtn {
     display: inline-block; /* No !important here either */
