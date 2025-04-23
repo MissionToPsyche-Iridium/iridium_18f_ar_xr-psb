@@ -341,7 +341,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Invalid orbit parameter.");
         }
         // correct instrument lighting
-        updateLightForInstrument(instrumentId);
+        const instrumentName = getInstrumentNameById(instrumentId);
+        updateLightForInstrument(instrumentName);
 
         videoUrl = getVideo(instrumentId);
         selectedInstrument = document.getElementById(instrumentId);
@@ -437,6 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Video element not found.");
         }
     }
+
     function getInstrumentNameById(instrumentId) {
         // This function maps the id to its corresponding value name
         const instrumentNameMapping = {
@@ -448,7 +450,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "xband-radio": "xband-radio"
         };
         return instrumentNameMapping[instrumentId] || null;
-    }  
+    }
+    
     document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
         
         // Remove any lingering modal backdrop
