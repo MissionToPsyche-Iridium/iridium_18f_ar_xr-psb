@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Return to Orbit button not found!");
     }
  
-    document.addEventListener("mousedown", (event) => { //change to touchstart
+    /*document.addEventListener("mousedown", (event) => { //change to touchstart
         isDragging = true;
         previousMouseX = event.clientX;
         previousMouseY = event.clientY;
@@ -279,7 +279,70 @@ document.addEventListener("DOMContentLoaded", () => {
             currentRotation.y -= deltaX * 0.5;
             selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
         }
+    });*/
+
+    let isDragging = false;
+    let previousX = 0;
+    let previousY = 0;
+
+    //Handle start of drag
+    function startDrag(x, y) {
+        isDragging = true;
+        previousX = x;
+        previousY = y;
+    }
+
+    //Handle end of drag
+    function endDrag() {
+        isDragging = false;
+    }
+
+    //Handle dragging movement
+    function drag(x, y) {
+        if (!isDragging || !selectedInstrument) return;
+
+        const deltaX = x - previousX;
+        const deltaY = y - previousY;
+
+        previousX = x;
+        previousY = y;
+
+        let currentRotation = selectedInstrument.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
+
+        if (typeof currentRotation === "string") {
+            const [x, y, z] = currentRotation.split(" ").map(Number);
+            currentRotation = { x, y, z };
+        }
+
+        currentRotation.x -= deltaY * 0.5;
+        currentRotation.y -= deltaX * 0.5;
+
+        selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
+    }
+
+    //Mouse Events
+    document.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
+    document.addEventListener("mouseup", endDrag);
+    document.addEventListener("mousemove", (e) => {
+        e.preventDefault();
+        drag(e.clientX, e.clientY);
     });
+
+    //Touch Events
+    document.addEventListener("touchstart", (e) => {
+        if (e.touches.length > 0) {
+            startDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: false });
+
+    document.addEventListener("touchend", endDrag);
+
+    document.addEventListener("touchmove", (e) => {
+        e.preventDefault(); //Prevent default scrolling
+        if (e.touches.length > 0) {
+            drag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: false });
     
     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
         const videoUrlsMap = {
