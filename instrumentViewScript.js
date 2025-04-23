@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         return instrumentNameMapping[instrumentId] || null;
     }
-    
+
     document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
         
         // Remove any lingering modal backdrop
