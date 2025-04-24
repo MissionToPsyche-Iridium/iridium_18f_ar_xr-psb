@@ -213,9 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Update the light for the selected instrument
             updateLightForInstrument(instrumentId);
             checkAndUpdateButtonVisibility("");
-            if(instrumentId === "multispectral){
-                const instrumentName = document.getElementById("multispectral-imager").id;
-                videoUrl = getVideo(instrumentName);
+            if(instrumentId === "multispectral"){
+                //const instrumentName = document.getElementById("multispectral-imager").id;
+                videoUrl = getVideo("multispectral-imager");
             }
             else{
                 videoUrl = getVideo(instrumentId);
