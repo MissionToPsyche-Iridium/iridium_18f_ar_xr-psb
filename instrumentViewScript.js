@@ -2,11 +2,8 @@ import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 
 let videoUrl = null;
 let selectedInstrument = null; // Track the currently selected instrument
-let isDragging = false;
-let previousMouseX = 0;
-let previousMouseY = 0;
-const navigationMenu = document.querySelector(".navigation__menu");
 const videoButton = document.getElementById('watchVideoBtn');
+
 //Observer pattern
 class InstrumentObserver {
     constructor() {
@@ -53,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gamma: document.querySelector("#gamma"),
         neutron: document.querySelector("#neutron"),
         magnetometer: document.querySelector("#magnetometer"),
-        multispectral: document.querySelector("#multispectral-imager"),
+        multispectral: document.querySelector("#multispectral"),
         "xband-radio": document.querySelector("#xband-radio")
     };
  
@@ -98,16 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (box === instrumentDetailsBox && selectedInstrument) {
                 const instrumentId = selectedInstrument.id;
-                //const instrumentName = getInstrumentNameById(instrumentId);
-                const videoUrl = getVideo(instrumentId); // Now using the value name
+                const videoUrl = getVideo(instrumentId);
                 checkAndUpdateButtonVisibility(videoUrl);
             }else {
-                checkAndUpdateButtonVisibility(""); // Update visibility based on video URL
+                checkAndUpdateButtonVisibility("");
             }
 
         } else {
         if (box === instrumentDetailsBox && selectedInstrument) {
-            checkAndUpdateButtonVisibility(""); // Update visibility based on video URL
+            checkAndUpdateButtonVisibility("");
         }
     }
         updateSampleDataBoxPosition();
@@ -130,18 +126,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return response.text();
             })
             .then(data => {
-                instrumentTitle.innerText = instrumentNames[instrumentId] || instrumentId.replace(/-/g, " ");
+                instrumentTitle.innerText = instrumentNames[instrumentId];
                 instrumentDetailsText.innerText = data;
 
-                //instrumentDetailsBox.classList.add("show");
                 instrumentDetailsBox.classList.remove("d-none", "collapsed", "expanded");
-                instrumentDetailsBox.classList.add("collapsed"); // or 'expanded' if you want it open
+                instrumentDetailsBox.classList.add("collapsed");
 
                 instrumentDetailsText.style.maxHeight = "120px";
                 instrumentDetailsText.style.overflow = "auto";
 
                 seeMoreBtn1.style.display = "block";
-                seeMoreBtn1.innerText = "+"; // Set the icon to collapsed state
+                seeMoreBtn1.innerText = "+";
                 seeMoreBtn1.onclick = () => toggleExpansion(instrumentDetailsBox, seeMoreBtn1);
 
             })
@@ -213,15 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Update the light for the selected instrument
             updateLightForInstrument(instrumentId);
             checkAndUpdateButtonVisibility("");
-            if(instrumentId === "multispectral"){
-                //const instrumentName = document.getElementById("multispectral-imager").id;
-                videoUrl = getVideo("multispectral-imager");
-            }
-            else{
-                videoUrl = getVideo(instrumentId);
-            }
-            console.log(instrumentId);
-            console.log(videoUrl);
+        
+            videoUrl = getVideo(instrumentId);
+
             updateVideo(videoUrl);
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {
@@ -256,36 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         console.warn("Return to Orbit button not found!");
     }
- 
-    /*document.addEventListener("mousedown", (event) => { //change to touchstart
-        isDragging = true;
-        previousMouseX = event.clientX;
-        previousMouseY = event.clientY;
-    });
-
-    document.addEventListener("mouseup", () => { //change to touchend
-        isDragging = false;
-    });
- 
-    document.addEventListener("mousemove", (event) => {  //change to touchmove
-        event.preventDefault(); // Prevent unintended camera movement
-        if (isDragging && selectedInstrument) {
-        const deltaX = event.clientX - previousMouseX;
-        const deltaY = event.clientY - previousMouseY;
-        previousMouseX = event.clientX;
-        previousMouseY = event.clientY;
-
-            let currentRotation = selectedInstrument.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
-            if (typeof currentRotation === "string") {
-                let rotationParts = currentRotation.split(" ").map(Number);
-                currentRotation = { x: rotationParts[0] || 0, y: rotationParts[1] || 0, z: rotationParts[2] || 0 };
-            }
-
-            currentRotation.x -= deltaY * 0.5;
-            currentRotation.y -= deltaX * 0.5;
-            selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-        }
-    });*/
 
     let isDragging = false;
     let previousX = 0;
@@ -346,13 +305,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("touchmove", (e) => {
         const target = e.target;
 
-        console.log("Target is: "+ target);
-    
-        // Allow scrolling if inside a scrollable element like <textarea>, <input>, or a scrollable div
+        //Allow scrolling if inside a scrollable element like <textarea>, <input>, or a scrollable div
         const isInScrollable = target.closest(".scrollable");
     
         if (!isInScrollable) {
-            e.preventDefault(); // Only prevent default if NOT in a scrollable area
+            e.preventDefault(); //Only prevent default if NOT in a scrollable area
         }
     
         if (e.touches.length > 0 && !isInScrollable) {
@@ -363,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
-            "multispectral-imager": "videos/psycheImagerClip.mp4",
+            "multispectral": "videos/psycheImagerClip.mp4",
             "xband-radio": "videos/psycheXBandRadioClip.mp4",
             "gamma": "videos/psycheSpectrometerClip.mp4",
             "neutron": "videos/psycheSpectrometerClip.mp4"
@@ -371,9 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Get the video URL for the instrument
         const videoUrl = videoUrlsMap[instrumentId] || "";
-
-        // Update the visibility of the video button
-        //checkAndUpdateButtonVisibility(videoUrl);
 
         // Return the video URL
         return videoUrl;
@@ -390,44 +344,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showInstrument(orbit) {
         // Hide all instruments first
-        const instruments = document.querySelectorAll("[id$='-spectrometer'], #magnetometer, #multispectral-imager, #xband-radio");
+        const instruments = document.querySelectorAll("#gamma, #magnetometer, #multispectral, #xband-radio");
         instruments.forEach(inst => inst.setAttribute("visible", "false"));
 
-        // Select the correct instrument to show
-        let instrumentId;
-        switch (orbit) {
-            case "orbitA":
-                instrumentId = "magnetometer";
-                
-                break;
-            case "orbitB":
-                instrumentId = "multispectral-imager";
-            
-                break;
-            case "orbitC":
-                instrumentId = "xband-radio";
-                
-                break;
-            case "orbitD":
-                instrumentId = "gamma";
-            
-                break;
-            default:
-                if (spacecraft) {
-                instrumentId = "spacecraft";
-                spacecraft.setAttribute("visible", "true");
+        let instrumentId = "spacecraft";
+        instruments.forEach(inst => {
+            const instrumentOrbit = inst.getAttribute('orbit');
+
+            if(instrumentOrbit === orbit){
+                instrumentId = inst.getAttribute('id');
             }
-                console.log("Invalid orbit parameter.");
+        });
+
+        if(instrumentId == "spacecraft"){
+            spacecraft.setAttribute("visible", "true");
         }
+
         // correct instrument lighting
-        const instrumentName = getInstrumentNameById(instrumentId);
-        updateLightForInstrument(instrumentName);
+        updateLightForInstrument(instrumentId);
 
         videoUrl = getVideo(instrumentId);
+
         selectedInstrument = document.getElementById(instrumentId);
-        const instrumentLink = selectedInstrument.getAttribute("data")
         if (instrumentId !== "spacecraft"){
-            instrumentObserver.notify("instrumentSelected", instrumentLink);
+            instrumentObserver.notify("instrumentSelected", instrumentId);
         }
         else{
             instrumentDetailsBox.classList.add("d-none");
@@ -436,8 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (selectedInstrument) {
             selectedInstrument.setAttribute("visible", "true");
-            console.log(`Showing: ${instrumentId}`);
-            console.log(`Showing: ${videoUrl}`);
             loadVideoOnPageLoad()
         } else {
             console.log(`Instrument with ID '${instrumentId}' not found!`);
@@ -445,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  
    function updateSampleDataBoxPosition() {
-        sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + 5}px`; // Add 5px spacing
+        sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + 5}px`; //Add 5px spacing
     }
  
     // Dynamic lighting for instruments needing brighter lighting
@@ -495,7 +433,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let videoIframe = document.getElementById('videoIframe');
 
         if (videoIframe) {
-            console.log(`Showing: ${video}`);
             videoIframe.src = video;  
         } else {
             console.error('Video iframe not found!');
@@ -503,10 +440,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function loadVideoOnPageLoad() {
-        // Get the video element by ID
+        //Get the video element by ID
         const videoIframe = document.getElementById("videoIframe");
         if (videoIframe) {
-            console.log(`Showing: ${videoUrl}`);  // Debugging statement
             if (videoUrl) {
                 videoIframe.src = videoUrl;
                 new bootstrap.Modal(document.getElementById("videoModal")).show();
@@ -518,28 +454,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function getInstrumentNameById(instrumentId) {
-        // This function maps the id to its corresponding value name
-        const instrumentNameMapping = {
-            "spacecraft": "spacecraft",
-            "gamma": "gamma",
-            "neutron": "neutron",
-            "magnetometer": "magnetometer",
-            "multispectral-imager": "multispectral",
-            "xband-radio": "xband-radio"
-        };
-        return instrumentNameMapping[instrumentId] || null;
-    }
-
     document.getElementById("videoModal").addEventListener("hidden.bs.modal", function () {
         
-        // Remove any lingering modal backdrop
+        //Remove any lingering modal backdrop
         const modalBackdrops = document.getElementsByClassName("modal-backdrop");
         while (modalBackdrops.length) {
             modalBackdrops[0].parentNode.removeChild(modalBackdrops[0]);
         }
 
-        // Set focus back to the A-Frame scene for full control
+        //Set focus back to the A-Frame scene for full control
         const aScene = document.querySelector("a-scene");
         if (aScene) {
             aScene.focus();
