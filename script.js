@@ -2,6 +2,18 @@ import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 let linkTargetOrbitId = null;
 
+AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (t) {
+    if (this.touchStarted && this.data.touchEnabled) {
+        this.pitchObject.rotation.x += .6 * Math.PI * (t.touches[0].pageY - this.touchStart.y) / this.el.sceneEl.canvas.clientHeight;
+        this.yawObject.rotation.y += /*  */ Math.PI * (t.touches[0].pageX - this.touchStart.x) / this.el.sceneEl.canvas.clientWidth;
+        this.pitchObject.rotation.x = Math.max(Math.PI / -2, Math.min(Math.PI / 2, this.pitchObject.rotation.x));
+        this.touchStart = {
+            x: t.touches[0].pageX,
+            y: t.touches[0].pageY
+        }
+    }
+}
+
 //Observer pattern
 class OrbitObserver {
     constructor() {
@@ -186,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = 20;
         let step = 0;
 
-        camera.setAttribute('look-controls', 'enabled', 'false');
+        camera.setAttribute('look-controls', 'enabled', false);
 
         //Smooth out camera movement
         const interval = setInterval(() => {
@@ -209,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
 
                 // Set the camera to look at the Psyche object after panning
-                camera.setAttribute('look-controls', 'enabled', 'true');
+                camera.setAttribute('look-controls', 'enabled', true);
             }
         }, 10);
     }
@@ -629,9 +641,6 @@ function showSlide(index) {
         enterBtn.classList.add("d-none");
     }
 }
-
-const prevBtn = document.querySelector("#prevBtn");
-const nextBtn = document.querySelector("#nextBtn");
 
 // Add event listeners
 prevBtn.addEventListener("click", prevSlide);
