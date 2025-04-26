@@ -676,3 +676,53 @@ closeOverlay.addEventListener("click", () => {
     tutorialVideo.pause();
     tutorialOverlay.style.display = "none";
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+    const orbitA = document.querySelector('#orbitA');
+    const orbitB = document.querySelector('#orbitB');
+    const orbitC = document.querySelector('#orbitC');
+    const orbitD = document.querySelector('#orbitD');
+    
+    // Function to transition to a color and then call a callback
+    function animateTo(orbit, color, callback) {
+      if (!orbit) return; // Ensure orbit exists before applying animation
+      
+      // Log to debug
+      console.log(`Animating ${orbit.id} to color: ${color}`);
+      
+      // Directly set the emissive color of the material
+      orbit.setAttribute('material', 'emissive', color);
+      
+      // Simulate a delay and then trigger the callback
+      setTimeout(() => {
+        console.log(`Finished animating ${orbit.id} to ${color}`);
+        callback(); // Trigger the callback after the simulated animation
+      }, 2400); //where you set time for animation now
+    }
+    
+    // Function to handle the loop with boolean check for color
+    function loop(orbit, isGold) {
+      if (isGold) {
+        animateTo(orbit, '#FFFFFF', () => {
+          loop(orbit, false); // Set to false once it's transitioned to white
+        });
+      } else {
+        animateTo(orbit, '#FFFF00', () => {
+          loop(orbit, true); // Set to true once it's transitioned to gold
+        });
+      }
+    }
+    
+    // Start the animation loop for each orbit
+    if (orbitA) loop(orbitA, true); // Start orbit A with gold
+    if (orbitB) loop(orbitB, true); // Start orbit B with gold
+    if (orbitC) loop(orbitC, true); // Start orbit C with gold
+    if (orbitD) loop(orbitD, true); // Start orbit D with gold
+    
+    // Check if any orbits are missing
+    if (!orbitA || !orbitB || !orbitC || !orbitD) {
+      console.error('One or more orbits not found!');
+    }
+  });
+  
+  
