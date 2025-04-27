@@ -11,6 +11,7 @@
 <body id="instrumentViewPage">
     <header class="top-bar container-fluid text-light py-2">
         <div class="row w-100 align-items-center">
+            <!-- Navigation menu -->
             <div class="navigation align-items-center">
                 <button id="btnToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavInstrument" aria-controls="navbarNavInstrument" aria-expanded="false" aria-label="Toggle navigation">
                     <img src="images/hamburger.svg" alt="" width="40" height="24" id="hamburgerIcon">
@@ -31,9 +32,12 @@
                 </ul>
             </div>
 
+            <!-- Banner -->
             <div class="center-text">
                 <p id="bannerText" class="m-0">Psyche Instruments</p>
             </div>
+
+            <!-- Psyche logo -->
             <div class="text-end">
                 <img src="images/psycheMissionIcon.svg" alt="Psyche Mission Logo" class="psyche-logo -fluid">
             </div>
@@ -70,9 +74,26 @@
         </div>
     </div>    
 
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="introModalContent">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Instrument</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <iframe id="videoIframe" width="100%" height="400" src="" title="Instrument Video" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- A-Frame Scene -->
     <a-scene background="color: #111" style="height: calc(100vh - 70px); margin-top: 70px;" vr-mode-ui="enabled: false">
 
+        <!-- Background -->
         <a-assets>
             <img id="bkgrd" src="images/background.jpg">
         </a-assets>
@@ -99,6 +120,7 @@
         <a-entity id="multispectral" gltf-model="url(models/imager.glb)" position="-0.3 .7 -5" scale="0.3 0.3 0.3" visible="false" rotation="0 -45 0" orbit = "orbitB"></a-entity>
         <a-entity id="xband-radio" gltf-model="url(models/xbandradio.glb)" position="0 1 -2" scale="0.3 0.3 0.3" visible="false" rotation="90 0 30" orbit = "orbitC"></a-entity>
         
+        <!-- Camera -->
         <a-entity id="cameraRig">
             <a-entity id="camera" camera position="0 1.1 -1" wasd-controls look-controls>
                 <a-cursor raycaster="objects: [data-instrument]"></a-cursor>
@@ -110,19 +132,4 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
-
-    <!-- Video Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content" id="introModalContent"> <!-- Reuse the styled ID -->
-            <div class="modal-header">
-              <h5 class="modal-title" id="videoModalLabel">Instrument</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center"> <!-- Add text-center for alignment -->
-              <iframe id="videoIframe" width="100%" height="400" src="" title="Instrument Video" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>
-            </div>
-          </div>
-        </div>
-    </div>
 </body>
