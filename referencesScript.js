@@ -10,8 +10,10 @@ orbitLinks.forEach(link => {
         const orbitId = link.getAttribute('data-orbit');
         console.log(orbitId);
 
+        // Save orbit
         sessionStorage.setItem("selectedOrbit", orbitId);
 
+        // Redirect to orbit view page
         window.location.href = "index.html"
     });
 });
