@@ -13,7 +13,7 @@ describe('AR Web App', () => {
         //Specify if headless mode
         //Ignore HTTPS certificate and errors since useing self published certificate for AR
         browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ['--ignore-certificate-errors'],
             ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
     	});
@@ -50,7 +50,7 @@ describe('AR Web App', () => {
             await page.evaluate(() => {
                 const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
                 if (hitbox) {
-                hitbox.emit('click');
+                    hitbox.emit('click');
                 }
             });
 
@@ -86,10 +86,12 @@ describe('AR Web App', () => {
             });
             expect(isWindowVisible).toBe(true);
 
+            //Delay
             await page.evaluate(() => new Promise(resolve => 
                 setTimeout(resolve, 500)
             ));
 
+            //Close window
             await page.click('#videoModal .btn-close');
         }, 10000);
     });
@@ -125,7 +127,6 @@ describe('AR Web App', () => {
         	    return isVisible;
       	    });
       	    expect(isNeutronVisible).toBe(true);
-
         }, 10000);
     });
 
@@ -159,7 +160,6 @@ describe('AR Web App', () => {
   
       	    // Ensure the model position has changed
       	    expect(updatedPosition).not.toBe(initialPosition);
-
         }, 10000);
     });
 
@@ -203,7 +203,7 @@ describe('AR Web App', () => {
             await page.click('#btnToggle');
             await page.waitForSelector('#navbarNavInstrument', { hidden: true });
         }, 10000);
-      });
+    });
 
     describe("Neutron Spectrometer view exit page", () => {
         test('User is returned to Orbit View when button is selected', async () => {

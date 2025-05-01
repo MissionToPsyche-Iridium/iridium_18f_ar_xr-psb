@@ -13,7 +13,7 @@ describe('AR Web App', () => {
         //Specify if headless mode
         //Ignore HTTPS certificate and errors since useing self published certificate for AR
         browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ['--ignore-certificate-errors'],
             ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
     	});
@@ -50,7 +50,7 @@ describe('AR Web App', () => {
             await page.evaluate(() => {
                 const hitbox = document.querySelector('#orbitB-wrapper .hitbox');
                 if (hitbox) {
-                hitbox.emit('click');
+                    hitbox.emit('click');
                 }
             });
 
@@ -86,10 +86,12 @@ describe('AR Web App', () => {
             });
             expect(isWindowVisible).toBe(true);
 
+            //Dealy
             await page.evaluate(() => new Promise(resolve => 
                 setTimeout(resolve, 500)
             ));
 
+            //Close window
             await page.click('#videoModal .btn-close');
         }, 10000);
     });
@@ -97,12 +99,12 @@ describe('AR Web App', () => {
     describe("Multispectral Imager render test", () => {
         test('Multispectral Imager 3D object renders when Magnetometer page is loaded', async () => {
             //Verify multispectral imager model loaded
-            const multispectralExists = await page.$('#multispectral-imager');
+            const multispectralExists = await page.$('#multispectral');
       	    await expect(multispectralExists).not.toBeNull();
 
 	        //Check if multispectral is visible
       	    const isMultispectralVisible = await page.evaluate(() => {
-        	    const multispectral = document.querySelector('#multispectral-imager');
+        	    const multispectral = document.querySelector('#multispectral');
         	    if(!multispectral) return false;
 
         	    const isVisible = multispectral.getAttribute('visible') !== 'false';
@@ -121,7 +123,7 @@ describe('AR Web App', () => {
 
             //Get initial model position
       	    const initialPosition = await page.evaluate(() => {
-        	    const multispectral = document.querySelector('#multispectral-imager');
+        	    const multispectral = document.querySelector('#multispectral');
         	    return multispectral ? multispectral.getAttribute('position') : null;
       	    });
   
@@ -147,6 +149,10 @@ describe('AR Web App', () => {
 
     describe("Multispectral Imager navigation menu test", () => {
         test('Navigation menu expands and displays instrument links', async () => {
+            await page.evaluate(() => new Promise(resolve => 
+                setTimeout(resolve, 500)
+            ));
+            
             //Ensure the menu starts collapsed
             await page.waitForSelector('#navbarNavInstrument', { hidden: true });
         

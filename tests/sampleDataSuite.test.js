@@ -13,9 +13,9 @@ describe('AR Web App', () => {
         //Specify if headless mode
         //Ignore HTTPS certificate and errors since useing self published certificate for AR
         browser = await puppeteer.launch({
-        headless: false,
-        args: ['--ignore-certificate-errors'],
-        ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
+            headless: true,
+            args: ['--ignore-certificate-errors'],
+            ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
         });
 
         //Open new page
@@ -43,7 +43,7 @@ describe('AR Web App', () => {
         await page.evaluate(() => {
             const hitbox = document.querySelector('#orbitA-wrapper .hitbox');
             if (hitbox) {
-            hitbox.emit('click');
+                hitbox.emit('click');
             }
         });
 
@@ -79,10 +79,12 @@ describe('AR Web App', () => {
         });
         expect(isWindowVisible).toBe(true);
 
+        //Delay
         await page.evaluate(() => new Promise(resolve => 
             setTimeout(resolve, 500)
         ));
 
+        //Close window
         await page.click('#videoModal .btn-close');
     },15000);
 
@@ -122,6 +124,7 @@ describe('AR Web App', () => {
                 }
             }, id);
 
+            //Get sample data box
             await page.waitForSelector('#sample-data');
 
             //Verify sample data box is visible

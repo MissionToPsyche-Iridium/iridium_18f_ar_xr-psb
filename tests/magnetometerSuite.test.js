@@ -13,7 +13,7 @@ describe('AR Web App', () => {
         //Specify if headless mode
         //Ignore HTTPS certificate and errors since useing self published certificate for AR
         browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ['--ignore-certificate-errors'],
             ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
         });
@@ -50,7 +50,7 @@ describe('AR Web App', () => {
             await page.evaluate(() => {
                 const hitbox = document.querySelector('#orbitA-wrapper .hitbox');
                 if (hitbox) {
-                hitbox.emit('click');
+                    hitbox.emit('click');
                 }
             });
 
@@ -114,7 +114,6 @@ describe('AR Web App', () => {
 
     describe("Magnetometer touch and motion response", () => {
         test('Magentometer responds to user motion and touch', async () => {
-
             //Get initial model position
       	    const initialPosition = await page.evaluate(() => {
         	    const magnetometer = document.querySelector('#magnetometer');
@@ -143,6 +142,11 @@ describe('AR Web App', () => {
 
     describe("Mmagnetometer navigation menu test", () => {
         test('Navigation menu expands and displays instrument links', async () => {
+            //Wait for page to load
+            await page.evaluate(() => new Promise(resolve => 
+                setTimeout(resolve, 500)
+            ));
+            
             //Ensure the menu starts collapsed
             await page.waitForSelector('#navbarNavInstrument', { hidden: true });
         
