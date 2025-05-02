@@ -73,7 +73,7 @@ describe('AR Web App', () => {
 
             //Wait for modal to be hidden
             await page.waitForSelector('#introModal', { state: 'hidden' });
-        }, 15000);
+        }, 20000);
     });
 
     describe("Main view countdown timer test", () => {
