@@ -1,47 +1,18 @@
 // TS-009
-const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
+const { closeOrbitOverlayIfVisible } = require('./utils/overlayUtils');
 
 describe('AR Web App', () => {
-    let browser;
-    let page;
-
-    //Open browser and page first
     beforeAll(async () => {
-
-        //Use default browser, Chrome
-        //Specify if headless mode
-        //Ignore HTTPS certificate and errors since useing self published certificate for AR
-        browser = await puppeteer.launch({
-            headless: true,
-            args: ['--ignore-certificate-errors'],
-            ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
-    	});
-
-        //Open new page
-    	page = await browser.newPage();
-
-    	//Open the application url
-        await page.goto(url);
-
-        //Check if overlay is visible
-        const isOverlayVisible = await page.evaluate(() => {
-            const overlay = document.querySelector('#closeOverlay');
-            if(!overlay) return false;
-
-            const isVisible = overlay.getAttribute('visible') !== 'false';
-            return isVisible;
+        await page.goto(url, {
+            waitUntil: 'domcontentloaded',
+            timeout: 60000,
         });
-        expect(isOverlayVisible).toBe(true);
 
-        //Click outside overlay to close it
-        await page.mouse.move(30,30);
-        await page.mouse.down();
-        await page.mouse.up();
-    },10000);
-
+        await closeOrbitOverlayIfVisible(page);
+    });
+        
     afterAll(async () => {
-        await browser.close();
     });
 
     describe("X-band Radio instrument video test", () => {

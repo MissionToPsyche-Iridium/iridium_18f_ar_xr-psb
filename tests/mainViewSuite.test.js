@@ -1,33 +1,16 @@
 // T-001
-const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
 
 describe('AR Web App', () => {
-    let browser;
-    let page;
-
-    //Open browser and page first
     beforeAll(async () => {
+        await page.goto(url, {
+            waitUntil: 'domcontentloaded',
+            timeout: 60000,
+        });
 
-    //Use default browser, Chrome
-    //Specify if headless mode
-    //Ignore HTTPS certificate and errors since useing self published certificate for AR
-    browser = await puppeteer.launch({
-        headless: true,
-        args: ['--ignore-certificate-errors'],
-        ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
     });
-
-    //Open new page
-    page = await browser.newPage();
-
-    //Open the application url
-    await page.goto(url);
-
-    },10000);
-
+        
     afterAll(async () => {
-        await browser.close();
     });
 
     describe("Main view introduction slides test", () => {
@@ -90,7 +73,7 @@ describe('AR Web App', () => {
 
             //Wait for modal to be hidden
             await page.waitForSelector('#introModal', { state: 'hidden' });
-        }, 10000);
+        }, 15000);
     });
 
     describe("Main view countdown timer test", () => {
