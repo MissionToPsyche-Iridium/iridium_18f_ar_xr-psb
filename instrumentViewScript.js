@@ -37,14 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initNavigationMenu();
 
+    // Add observers
     instrumentObserver.subscribe("instrumentSelected", loadInstrumentDetails);
     instrumentObserver.subscribe("instrumentSelected", loadSampleData);
 
     //Extract the query parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
+
     //Get the value of the "orbit" parameter
     const orbit = urlParams.get("orbit");
 
+    // Instrument objects
     const instruments = {
         spacecraft: document.querySelector("#spacecraft"),
         gamma: document.querySelector("#gamma"),
@@ -54,144 +57,38 @@ document.addEventListener("DOMContentLoaded", () => {
         "xband-radio": document.querySelector("#xband-radio")
     };
  
+    // Instrument details box
     const instrumentTitle = document.getElementById("instrument-details-title");
     const instrumentDetailsText = document.getElementById("instrumentdetails");
     const instrumentDetailsBox = document.querySelector(".instrument-details");
     const seeMoreBtn1 = document.getElementById("see-more-btn1");
     const returnToOrbitButton = document.getElementById("instrumentButton");
 
+    // Sample data box
     const sampleDataTitle = document.getElementById("sample-data-title");
     const sampleDataImage = document.getElementById("sample-data-image");
     const sampleDataText = document.getElementById("sample-data-text");
     const sampleDataBox = document.querySelector(".sample-data");
     const seeMoreBtn2 = document.getElementById("see-more-btn2");
  
+    // Lights
     const directionalLight = document.querySelector("#dynamic-directional-light");
     const pointLight = document.querySelector("#dynamic-point-light");
     const ambientLight = document.querySelector("#dynamic-ambient-light");
 
+    // Touchscreen
+    let isDragging = false;
+    let previousX = 0;
+    let previousY = 0;
+
+    // Turn off camera movement
     const camera = document.querySelector("[camera]");
     if (camera) {
         camera.setAttribute("look-controls", "enabled", false);
         camera.setAttribute("wasd-controls", "enabled", false);
     }
 
-    function toggleExpansion(box, button){
-        const isExapanded = box.classList.contains("expanded");
-        box.classList.toggle("expanded", !isExapanded);
-        box.classList.toggle("collapsed", isExapanded);
-        button.innerText = isExapanded ? "+" : "-";
-
-        if(!isExapanded){
-            //Collapse other box
-            const otherBox = box ===instrumentDetailsBox ? sampleDataBox: instrumentDetailsBox;
-            const otherButton = box ===instrumentDetailsBox ? seeMoreBtn2 : seeMoreBtn1;
-
-            if(otherBox.classList.contains("expanded")){
-                otherBox.classList.remove("expanded");
-                otherBox.classList.add("collapsed");
-                otherButton.innerText = "+";
-            }
-
-            if (box === instrumentDetailsBox && selectedInstrument) {
-                const instrumentId = selectedInstrument.id;
-                const videoUrl = getVideo(instrumentId);
-                checkAndUpdateButtonVisibility(videoUrl);
-            }else {
-                checkAndUpdateButtonVisibility("");
-            }
-
-        } else {
-        if (box === instrumentDetailsBox && selectedInstrument) {
-            checkAndUpdateButtonVisibility("");
-        }
-    }
-        updateSampleDataBoxPosition();
-    } 
- 
-    function loadInstrumentDetails(instrumentId) {
-        const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
-        const instrumentNames = {
-            spacecraft: "Psyche Spacecraft",
-            gamma: "Gamma Ray Spectrometer",
-            neutron: "Neutron Spectrometer",
-            magnetometer: "Magnetometer",
-            multispectral: "Multispectral Imager",
-            "xband-radio": "X-band Radio"
-        };
-
-        fetch(descriptionFile)
-            .then(response => {
-                if (!response.ok) throw new Error("File not found");
-                return response.text();
-            })
-            .then(data => {
-                instrumentTitle.innerText = instrumentNames[instrumentId];
-                instrumentDetailsText.innerText = data;
-
-                instrumentDetailsBox.classList.remove("d-none", "collapsed", "expanded");
-                instrumentDetailsBox.classList.add("collapsed");
-
-                instrumentDetailsText.style.maxHeight = "120px";
-                instrumentDetailsText.style.overflow = "auto";
-
-                seeMoreBtn1.style.display = "block";
-                seeMoreBtn1.innerText = "+";
-                seeMoreBtn1.onclick = () => toggleExpansion(instrumentDetailsBox, seeMoreBtn1);
-
-            })
- 
-            .catch(error => {
-                instrumentDetailsText.innerText = "Instrument information unavailable.";
-                console.error("Error loading instrument file:", error);
-            });
-    }
- 
-    function loadSampleData(instrumentId) {
-        const imageURL = `texts/${instrumentId}/${instrumentId}SampleData.png`;
-        const sampleDataTextURL = `texts/${instrumentId}/${instrumentId}Data.txt`;
-
-        fetch(imageURL)
-            .then(response => {
-                if (!response.ok) throw new Error("File not found");
-                return response.blob();
-            })
-            .then(blob => {
-                sampleDataImage.innerHTML = "";
-                const img = document.createElement("img");
-                img.src = URL.createObjectURL(blob);
-                img.style.maxWidth = "100%";
-                sampleDataImage.appendChild(img);
-            })
-            .catch(error => {
-                sampleDataImage.innerHTML = "";
-                console.error("Image load error:", error);
-            })
-
-        fetch(sampleDataTextURL)
-            .then(response => {
-                if (!response.ok) throw new Error("Text not found");
-                return response.text();
-            })
-            .then(text => {
-                sampleDataTitle.innerText = "Sample Data";
-                sampleDataText.innerText = text;
-
-                sampleDataBox.classList.remove("d-none", "expanded");
-                sampleDataBox.classList.add("collapsed");
-                sampleDataText.style.maxHeight = "120px";
-                sampleDataText.style.overflow = "auto";
-
-                seeMoreBtn2.style.display = "block";
-                seeMoreBtn2.innerText = "+";
-                seeMoreBtn2.onclick = () => toggleExpansion(sampleDataBox, seeMoreBtn2);
-            })
-            .catch(error => {
-                sampleDataText.innerText = "Sample data unavailable.";
-                console.error("Error loading sample data file:", error);
-            });
-    }
- 
+    // Check if linked from orbit
     if (orbit) {
         showInstrument(orbit);
     } else {
@@ -203,24 +100,37 @@ document.addEventListener("DOMContentLoaded", () => {
     instrumentButtons.forEach(button => {
         button.addEventListener("click", event => {
             const instrumentId = event.target.getAttribute("data-instrument");
+
+            // Close menu
             toggleMenu();
 
             // Update the light for the selected instrument
             updateLightForInstrument(instrumentId);
+
+            // Make instrument button invisible
             checkAndUpdateButtonVisibility("");
         
+            // Get insturment video path
             videoUrl = getVideo(instrumentId);
 
+            // send video to window
             updateVideo(videoUrl);
+
+            //Hide instruments
             Object.keys(instruments).forEach(id => {
                 if (instruments[id]) {
                     instruments[id].setAttribute("visible", "false");
                 }
             });
 
+            // Get selected instrument
             if (instruments[instrumentId]) {
                 selectedInstrument = instruments[instrumentId];
+
+                // Make visible
                 selectedInstrument.setAttribute("visible", "true");
+
+                // Check if spacecraft is selected
                 if(instrumentId != "spacecraft"){
                     instrumentObserver.notify("instrumentSelected", instrumentId);
                 }
@@ -228,61 +138,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     instrumentDetailsBox.classList.add("d-none");
                     sampleDataBox.classList.add("d-none");
                 }
-            } else {
+            } 
+            else {
                 console.warn(`No model found for ${instrumentId}`);
             }
         });
     });
  
+    // Prepare to return to orbit view
     if (returnToOrbitButton) {
         returnToOrbitButton.addEventListener("click", () => {
+
+            // Get current selected instrument
             if(selectedInstrument){
-            const currentOrbit = selectedInstrument.getAttribute("orbit");
-            sessionStorage.setItem("selectedOrbit",  currentOrbit);
+                // Save the orbit in session storage
+                const currentOrbit = selectedInstrument.getAttribute("orbit");
+                sessionStorage.setItem("selectedOrbit",  currentOrbit);
             }
+
+            // Redirect to orbit view page
             window.location.href = "index.html";
         });
     } else {
         console.warn("Return to Orbit button not found!");
-    }
-
-    let isDragging = false;
-    let previousX = 0;
-    let previousY = 0;
-
-    //Handle start of drag
-    function startDrag(x, y) {
-        isDragging = true;
-        previousX = x;
-        previousY = y;
-    }
-
-    //Handle end of drag
-    function endDrag() {
-        isDragging = false;
-    }
-
-    //Handle dragging movement
-    function drag(x, y) {
-        if (!isDragging || !selectedInstrument) return;
-
-        const deltaX = x - previousX;
-        const deltaY = y - previousY;
-
-        previousX = x;
-        previousY = y;
-
-        let currentRotation = selectedInstrument.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
-
-        if (typeof currentRotation === "string") {
-            const [x, y, z] = currentRotation.split(" ").map(Number);
-            currentRotation = { x, y, z };
-        }
-
-        currentRotation.x -= deltaY * 0.5;
-        currentRotation.y -= deltaX * 0.5;
-
-        selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
     }
 
     //Mouse Events
@@ -305,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("touchmove", (e) => {
         const target = e.target;
 
-        //Allow scrolling if inside a scrollable element like <textarea>, <input>, or a scrollable div
+        //Allow scrolling if inside a scrollable element
         const isInScrollable = target.closest(".scrollable");
     
         if (!isInScrollable) {
@@ -317,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, { passive: false });
     
-    function getVideo(instrumentId) { //could be broken into just a getter depends on what you want to do
+    function getVideo(instrumentId) {
         const videoUrlsMap = {
             "magnetometer": "videos/psycheMagnetometerClip.mp4",
             "multispectral": "videos/psycheImagerClip.mp4",
@@ -332,6 +210,175 @@ document.addEventListener("DOMContentLoaded", () => {
         // Return the video URL
         return videoUrl;
     }
+
+    // Expansion of details and sample data boxes
+    function toggleExpansion(box, button){
+        // Change state and update button text
+        const isExapanded = box.classList.contains("expanded");
+        box.classList.toggle("expanded", !isExapanded);
+        box.classList.toggle("collapsed", isExapanded);
+        button.innerText = isExapanded ? "+" : "-";
+
+        // Expand box and exnsure other is collapsed
+        if(!isExapanded){
+            // Get other box and other button
+            const otherBox = box ===instrumentDetailsBox ? sampleDataBox: instrumentDetailsBox;
+            const otherButton = box ===instrumentDetailsBox ? seeMoreBtn2 : seeMoreBtn1;
+
+            // Collapse other box and update button text
+            if(otherBox.classList.contains("expanded")){
+                otherBox.classList.remove("expanded");
+                otherBox.classList.add("collapsed");
+                otherButton.innerText = "+";
+            }
+
+            // Get selected instrument video and show video button
+            if (box === instrumentDetailsBox && selectedInstrument) {
+                const instrumentId = selectedInstrument.id;
+                const videoUrl = getVideo(instrumentId);
+                checkAndUpdateButtonVisibility(videoUrl);
+            }else {
+                checkAndUpdateButtonVisibility("");
+            }
+
+        } 
+        else {
+            if (box === instrumentDetailsBox && selectedInstrument) {
+                checkAndUpdateButtonVisibility("");
+            }
+        }
+        updateSampleDataBoxPosition();
+    } 
+ 
+    // Fetch and load selected instrument details
+    function loadInstrumentDetails(instrumentId) {
+        const descriptionFile = `texts/${instrumentId}/${instrumentId}Details.txt`;
+        const instrumentNames = {
+            spacecraft: "Psyche Spacecraft",
+            gamma: "Gamma Ray Spectrometer",
+            neutron: "Neutron Spectrometer",
+            magnetometer: "Magnetometer",
+            multispectral: "Multispectral Imager",
+            "xband-radio": "X-band Radio"
+        };
+
+        // Fetch details file
+        fetch(descriptionFile)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.text();
+            })
+            .then(data => {
+                // Update title and text
+                instrumentTitle.innerText = instrumentNames[instrumentId];
+                instrumentDetailsText.innerText = data;
+
+                // Show details box and ensure collapsed
+                instrumentDetailsBox.classList.remove("d-none", "collapsed", "expanded");
+                instrumentDetailsBox.classList.add("collapsed");
+
+                instrumentDetailsText.style.maxHeight = "120px";
+                instrumentDetailsText.style.overflow = "auto";
+
+                seeMoreBtn1.style.display = "block";
+                seeMoreBtn1.innerText = "+";
+                seeMoreBtn1.onclick = () => toggleExpansion(instrumentDetailsBox, seeMoreBtn1);
+
+            })
+ 
+            .catch(error => {
+                instrumentDetailsText.innerText = "Instrument information unavailable.";
+                console.error("Error loading instrument file:", error);
+            });
+    }
+ 
+    // Fetch and load selected instrument sample data
+    function loadSampleData(instrumentId) {
+        const imageURL = `texts/${instrumentId}/${instrumentId}SampleData.png`;
+        const sampleDataTextURL = `texts/${instrumentId}/${instrumentId}Data.txt`;
+
+        // Fetch smaple data image
+        fetch(imageURL)
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.blob();
+            })
+            // Show image
+            .then(blob => {
+                sampleDataImage.innerHTML = "";
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(blob);
+                img.style.maxWidth = "100%";
+                sampleDataImage.appendChild(img);
+            })
+            .catch(error => {
+                sampleDataImage.innerHTML = "";
+                console.error("Image load error:", error);
+            })
+
+        // Fetch sample data text
+        fetch(sampleDataTextURL)
+            .then(response => {
+                if (!response.ok) throw new Error("Text not found");
+                return response.text();
+            })
+            .then(text => {
+                // Update title and text
+                sampleDataTitle.innerText = "Sample Data";
+                sampleDataText.innerText = text;
+
+                // Show sample data box and ensure collapsed
+                sampleDataBox.classList.remove("d-none", "expanded");
+                sampleDataBox.classList.add("collapsed");
+                sampleDataText.style.maxHeight = "120px";
+                sampleDataText.style.overflow = "auto";
+
+                seeMoreBtn2.style.display = "block";
+                seeMoreBtn2.innerText = "+";
+                seeMoreBtn2.onclick = () => toggleExpansion(sampleDataBox, seeMoreBtn2);
+            })
+            .catch(error => {
+                sampleDataText.innerText = "Sample data unavailable.";
+                console.error("Error loading sample data file:", error);
+            });
+    }
+ 
+    // Handle start of drag
+    function startDrag(x, y) {
+        isDragging = true;
+        previousX = x;
+        previousY = y;
+    }
+
+    // Handle end of drag
+    function endDrag() {
+        isDragging = false;
+    }
+
+    // Handle dragging movement
+    function drag(x, y) {
+        if (!isDragging || !selectedInstrument) return;
+
+        const deltaX = x - previousX;
+        const deltaY = y - previousY;
+
+        previousX = x;
+        previousY = y;
+
+        let currentRotation = selectedInstrument.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
+
+        if (typeof currentRotation === "string") {
+            const [x, y, z] = currentRotation.split(" ").map(Number);
+            currentRotation = { x, y, z };
+        }
+
+        currentRotation.x -= deltaY * 0.5;
+        currentRotation.y -= deltaX * 0.5;
+
+        selectedInstrument.setAttribute("rotation", `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
+    }
+
+    // Instrument video button visibility
     function checkAndUpdateButtonVisibility(videoUrl) {
         if (!videoUrl) {
             // Hide the button if videoUrl is empty, null, or undefined
@@ -342,12 +389,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Show isntrument model
     function showInstrument(orbit) {
         // Hide all instruments first
         const instruments = document.querySelectorAll("#gamma, #magnetometer, #multispectral, #xband-radio");
         instruments.forEach(inst => inst.setAttribute("visible", "false"));
 
         let instrumentId = "spacecraft";
+
+        // Get instrument based on orbit, no orbit = spacecraft
         instruments.forEach(inst => {
             const instrumentOrbit = inst.getAttribute('orbit');
 
@@ -363,9 +413,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // correct instrument lighting
         updateLightForInstrument(instrumentId);
 
+        //Get instrument video
         videoUrl = getVideo(instrumentId);
 
+        // Save selected instrument
         selectedInstrument = document.getElementById(instrumentId);
+
+        // Get details and sample data
         if (instrumentId !== "spacecraft"){
             instrumentObserver.notify("instrumentSelected", instrumentId);
         }
@@ -374,6 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
             sampleDataBox.classList.add("d-none");
         }
 
+        // Show isntrument
         if (selectedInstrument) {
             selectedInstrument.setAttribute("visible", "true");
             loadVideoOnPageLoad()
@@ -382,6 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
  
+    // Fix spacing after expansion/collapse
    function updateSampleDataBoxPosition() {
         sampleDataBox.style.top = `${instrumentDetailsBox.offsetTop + 5}px`; //Add 5px spacing
     }
@@ -429,6 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+    // Update video to be shown
     function updateVideo(video) {
         let videoIframe = document.getElementById('videoIframe');
 
@@ -439,6 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Show video when linked from Orbit view
     function loadVideoOnPageLoad() {
         //Get the video element by ID
         const videoIframe = document.getElementById("videoIframe");

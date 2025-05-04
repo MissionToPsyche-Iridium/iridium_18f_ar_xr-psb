@@ -8,15 +8,16 @@ const collapse = new bootstrap.Collapse(navigationMenu, {
     toggle: false // Don't toggle on page load
 });
 
+// Initialize menu
 export function initNavigationMenu() {
     btnToggle.addEventListener("click", () => {
-        //navigationMenu.classList.toggle("active");
         collapse.toggle(); 
         hamburgerIcon.classList.toggle("hidden");
         closeIcon.classList.toggle("hidden");
     });
 }
 
+// Expand/collapse menu
 export function toggleMenu() {
     collapse.toggle();
     hamburgerIcon.classList.toggle("hidden");

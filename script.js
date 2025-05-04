@@ -2,6 +2,7 @@ import { initNavigationMenu, toggleMenu } from "./menuScript.js";
 var countDownDate = new Date("Aug 1, 2029 0:0:0"); //Arrives in late July
 let linkTargetOrbitId = null;
 
+// Touchscreen method
 AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (t) {
     if (this.touchStarted && this.data.touchEnabled) {
         this.pitchObject.rotation.x += .6 * Math.PI * (t.touches[0].pageY - this.touchStart.y) / this.el.sceneEl.canvas.clientHeight;
@@ -43,9 +44,10 @@ class OrbitObserver {
 //Global observer instance
 const orbitObserver = new OrbitObserver();
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const hasSeenIntro = sessionStorage.getItem("introShown");
+
+    // If first sessioon show intro
     if (!hasSeenIntro) {
         sessionStorage.setItem("introShown", "true");
         loadIntroduction();
@@ -68,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const orbits = ['orbitA', 'orbitB', 'orbitC', 'orbitD'];
     const movingObject = document.getElementById('moving-object');
     const camera = document.getElementById('camera');
-    const psyche = document.getElementById('psyche');
     let currentOrbit = null;
     let moveInterval = null;
     const orbitLinks = document.querySelectorAll('[data-orbit]');
@@ -76,25 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const orbitTitle = document.getElementById("orbit-title");
     const seeMoreBtn = document.getElementById("see-more-btn");
     const orbitBox = document.querySelector(".orbit-description");
-    const popupBox = document.getElementById("instructionPopup"); // Ensure pop-up remains functional
+    const popupBox = document.getElementById("instructionPopup");
     const instrumentButton = document.getElementById("instrumentButton");
     
-    // Check if there's a stored orbit from reference page and apply the functions
+    // Check if there's a stored orbit
     let storedOrbit = sessionStorage.getItem("selectedOrbit");
     if (storedOrbit && storedOrbit !== "null") {
 
-        //Set inital camera position
+        // Set inital camera position
         camera.setAttribute('position', {
             x: 0,
             y: 1.1,
             z: -1
         });
 
+        // Save orbit
         linkTargetOrbitId = storedOrbit; 
 
         if(linkTargetOrbitId){
-        //Perform view change
-        orbitObserver.notify("orbitSelected", storedOrbit);
+            //Perform view change
+            orbitObserver.notify("orbitSelected", storedOrbit);
         }
 
         // Clear stored value after applying the functions
@@ -104,17 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners for each orbit click
     orbits.forEach(orbitId => {
         const orbit = document.getElementById(orbitId + "-wrapper");
+        
+        // If on mobile ignore, covered by touchStart method
         if(!isMobile()){
-        orbit.addEventListener('click', (event) => {
-            console.log(camera.getAttribute("position"))
+            orbit.addEventListener('click', (event) => {
+                linkTargetOrbitId = orbitId; 
 
-            linkTargetOrbitId = orbitId; 
-
-            //Perform view change
-            event.stopPropagation();
-            orbitObserver.notify("orbitSelected", orbitId);
-        });
-    }
+                //Perform view change
+                event.stopPropagation();
+                orbitObserver.notify("orbitSelected", orbitId);
+            });
+        }
     });
     
     // Event listeners for each navigation menu link
@@ -134,10 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Function to move the object through the selected orbit
+    // Move the spacecraft through the selected orbit
     function moveObjectThroughOrbit(orbitId) {
         const orbit = document.getElementById(orbitId);
-        //const radius = parseFloat(orbit.getAttribute('radius')) - 0.1;
         const radius = parseFloat(orbit.getAttribute('radius'));
         let angle = 0;
     
@@ -198,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = 20;
         let step = 0;
 
+        // Diable look controls while switcing to prevent screen jitter
         camera.setAttribute('look-controls', 'enabled', false);
 
         //Smooth out camera movement
@@ -220,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //Final position reached
                 clearInterval(interval);
 
-                // Set the camera to look at the Psyche object after panning
+                // Re-enable look controls
                 camera.setAttribute('look-controls', 'enabled', true);
             }
         }, 10);
@@ -236,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orbit.setAttribute('opacity', id === selectedId ? '0.7' : '0.25');
         
             //Show orbit description box
-            orbitBox.classList.add("show"); // toggle visibility so orbit info box can be seen
+            orbitBox.classList.add("show");
         });
     }
 
@@ -244,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function transitionToOrbit(orbitId) {
         if (currentOrbit === orbitId) return;
         currentOrbit = orbitId;
+
         // hide countdown timer when transitioning to an orbit
         document.querySelector(".countdown-timer-box").style.display = "none";
         moveObjectThroughOrbit(orbitId);
@@ -261,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     });
 
+    // Fetch pop-up text
     function orbitPopupText(orbitId){
         const instructionFile = `texts/${orbitId}/${orbitId}Instructions.txt`;
             
@@ -275,11 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
             //Put text in popup and display it
             .then(text => {
                 popupBox.textContent = text;
-                popupBox.style.display = "block"; // Show the popup
+                popupBox.style.display = "block";
             })
         .catch(error => console.error("Error loading text file:", error));            
 
-        // Hide the popup after 10 seconds
+        // Hide the popup after 5 seconds
         setTimeout(() => {
             popupBox.style.display = "none";
         }, 5000);
@@ -335,13 +339,13 @@ document.addEventListener('DOMContentLoaded', () => {
     seeMoreBtn.addEventListener("click", function () {
 
         if (orbitText.classList.contains("expanded")) {
-            /* if expanded, collapse it*/
+            // If expanded, collapse it
             orbitBox.classList.remove("expanded");
             orbitText.classList.remove("expanded");
             orbitText.classList.add("collapsed");
             seeMoreBtn.innerText = "+";
         } else {
-            /*if collapsed, expand it*/
+            // If collapsed, expand it
             orbitBox.classList.add("expanded");
             orbitText.classList.remove("collapsed");
             orbitText.classList.add("expanded");
@@ -369,6 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error("Error loading text file:", error));
     }
 
+    // Update button picture
     function changeButtonPicture(orbitId){
         const instrumentPictureFile = `images/instruments/${orbitId}.png`;
     
@@ -380,8 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
             "orbitD": "spectrometers"
         };
 
+        // Get instrumetn name
         const instrumentName = instrumentMap[orbitId];
 
+        // create image element and insert image
         let img = instrumentButton.querySelector("img");
         if (!img) {
             img = document.createElement("img");
@@ -409,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Read on-screen text to user
     function textToSpeak(){
         document.getElementById("speakButton").addEventListener("click", () => {
             
@@ -439,11 +447,14 @@ document.addEventListener('DOMContentLoaded', () => {
         //Check if pressing button
         for (let button of buttons) {
             if (button && (event.target === button || button.contains(event.target))) {
+                // if instrument button, redirect
                 if(button.id === "instrumentButton"){
                     window.location.href = `instrumentView.html?orbit=${encodeURIComponent(linkTargetOrbitId)}`;
                 }
+
+                // Stop selection of elements behind button
                 event.stopPropagation();
-                return; // Stop further processing
+                return;
             }
         }
 
@@ -453,11 +464,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const scene = document.querySelector("a-scene");
         const cameraEl = document.getElementById('camera'); // Get the camera entity
         
+        // Check if camera is intialized
         if (!cameraEl || !cameraEl.components.camera || !cameraEl.components.camera.camera ) {
             alert("Camera not properly initialized!");
             return;
         }
 
+        // St up for raycasting from mouse
         const camera = cameraEl.components.camera.camera;
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
@@ -465,20 +478,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const canvas = scene.renderer.domElement;
         const rect = canvas.getBoundingClientRect();
 
+        // Bounding box for easier touch detection
         mouse.x = ((touchX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((touchY - rect.top) / rect.height) * 2 + 1;
 
+        // Get selected orbit hitboc
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.object3D.children, true);
         const orbitSelection = intersects.find(i => i.object.el && i.object.el.classList.contains("hitbox"));
 
+        // Check if selected element is orbit hitbox
         if (orbitSelection) {
+            // Get orbit element
             const wrapper = orbitSelection.object.el.parentEl;
             const torus = wrapper.querySelector("a-torus:not(.hitbox)");
 
+            // Ensure it is correct element
             if (torus) {
+                // Get orbit ID
                 const orbitId = torus.id;
-                linkTargetOrbitId = orbitId; //Store current orbitID for instrument view linking
+
+                //Store current orbit ID for instrument view linking
+                linkTargetOrbitId = orbitId; 
+
+                // Change orbit view
                 orbitObserver.notify("orbitSelected", orbitId);
             } else {
                 console.warn("Hitbox hit but no torus found in wrapper.");
@@ -504,7 +527,7 @@ var countdownTimer = setInterval(function() {
     var minutes = countDownDate.getMinutes() - currentDate.getMinutes();
     var seconds = countDownDate.getSeconds() - currentDate.getSeconds();
 
-    // Adjust for negative values
+    // Calculate time left
     if (seconds < 0) {
         seconds += 60;
         minutes--;
@@ -527,7 +550,7 @@ var countdownTimer = setInterval(function() {
         years--;
     }
 
-    // Display the result in the element with id="demo"
+    // Display the result
     document.getElementById("countdown-timer").innerHTML = "T- " + years + " years " + months + " months " + days + " days "; // + hours + "h "
     //+ minutes + "m " + seconds + "s ";
 
@@ -541,7 +564,9 @@ var countdownTimer = setInterval(function() {
 let isSpeaking = false;
 let speech = null;
 
+// Text to speech
 document.getElementById("speakButton").addEventListener("click", () => {     
+    // Check if already speaking
     if (isSpeaking) {
         // Interrupt ongoing speech
         window.speechSynthesis.cancel();
@@ -549,9 +574,11 @@ document.getElementById("speakButton").addEventListener("click", () => {
         return;
     }
 
+    // Get text to be spoken
     let textElement = document.getElementById("orbit-text");
     let textToSpeak = textElement.textContent || textElement.innerText;
 
+    // Check if text-to-speech is supported
     if ('speechSynthesis' in window) {
         // Ensure any ongoing speech is stopped before starting new speech
         window.speechSynthesis.cancel();
@@ -561,7 +588,8 @@ document.getElementById("speakButton").addEventListener("click", () => {
         speech.pitch = 1;
         speech.volume = 1;
 
-        isSpeaking = true; // Set flag to track speech state
+        // Set flag to track speech state
+        isSpeaking = true; 
 
         window.speechSynthesis.speak(speech);
 
@@ -605,8 +633,11 @@ function loadIntroduction() {
 function showSlide(index) {
     const slide = introSlides[index];
     const mediaContainer = document.getElementById("mediaContainer");
-    mediaContainer.innerHTML = ""; // Clear previous content
+    
+    // Clear previous content
+    mediaContainer.innerHTML = "";
 
+    // Check slide type
     if (slide.type === "video") {
         const iframe = document.createElement("iframe");
         iframe.src = slide.src;
@@ -615,7 +646,8 @@ function showSlide(index) {
         iframe.allow = "autoplay; encrypted-media";
         iframe.allowFullscreen = true;
         mediaContainer.appendChild(iframe);
-    } else if (slide.type === "gif") {
+    } 
+    else if (slide.type === "gif") {
         const img = document.createElement("img");
         img.src = slide.src;
         img.style.width = "100%";
@@ -629,12 +661,12 @@ function showSlide(index) {
         textEl.className = "slide-description";
         mediaContainer.appendChild(textEl);
     }
-  
 
     // Disable or enable buttons
     prevBtn.disabled = currentSlide === 0;
     nextBtn.disabled = currentSlide === introSlides.length - 1;
 
+    // Check if final slide
     if (currentSlide === introSlides.length - 1) {
         enterBtn.classList.remove("d-none");
     } else {
@@ -668,7 +700,6 @@ function prevSlide() {
 document.getElementById("introModal").addEventListener("hidden.bs.modal", function () {
     document.getElementById("mediaContainer").innerHTML = "";
 });
-
 
 const helpButton = document.getElementById("helpButton");
 const tutorialOverlay = document.getElementById("tutorialOverlay");
@@ -704,22 +735,23 @@ window.addEventListener('DOMContentLoaded', () => {
       
       // Simulate a delay and then trigger the callback
       setTimeout(() => {
-        console.log(`Finished animating ${orbit.id} to ${color}`);
-        callback(); // Trigger the callback after the simulated animation
-      }, 2400); //where you set time for animation now
+            console.log(`Finished animating ${orbit.id} to ${color}`);
+            callback(); // Trigger the callback after the simulated animation
+        }, 2400); //where you set time for animation now
     }
     
     // Function to handle the loop with boolean check for color
     function loop(orbit, isGold) {
-      if (isGold) {
-        animateTo(orbit, '#FFFFFF', () => {
-          loop(orbit, false); // Set to false once it's transitioned to white
-        });
-      } else {
-        animateTo(orbit, '#FFFF00', () => {
-          loop(orbit, true); // Set to true once it's transitioned to gold
-        });
-      }
+        if (isGold) {
+            animateTo(orbit, '#FFFFFF', () => {
+                loop(orbit, false); // Set to false once it's transitioned to white
+            });
+        } 
+        else {
+            animateTo(orbit, '#FFFF00', () => {
+                loop(orbit, true); // Set to true once it's transitioned to gold
+            });
+        }
     }
     
     // Start the animation loop for each orbit
@@ -730,8 +762,8 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Check if any orbits are missing
     if (!orbitA || !orbitB || !orbitC || !orbitD) {
-      console.error('One or more orbits not found!');
+        console.error('One or more orbits not found!');
     }
-  });
+});
   
   

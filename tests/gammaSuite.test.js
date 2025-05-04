@@ -1,47 +1,18 @@
 // TS-010
-const puppeteer = require('puppeteer');
 let url = 'https://127.0.0.1:5501/index.html'
+const { closeOrbitOverlayIfVisible } = require('./utils/overlayUtils');
 
 describe('AR Web App', () => {
-    let browser;
-    let page;
-
-    //Open browser and page first
     beforeAll(async () => {
-
-        //Use default browser, Chrome
-        //Specify if headless mode
-        //Ignore HTTPS certificate and errors since useing self published certificate for AR
-        browser = await puppeteer.launch({
-            headless: false,
-            args: ['--ignore-certificate-errors'],
-            ignoreHTTPSErrors: true,  // This disables HTTPS certificate checking
-    	});
-
-    	//Open new page
-    	page = await browser.newPage();
-
-    	//Open the application url
-        await page.goto(url);
-
-        //Check if overlay is visible
-        const isOverlayVisible = await page.evaluate(() => {
-            const overlay = document.querySelector('#closeOverlay');
-            if(!overlay) return false;
-
-            const isVisible = overlay.getAttribute('visible') !== 'false';
-            return isVisible;
+        await page.goto(url, {
+            waitUntil: 'domcontentloaded',
+            timeout: 60000,
         });
-        expect(isOverlayVisible).toBe(true);
 
-        //Click outside overlay to close it
-        await page.mouse.move(30,30);
-        await page.mouse.down();
-        await page.mouse.up();
-    },10000);
-
+        await closeOrbitOverlayIfVisible(page);
+    });
+        
     afterAll(async () => {
-        await browser.close();
     });
 
     describe("Gamma-ray Spectrometer instrument video test", () => {
@@ -50,7 +21,7 @@ describe('AR Web App', () => {
             await page.evaluate(() => {
                 const hitbox = document.querySelector('#orbitD-wrapper .hitbox');
                 if (hitbox) {
-                hitbox.emit('click');
+                    hitbox.emit('click');
                 }
             });
 
@@ -86,10 +57,12 @@ describe('AR Web App', () => {
             });
             expect(isWindowVisible).toBe(true);
 
+            //Delay
             await page.evaluate(() => new Promise(resolve => 
                 setTimeout(resolve, 500)
             ));
 
+            //Close window
             await page.click('#videoModal .btn-close');
         }, 10000);
     });
@@ -109,7 +82,6 @@ describe('AR Web App', () => {
         	    return isVisible;
       	    });
       	    expect(isGammaVisible).toBe(true);
-
         }, 10000);
     });
 
@@ -190,7 +162,6 @@ describe('AR Web App', () => {
 
     describe("Gamma-ray Spectrometer view exit page", () => {
         test('User is returned to Orbit View when button is selected', async () => {
-
             //Get orbit button element
             await page.waitForSelector('#instrumentButton');
             const orbitButton = await page.$('#instrumentButton');
