@@ -1,0 +1,8 @@
+The application is currently deployed through GitHub using GitHub Pages. 
+This cloud deployment option is configured to automatically deploy the code from the main branch of the GitHub repository and automatically publish updates within minutes as changes are pushed to the branch. 
+
+ 
+
+Deployment begins with good development practices and version control, which encourage you to create branches as necessary for new features that are tested prior to deployment. 
+Once these features have been sufficiently tested, push or merge them to the repository’s main branch. 
+These updates to the main branch will be deployed automatically, and within ten minutes the most recent deployment is accessible through the URL given by GitHub Pages, https://missiontopsyche-iridium.github.io/iridium_18f_ar_xr-psb/. 
